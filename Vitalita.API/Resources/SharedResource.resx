@@ -48,4 +48,136 @@
     <data name="UnexpectedErrorProcessingRequest" xml:space="preserve">
         <value>An unexpected error occurred while processing your request.</value>
     </data>
+    <data name="RequiredField" xml:space="preserve">
+        <value>This field is required.</value>
+    </data>
+    <data name="InvalidEmail" xml:space="preserve">
+        <value>Enter a valid email address.</value>
+    </data>
+    <data name="EmailLength" xml:space="preserve">
+        <value>The email cannot be longer than 254 characters.</value>
+    </data>
+    <data name="PasswordLength" xml:space="preserve">
+        <value>The password must have between 8 and 72 characters.</value>
+    </data>
+    <data name="InvalidRole" xml:space="preserve">
+        <value>The role is not valid.</value>
+    </data>
+    <data name="AdminSignUpNotAllowed" xml:space="preserve">
+        <value>An administrator account cannot be created through the sign-up.</value>
+    </data>
+    <data name="EmailAlreadyInUse" xml:space="preserve">
+        <value>The email is already in use.</value>
+    </data>
+    <data name="InvalidCredentials" xml:space="preserve">
+        <value>The email or password is incorrect.</value>
+    </data>
+    <data name="AccountInactive" xml:space="preserve">
+        <value>The account is inactive.</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>The user was not found.</value>
+    </data>
+    <data name="UserAccessForbidden" xml:space="preserve">
+        <value>You can only access your own user.</value>
+    </data>
+    <data name="IamSignUpSummary" xml:space="preserve">
+        <value>Sign up</value>
+    </data>
+    <data name="IamSignUpDescription" xml:space="preserve">
+        <value>Registers a Caregiver or FamilyMember account. The role defaults to Caregiver; Admin is rejected with 400. The password is stored as a BCrypt hash and is never returned. Public endpoint.</value>
+    </data>
+    <data name="IamSignInSummary" xml:space="preserve">
+        <value>Sign in</value>
+    </data>
+    <data name="IamSignInDescription" xml:space="preserve">
+        <value>Authenticates a user and returns a JWT access token (15 minutes at most). Wrong credentials and inactive accounts return 401. Public endpoint.</value>
+    </data>
+    <data name="IamGetUsersSummary" xml:space="preserve">
+        <value>Look up users by email, or list all users</value>
+    </data>
+    <data name="IamGetUsersDescription" xml:space="preserve">
+        <value>With ?email= it is a public lookup that returns an array with zero or one element containing only id and email (compatibility compromise with the frontend). Without email it requires a Bearer token with the Admin role and returns the full users.</value>
+    </data>
+    <data name="IamGetUserByIdSummary" xml:space="preserve">
+        <value>Get a user by id</value>
+    </data>
+    <data name="IamGetUserByIdDescription" xml:space="preserve">
+        <value>Administrators can read any user; other users can only read themselves.</value>
+    </data>
+    <data name="IamUserCreatedResponse" xml:space="preserve">
+        <value>User created. The Location header points to the new user.</value>
+    </data>
+    <data name="IamValidationErrorResponse" xml:space="preserve">
+        <value>Validation error (ProblemDetails with the invalid fields).</value>
+    </data>
+    <data name="IamEmailInUseResponse" xml:space="preserve">
+        <value>The email is already in use.</value>
+    </data>
+    <data name="IamServerErrorResponse" xml:space="preserve">
+        <value>Unexpected server error.</value>
+    </data>
+    <data name="IamSignedInResponse" xml:space="preserve">
+        <value>Authenticated user with its access token.</value>
+    </data>
+    <data name="IamInvalidCredentialsResponse" xml:space="preserve">
+        <value>Wrong credentials or inactive account.</value>
+    </data>
+    <data name="IamUsersResponse" xml:space="preserve">
+        <value>Matching users (id and email only for the email lookup).</value>
+    </data>
+    <data name="IamUserResponse" xml:space="preserve">
+        <value>The user.</value>
+    </data>
+    <data name="IamUnauthorizedResponse" xml:space="preserve">
+        <value>Missing, invalid or expired Bearer token.</value>
+    </data>
+    <data name="IamAdminOnlyResponse" xml:space="preserve">
+        <value>The authenticated user is not an administrator.</value>
+    </data>
+    <data name="IamOwnUserOrAdminResponse" xml:space="preserve">
+        <value>Only administrators or the user themselves can access this user.</value>
+    </data>
+    <data name="IamUserNotFoundResponse" xml:space="preserve">
+        <value>The user does not exist.</value>
+    </data>
+    <data name="IamSignUpResourceSchema" xml:space="preserve">
+        <value>Data to register an account.</value>
+    </data>
+    <data name="IamSignInResourceSchema" xml:space="preserve">
+        <value>Sign-in credentials.</value>
+    </data>
+    <data name="IamAuthenticatedUserResourceSchema" xml:space="preserve">
+        <value>Authenticated user and access token.</value>
+    </data>
+    <data name="IamUserResourceSchema" xml:space="preserve">
+        <value>User account. It never contains the password.</value>
+    </data>
+    <data name="IamUserEmailResourceSchema" xml:space="preserve">
+        <value>Minimal user data returned by the email lookup.</value>
+    </data>
+    <data name="IamUserIdProperty" xml:space="preserve">
+        <value>User identifier.</value>
+    </data>
+    <data name="IamEmailProperty" xml:space="preserve">
+        <value>Account email (stored in lower case).</value>
+    </data>
+    <data name="IamPasswordProperty" xml:space="preserve">
+        <value>Password, 8 to 72 characters. It is never returned.</value>
+    </data>
+    <data name="IamRoleProperty" xml:space="preserve">
+        <value>Account role: Caregiver, FamilyMember or Admin.</value>
+    </data>
+    <data name="IamStatusProperty" xml:space="preserve">
+        <value>Account status: Active or Inactive.</value>
+    </data>
+    <data name="IamTokenProperty" xml:space="preserve">
+        <value>JWT access token. Send it as Authorization: Bearer &lt;token&gt;.</value>
+    </data>
+    <data name="IamCreatedAtProperty" xml:space="preserve">
+        <value>UTC instant when the account was created.</value>
+    </data>
+    <data name="IamLastLoginAtProperty" xml:space="preserve">
+        <value>UTC instant of the last sign-in, or null.</value>
+    </data>
 </root>

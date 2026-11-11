@@ -1,13 +1,27 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Vitalita.API.IAM.Application.Internal.CommandServices;
+using Vitalita.API.IAM.Application.Internal.OutboundServices;
+using Vitalita.API.IAM.Application.Internal.QueryServices;
+using Vitalita.API.IAM.Application.Services;
+using Vitalita.API.IAM.Domain.Repositories;
+using Vitalita.API.IAM.Infrastructure.Hashing.BCrypt.Services;
+using Vitalita.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Services;
+using Vitalita.API.IAM.Interfaces.REST.Transform;
 using Vitalita.API.Resources;
 using Vitalita.API.Shared.Domain.Repositories;
 using Vitalita.API.Shared.Domain.Services;
 using Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Security;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Interceptors;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -68,6 +82,8 @@ builder.Services.AddOpenApi(options =>
 {
     options.AddDocumentTransformer(LocalizedOpenApiDocumentTransformer.TransformAsync);
     options.AddSchemaTransformer(StringEnumSchemaTransformer.TransformAsync);
+    options.AddOperationTransformer(LocalizedOpenApiAssembler.TransformOperationAsync);
+    options.AddSchemaTransformer(LocalizedOpenApiAssembler.TransformSchemaAsync);
 });
 
 // CORS: allowed origins come from configuration (Cors:AllowedOrigins, or Cors__AllowedOrigins__0 in production).
@@ -104,6 +120,44 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 
 // Bounded context registrations go here.
 
+// IAM bounded context.
+// JWT settings: Issuer, Audience and ExpirationMinutes (1-15) live in appsettings.json. The secret comes from
+// user-secrets (development) or Authentication__Jwt__Secret (production) and is validated on startup.
+builder.Services.AddOptions<JwtSettings>()
+    .Bind(builder.Configuration.GetSection(JwtSettings.SectionName))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+    .Configure<IOptions<JwtSettings>>((options, jwtSettings) =>
+    {
+        var settings = jwtSettings.Value;
+        options.MapInboundClaims = false; // keep the original claim names (sub, email, role)
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = settings.Issuer,
+            ValidateAudience = true,
+            ValidAudience = settings.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = TokenService.CreateSigningKey(settings.Secret),
+            ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero, // the token lasts exactly ExpirationMinutes
+            NameClaimType = TokenService.UserIdClaimType,
+            RoleClaimType = TokenService.RoleClaimType
+        };
+    });
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(AuthorizationPolicies.AdminOnly, policy => policy.RequireRole(AuthorizationPolicies.AdminRole));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddSingleton<IHashingService, HashingService>();
+builder.Services.AddSingleton<ITokenService, TokenService>();
+
 var app = builder.Build();
 
 // Apply pending migrations on startup (no-op when the schema is up to date).
@@ -131,6 +185,7 @@ app.UseStatusCodePages();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 // OpenAPI document and Swagger UI are available in all environments (same as the reference project).
