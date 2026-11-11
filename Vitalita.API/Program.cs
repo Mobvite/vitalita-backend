@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using Scalar.AspNetCore;
 using Vitalita.API.Resources;
 using Vitalita.API.Shared.Domain.Repositories;
 using Vitalita.API.Shared.Domain.Services;
@@ -64,7 +63,7 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 builder.Services.AddProblemDetails(options =>
     options.CustomizeProblemDetails = LocalizedProblemDetailsCustomizer.Customize);
 
-// Built-in OpenAPI document (/openapi/v1.json), rendered by Scalar (/scalar).
+// Built-in OpenAPI document generation (Microsoft.AspNetCore.OpenApi), rendered by Swagger UI (/swagger).
 builder.Services.AddOpenApi(options => options.AddDocumentTransformer(LocalizedOpenApiDocumentTransformer.TransformAsync));
 
 // CORS: allowed origins come from configuration (Cors:AllowedOrigins, or Cors__AllowedOrigins__0 in production).
@@ -130,9 +129,14 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-// OpenAPI and Scalar are available in all environments (same as the reference project).
-app.MapOpenApi();
-app.MapScalarApiReference();
+// OpenAPI document and Swagger UI are available in all environments (same as the reference project).
+app.MapOpenApi("/swagger/{documentName}/swagger.json");
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Vitalita API v1");
+    options.RoutePrefix = "swagger";
+});
+app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 app.MapControllers();
 
 app.Run();
