@@ -47,7 +47,35 @@ public static class LocalizedOpenApiAssembler
                 ["401"] = "IamUnauthorizedResponse",
                 ["403"] = "IamOwnUserOrAdminResponse",
                 ["404"] = "IamUserNotFoundResponse"
-            })
+            }),
+            ["CreateUser"] = ("IamCreateUserSummary", "IamCreateUserDescription", new Dictionary<string, string>
+            {
+                ["201"] = "IamUserCreatedResponse",
+                ["400"] = "IamValidationErrorResponse",
+                ["401"] = "IamUnauthorizedResponse",
+                ["403"] = "IamAdminOnlyResponse",
+                ["409"] = "IamEmailInUseResponse",
+                ["500"] = "IamServerErrorResponse"
+            }),
+            ["UpdateUser"] = ("IamUpdateUserSummary", "IamUpdateUserDescription", new Dictionary<string, string>
+            {
+                ["200"] = "IamUserUpdatedResponse",
+                ["400"] = "IamValidationErrorResponse",
+                ["401"] = "IamUnauthorizedResponse",
+                ["403"] = "IamUpdateForbiddenResponse",
+                ["404"] = "IamUserNotFoundResponse",
+                ["409"] = "IamEmailInUseResponse",
+                ["500"] = "IamServerErrorResponse"
+            }),
+            ["DeactivateUser"] = ("IamDeactivateUserSummary", "IamDeactivateUserDescription",
+                new Dictionary<string, string>
+                {
+                    ["204"] = "IamUserDeactivatedResponse",
+                    ["401"] = "IamUnauthorizedResponse",
+                    ["403"] = "IamAdminOnlyResponse",
+                    ["404"] = "IamUserNotFoundResponse",
+                    ["409"] = "IamCannotDeactivateSelfResponse"
+                })
         };
 
     private static readonly Dictionary<Type, string> SchemaResources = new()
@@ -56,7 +84,9 @@ public static class LocalizedOpenApiAssembler
         [typeof(SignInResource)] = "IamSignInResourceSchema",
         [typeof(AuthenticatedUserResource)] = "IamAuthenticatedUserResourceSchema",
         [typeof(UserResource)] = "IamUserResourceSchema",
-        [typeof(UserEmailResource)] = "IamUserEmailResourceSchema"
+        [typeof(UserEmailResource)] = "IamUserEmailResourceSchema",
+        [typeof(CreateUserResource)] = "IamCreateUserResourceSchema",
+        [typeof(UpdateUserResource)] = "IamUpdateUserResourceSchema"
     };
 
     private static readonly Dictionary<string, (string Description, JsonNode? Example)> PropertyResources = new()

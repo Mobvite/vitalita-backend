@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Vitalita.API.IAM.Application.Services;
+using Vitalita.API.IAM.Domain.Model.Commands;
 using Vitalita.API.IAM.Domain.Model.Queries;
 using Vitalita.API.IAM.Domain.Model.ValueObjects;
 using Vitalita.API.IAM.Interfaces.REST.Resources;
@@ -15,6 +16,7 @@ namespace Vitalita.API.IAM.Interfaces.REST;
 /// <summary>
 ///     User accounts.
 /// </summary>
+/// <param name="userCommandService">The user command service.</param>
 /// <param name="userQueryService">The user query service.</param>
 /// <param name="authorizationService">Authorization service, used by the admin listing.</param>
 /// <param name="localizer">String localizer for response messages.</param>
@@ -24,6 +26,7 @@ namespace Vitalita.API.IAM.Interfaces.REST;
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Users")]
 public class UsersController(
+    IUserCommandService userCommandService,
     IUserQueryService userQueryService,
     IAuthorizationService authorizationService,
     IStringLocalizer<SharedResource> localizer)
@@ -100,5 +103,100 @@ public class UsersController(
             return Problem(statusCode: StatusCodes.Status404NotFound, title: localizer["UserNotFound"].Value);
 
         return Ok(UserResourceFromEntityAssembler.ToResourceFromEntity(user));
+    }
+
+    /// <summary>
+    ///     Creates a user with any role (administrators only).
+    /// </summary>
+    /// <param name="resource">Email, password and role.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>The created user, with its location in <c>/api/v1/users/{id}</c>.</returns>
+    [HttpPost]
+    [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(UserResource), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict, MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError,
+        MediaTypeNames.Application.ProblemJson)]
+    public async Task<ActionResult> CreateUser([FromBody] CreateUserResource resource,
+        CancellationToken cancellationToken)
+    {
+        var command = CreateUserCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var result = await userCommandService.Handle(command, cancellationToken);
+        return ActionResultFromUserManagementResultAssembler.ToActionResultFromCreateUserResult(result, this,
+            localizer);
+    }
+
+    /// <summary>
+    ///     Replaces the data of a user.
+    /// </summary>
+    /// <remarks>
+    ///     Administrators can update any user. Other users can only update themselves, and nobody can change their own
+    ///     role or status (<c>403</c>). <c>password</c> is optional; when it is <c>null</c> the current one is kept.
+    /// </remarks>
+    /// <param name="id">User identifier.</param>
+    /// <param name="resource">The whole user: email, role, status and optional password.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>The updated user.</returns>
+    [HttpPut("{id:int}")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict, MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError,
+        MediaTypeNames.Application.ProblemJson)]
+    public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserResource resource,
+        CancellationToken cancellationToken)
+    {
+        if (User.GetUserId() is not { } requesterId) return Challenge();
+
+        var command = UpdateUserCommandFromResourceAssembler.ToCommandFromResource(id, requesterId, User.IsAdmin(),
+            resource);
+        var result = await userCommandService.Handle(command, cancellationToken);
+        return ActionResultFromUserManagementResultAssembler.ToActionResultFromUpdateUserResult(result, this,
+            localizer);
+    }
+
+    /// <summary>
+    ///     Deactivates a user (logical delete; administrators only).
+    /// </summary>
+    /// <remarks>
+    ///     The row is kept and its status becomes <c>Inactive</c>, so the user can no longer sign in. Tokens already
+    ///     issued stay valid until they expire (15 minutes at most). An administrator cannot deactivate themselves
+    ///     (<c>409</c>).
+    /// </remarks>
+    /// <param name="id">User identifier.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>No content.</returns>
+    [HttpDelete("{id:int}")]
+    [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound,
+        MediaTypeNames.Application.ProblemJson)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict, MediaTypeNames.Application.ProblemJson)]
+    public async Task<ActionResult> DeactivateUser(int id, CancellationToken cancellationToken)
+    {
+        if (User.GetUserId() is not { } requesterId) return Challenge();
+
+        var result = await userCommandService.Handle(new DeactivateUserCommand(id, requesterId), cancellationToken);
+        return ActionResultFromUserManagementResultAssembler.ToActionResultFromDeactivateUserResult(result, this,
+            localizer);
     }
 }

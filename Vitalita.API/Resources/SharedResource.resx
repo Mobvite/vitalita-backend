@@ -180,4 +180,52 @@
     <data name="IamLastLoginAtProperty" xml:space="preserve">
         <value>UTC instant of the last sign-in, or null.</value>
     </data>
+    <data name="InvalidStatus" xml:space="preserve">
+        <value>The status is not valid.</value>
+    </data>
+    <data name="RoleChangeNotAllowed" xml:space="preserve">
+        <value>You cannot change your own role.</value>
+    </data>
+    <data name="StatusChangeNotAllowed" xml:space="preserve">
+        <value>You cannot change your own status.</value>
+    </data>
+    <data name="CannotDeactivateSelf" xml:space="preserve">
+        <value>You cannot deactivate your own account.</value>
+    </data>
+    <data name="IamCreateUserSummary" xml:space="preserve">
+        <value>Create a user (Admin)</value>
+    </data>
+    <data name="IamCreateUserDescription" xml:space="preserve">
+        <value>Creates a user with any role, including Admin. Only for administrators.</value>
+    </data>
+    <data name="IamUpdateUserSummary" xml:space="preserve">
+        <value>Update a user</value>
+    </data>
+    <data name="IamUpdateUserDescription" xml:space="preserve">
+        <value>Replaces the email, role, status and, optionally, the password of a user. Administrators can update any user; other users only themselves. Nobody can change their own role or status.</value>
+    </data>
+    <data name="IamDeactivateUserSummary" xml:space="preserve">
+        <value>Deactivate a user (Admin)</value>
+    </data>
+    <data name="IamDeactivateUserDescription" xml:space="preserve">
+        <value>Logical delete: the status becomes Inactive and the row is kept. The user can no longer sign in, but tokens already issued stay valid until they expire (15 minutes at most). An administrator cannot deactivate themselves.</value>
+    </data>
+    <data name="IamUserUpdatedResponse" xml:space="preserve">
+        <value>The updated user.</value>
+    </data>
+    <data name="IamUpdateForbiddenResponse" xml:space="preserve">
+        <value>Updating another user without being an administrator, or changing your own role or status.</value>
+    </data>
+    <data name="IamUserDeactivatedResponse" xml:space="preserve">
+        <value>User deactivated.</value>
+    </data>
+    <data name="IamCannotDeactivateSelfResponse" xml:space="preserve">
+        <value>An administrator cannot deactivate their own account.</value>
+    </data>
+    <data name="IamCreateUserResourceSchema" xml:space="preserve">
+        <value>Data to create a user as an administrator.</value>
+    </data>
+    <data name="IamUpdateUserResourceSchema" xml:space="preserve">
+        <value>Full user data for PUT. Password is optional.</value>
+    </data>
 </root>

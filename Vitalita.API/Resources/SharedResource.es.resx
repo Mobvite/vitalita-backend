@@ -180,4 +180,52 @@
     <data name="IamLastLoginAtProperty" xml:space="preserve">
         <value>Instante UTC del último inicio de sesión, o null.</value>
     </data>
+    <data name="InvalidStatus" xml:space="preserve">
+        <value>El estado no es válido.</value>
+    </data>
+    <data name="RoleChangeNotAllowed" xml:space="preserve">
+        <value>No puedes cambiar tu propio rol.</value>
+    </data>
+    <data name="StatusChangeNotAllowed" xml:space="preserve">
+        <value>No puedes cambiar tu propio estado.</value>
+    </data>
+    <data name="CannotDeactivateSelf" xml:space="preserve">
+        <value>No puedes desactivar tu propia cuenta.</value>
+    </data>
+    <data name="IamCreateUserSummary" xml:space="preserve">
+        <value>Crear un usuario (Admin)</value>
+    </data>
+    <data name="IamCreateUserDescription" xml:space="preserve">
+        <value>Crea un usuario con cualquier rol, incluido Admin. Solo para administradores.</value>
+    </data>
+    <data name="IamUpdateUserSummary" xml:space="preserve">
+        <value>Actualizar un usuario</value>
+    </data>
+    <data name="IamUpdateUserDescription" xml:space="preserve">
+        <value>Reemplaza el correo, el rol, el estado y, opcionalmente, la contraseña de un usuario. Los administradores pueden actualizar a cualquiera; los demás solo a sí mismos. Nadie puede cambiar su propio rol ni su estado.</value>
+    </data>
+    <data name="IamDeactivateUserSummary" xml:space="preserve">
+        <value>Desactivar un usuario (Admin)</value>
+    </data>
+    <data name="IamDeactivateUserDescription" xml:space="preserve">
+        <value>Borrado lógico: el estado pasa a Inactive y la fila se conserva. El usuario ya no puede iniciar sesión, pero los tokens ya emitidos siguen siendo válidos hasta que expiren (15 minutos como máximo). Un administrador no puede desactivarse a sí mismo.</value>
+    </data>
+    <data name="IamUserUpdatedResponse" xml:space="preserve">
+        <value>El usuario actualizado.</value>
+    </data>
+    <data name="IamUpdateForbiddenResponse" xml:space="preserve">
+        <value>Actualizar a otro usuario sin ser administrador, o cambiar tu propio rol o estado.</value>
+    </data>
+    <data name="IamUserDeactivatedResponse" xml:space="preserve">
+        <value>Usuario desactivado.</value>
+    </data>
+    <data name="IamCannotDeactivateSelfResponse" xml:space="preserve">
+        <value>Un administrador no puede desactivar su propia cuenta.</value>
+    </data>
+    <data name="IamCreateUserResourceSchema" xml:space="preserve">
+        <value>Datos para crear un usuario como administrador.</value>
+    </data>
+    <data name="IamUpdateUserResourceSchema" xml:space="preserve">
+        <value>Datos completos del usuario para PUT. La contraseña es opcional.</value>
+    </data>
 </root>
