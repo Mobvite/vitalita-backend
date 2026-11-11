@@ -119,8 +119,8 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
         .AddInterceptors(serviceProvider.GetRequiredService<AuditableEntityInterceptor>())
         .EnableDetailedErrors();
 
-    if (builder.Environment.IsDevelopment())
-        options.EnableSensitiveDataLogging();
+    // EnableSensitiveDataLogging is intentionally not used, not even in development: it writes SQL parameter
+    // values (password hashes, emails) to the logs.
 });
 
 // Bounded context registrations go here.
