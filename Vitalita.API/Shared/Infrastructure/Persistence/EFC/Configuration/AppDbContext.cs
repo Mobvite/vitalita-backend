@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Vitalita.API.IAM.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration.Converters;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
@@ -30,6 +31,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         base.OnModelCreating(builder);
 
         // Bounded context configurations go here.
+        builder.ApplyIamConfiguration();
 
         builder.UseSnakeCaseNamingConvention();
     }
