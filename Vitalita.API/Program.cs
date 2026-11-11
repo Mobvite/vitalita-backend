@@ -82,6 +82,8 @@ builder.Services.AddOpenApi(options =>
 {
     options.AddDocumentTransformer(LocalizedOpenApiDocumentTransformer.TransformAsync);
     options.AddSchemaTransformer(StringEnumSchemaTransformer.TransformAsync);
+    options.AddDocumentTransformer(BearerSecuritySchemeTransformer.TransformDocumentAsync);
+    options.AddOperationTransformer(BearerSecuritySchemeTransformer.TransformOperationAsync);
     options.AddOperationTransformer(LocalizedOpenApiAssembler.TransformOperationAsync);
     options.AddSchemaTransformer(LocalizedOpenApiAssembler.TransformSchemaAsync);
 });

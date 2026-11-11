@@ -228,4 +228,7 @@
     <data name="IamUpdateUserResourceSchema" xml:space="preserve">
         <value>Full user data for PUT. Password is optional.</value>
     </data>
+    <data name="BearerSchemeDescription" xml:space="preserve">
+        <value>JWT access token returned by POST /api/v1/authentication/sign-in. Paste only the token (without the word Bearer).</value>
+    </data>
 </root>

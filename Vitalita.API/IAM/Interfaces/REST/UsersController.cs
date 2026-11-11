@@ -48,6 +48,7 @@ public class UsersController(
     /// <returns><c>[{id, email}]</c> for the lookup, or the full users for administrators.</returns>
     [HttpGet]
     [AllowAnonymous]
+    [OptionalBearerAuthentication]
     [ProducesResponseType(typeof(IEnumerable<UserResource>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest,
         MediaTypeNames.Application.ProblemJson)]

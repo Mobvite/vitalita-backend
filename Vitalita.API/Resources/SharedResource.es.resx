@@ -228,4 +228,7 @@
     <data name="IamUpdateUserResourceSchema" xml:space="preserve">
         <value>Datos completos del usuario para PUT. La contraseña es opcional.</value>
     </data>
+    <data name="BearerSchemeDescription" xml:space="preserve">
+        <value>Token de acceso JWT devuelto por POST /api/v1/authentication/sign-in. Pega solo el token (sin la palabra Bearer).</value>
+    </data>
 </root>
