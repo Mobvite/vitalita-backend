@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -39,6 +40,9 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 // Localization (Resources/SharedResource*.resx).
 builder.Services.AddLocalization();
+
+// Localized validation messages for every DataAnnotations attribute (see LocalizedValidationAttributeAdapterProvider).
+builder.Services.AddSingleton<IValidationAttributeAdapterProvider, LocalizedValidationAttributeAdapterProvider>();
 
 // Controllers: kebab-case routes, camelCase JSON, enums as strings, localized validation errors.
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()))
