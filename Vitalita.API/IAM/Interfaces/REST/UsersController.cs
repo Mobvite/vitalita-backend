@@ -23,7 +23,6 @@ namespace Vitalita.API.IAM.Interfaces.REST;
 [ApiController]
 [Authorize]
 [Route("api/v1/[controller]")]
-[Produces(MediaTypeNames.Application.Json)]
 [Tags("Users")]
 public class UsersController(
     IUserCommandService userCommandService,
@@ -49,7 +48,7 @@ public class UsersController(
     [HttpGet]
     [AllowAnonymous]
     [OptionalBearerAuthentication]
-    [ProducesResponseType(typeof(IEnumerable<UserResource>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<UserResource>), StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest,
         MediaTypeNames.Application.ProblemJson)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized,
@@ -87,7 +86,7 @@ public class UsersController(
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>The user.</returns>
     [HttpGet("{id:int}")]
-    [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized,
         MediaTypeNames.Application.ProblemJson)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden,
@@ -115,7 +114,7 @@ public class UsersController(
     [HttpPost]
     [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
     [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(UserResource), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(UserResource), StatusCodes.Status201Created, MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest,
         MediaTypeNames.Application.ProblemJson)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized,
@@ -147,7 +146,7 @@ public class UsersController(
     /// <returns>The updated user.</returns>
     [HttpPut("{id:int}")]
     [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserResource), StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest,
         MediaTypeNames.Application.ProblemJson)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized,

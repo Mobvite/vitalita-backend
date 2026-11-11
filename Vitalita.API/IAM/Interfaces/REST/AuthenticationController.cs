@@ -17,7 +17,6 @@ namespace Vitalita.API.IAM.Interfaces.REST;
 [ApiController]
 [AllowAnonymous]
 [Route("api/v1/[controller]")]
-[Produces(MediaTypeNames.Application.Json)]
 [Tags("Authentication")]
 public class AuthenticationController(
     IUserCommandService userCommandService,
@@ -36,7 +35,7 @@ public class AuthenticationController(
     /// <returns>The created user, with its location in <c>/api/v1/users/{id}</c>.</returns>
     [HttpPost("sign-up")]
     [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(UserResource), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(UserResource), StatusCodes.Status201Created, MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest,
         MediaTypeNames.Application.ProblemJson)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict, MediaTypeNames.Application.ProblemJson)]
@@ -61,7 +60,7 @@ public class AuthenticationController(
     /// <returns>The user id, email, role, status and token.</returns>
     [HttpPost("sign-in")]
     [Consumes(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(AuthenticatedUserResource), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(AuthenticatedUserResource), StatusCodes.Status200OK, MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest,
         MediaTypeNames.Application.ProblemJson)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized,
