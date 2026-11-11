@@ -2,8 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>14.0</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Culture-specific data is required for the en/es request localization. -->
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <!-- XML docs feed the built-in OpenAPI document. CS1591 is silenced for the whole project
+         (generated migrations and trivial members do not need doc comments). -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <UserSecretsId>vitalita-api-6f1c2d9e-4b7a-4e0f-9a51-3c8d2e7b1f40</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
