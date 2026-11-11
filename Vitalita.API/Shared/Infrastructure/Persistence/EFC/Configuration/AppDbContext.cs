@@ -1,0 +1,36 @@
+using Microsoft.EntityFrameworkCore;
+using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration.Converters;
+using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+
+namespace Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+
+/// <summary>
+///     Application database context shared by all bounded contexts.
+/// </summary>
+/// <remarks>
+///     Each bounded context adds its Fluent API configuration in <see cref="OnModelCreating" />.
+///     The audit interceptor is added when the context is registered in <c>Program.cs</c>.
+/// </remarks>
+/// <param name="options">The context options.</param>
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+{
+    /// <inheritdoc />
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+
+        // Every DateTime is a UTC instant (see UtcDateTimeConverter).
+        configurationBuilder.Properties<DateTime>().HaveConversion<UtcDateTimeConverter>();
+        configurationBuilder.Properties<DateTime?>().HaveConversion<UtcDateTimeConverter>();
+    }
+
+    /// <inheritdoc />
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        // Bounded context configurations go here.
+
+        builder.UseSnakeCaseNamingConvention();
+    }
+}

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ApiTitle" xml:space="preserve">
+        <value>Vitalita API</value>
+    </data>
+    <data name="ApiDescription" xml:space="preserve">
+        <value>API REST de Vitalita, una plataforma para cuidadores y familiares de adultos mayores en el Perú.</value>
+    </data>
+    <data name="InvalidModelStateTitle" xml:space="preserve">
+        <value>La solicitud contiene valores no válidos.</value>
+    </data>
+    <data name="BadRequestTitle" xml:space="preserve">
+        <value>La solicitud no es válida.</value>
+    </data>
+    <data name="UnauthorizedTitle" xml:space="preserve">
+        <value>Se requiere autenticación para acceder a este recurso.</value>
+    </data>
+    <data name="ForbiddenTitle" xml:space="preserve">
+        <value>No tienes permiso para acceder a este recurso.</value>
+    </data>
+    <data name="ResourceNotFound" xml:space="preserve">
+        <value>No se encontró el recurso solicitado.</value>
+    </data>
+    <data name="MethodNotAllowedTitle" xml:space="preserve">
+        <value>El método HTTP no está permitido para este recurso.</value>
+    </data>
+    <data name="ConflictTitle" xml:space="preserve">
+        <value>La solicitud entra en conflicto con el estado actual del recurso.</value>
+    </data>
+    <data name="UnsupportedMediaTypeTitle" xml:space="preserve">
+        <value>El tipo de contenido de la solicitud no es compatible.</value>
+    </data>
+    <data name="UnexpectedServerError" xml:space="preserve">
+        <value>Error inesperado del servidor.</value>
+    </data>
+    <data name="UnexpectedErrorProcessingRequest" xml:space="preserve">
+        <value>Ocurrió un error inesperado al procesar tu solicitud.</value>
+    </data>
+</root>
