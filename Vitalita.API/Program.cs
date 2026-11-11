@@ -64,7 +64,11 @@ builder.Services.AddProblemDetails(options =>
     options.CustomizeProblemDetails = LocalizedProblemDetailsCustomizer.Customize);
 
 // Built-in OpenAPI document generation (Microsoft.AspNetCore.OpenApi), rendered by Swagger UI (/swagger).
-builder.Services.AddOpenApi(options => options.AddDocumentTransformer(LocalizedOpenApiDocumentTransformer.TransformAsync));
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer(LocalizedOpenApiDocumentTransformer.TransformAsync);
+    options.AddSchemaTransformer(StringEnumSchemaTransformer.TransformAsync);
+});
 
 // CORS: allowed origins come from configuration (Cors:AllowedOrigins, or Cors__AllowedOrigins__0 in production).
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
