@@ -1,6 +1,22 @@
 @Vitalita.API_HostAddress = http://localhost:5240
 
-GET {{Vitalita.API_HostAddress}}/weatherforecast/
+### OpenAPI document (Spanish)
+GET {{Vitalita.API_HostAddress}}/openapi/v1.json
+Accept: application/json
+Accept-Language: es
+
+### Unknown route: 404 ProblemDetails with "message", localized in Spanish
+GET {{Vitalita.API_HostAddress}}/api/v1/does-not-exist
+Accept: application/json
+Accept-Language: es
+Origin: http://localhost:5173
+
+### Same request in English (default culture)
+GET {{Vitalita.API_HostAddress}}/api/v1/does-not-exist
 Accept: application/json
 
-###
+### CORS preflight from the Vite dev server
+OPTIONS {{Vitalita.API_HostAddress}}/api/v1/does-not-exist
+Origin: http://localhost:5173
+Access-Control-Request-Method: PUT
+Access-Control-Request-Headers: authorization,content-type
