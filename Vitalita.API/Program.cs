@@ -14,6 +14,7 @@ using Vitalita.API.IAM.Application.Services;
 using Vitalita.API.IAM.Domain.Repositories;
 using Vitalita.API.IAM.Infrastructure.Hashing.BCrypt.Services;
 using Vitalita.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using Vitalita.API.IAM.Infrastructure.Seeding;
 using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Services;
 using Vitalita.API.IAM.Interfaces.REST.Transform;
@@ -162,11 +163,13 @@ builder.Services.AddSingleton<ITokenService, TokenService>();
 
 var app = builder.Build();
 
-// Apply pending migrations on startup (no-op when the schema is up to date).
+// Apply pending migrations on startup (no-op when the schema is up to date), then create the first
+// administrator when Authentication:Admin:Email and Authentication:Admin:Password are configured.
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     context.Database.Migrate();
+    await AdminSeeder.SeedAsync(scope.ServiceProvider, app.Configuration);
 }
 
 // CORS first, so error responses (404, 500) also carry the CORS headers.
