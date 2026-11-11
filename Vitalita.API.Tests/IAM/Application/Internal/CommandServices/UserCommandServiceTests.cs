@@ -164,7 +164,7 @@ public class UserCommandServiceTests
     [Fact]
     public async Task UpdateUser_SelfAdmin_CannotChangeTheRoleEither()
     {
-        var admin = await AddUserAsync("admin@vitalita.pe", UserRole.Admin);
+        var admin = await AddUserAsync("fixture.admin@vitalita.test", UserRole.Admin);
 
         var result = await _service.Handle(new UpdateUserCommand(admin.Id, admin.Id, true, admin.Email, null,
             UserRole.Caregiver, UserStatus.Active));
@@ -237,7 +237,7 @@ public class UserCommandServiceTests
     [Fact]
     public async Task UpdateUser_ByAdmin_CanChangeRoleAndStatusOfAnotherUser()
     {
-        var admin = await AddUserAsync("admin@vitalita.pe", UserRole.Admin);
+        var admin = await AddUserAsync("fixture.admin@vitalita.test", UserRole.Admin);
         var user = await AddUserAsync("andrea.mendoza@vitalita.pe");
 
         SuccessOf(await _service.Handle(new UpdateUserCommand(user.Id, admin.Id, true, user.Email, null,
@@ -250,7 +250,7 @@ public class UserCommandServiceTests
     [Fact]
     public async Task UpdateUser_ByAdmin_UnknownId_ReturnsNotFound()
     {
-        var admin = await AddUserAsync("admin@vitalita.pe", UserRole.Admin);
+        var admin = await AddUserAsync("fixture.admin@vitalita.test", UserRole.Admin);
 
         var result = await _service.Handle(new UpdateUserCommand(999, admin.Id, true, Email(), null,
             UserRole.Caregiver, UserStatus.Active));
@@ -261,7 +261,7 @@ public class UserCommandServiceTests
     [Fact]
     public async Task UpdateUser_WithEmailOfAnotherUser_ReturnsDuplicateEmail()
     {
-        var admin = await AddUserAsync("admin@vitalita.pe", UserRole.Admin);
+        var admin = await AddUserAsync("fixture.admin@vitalita.test", UserRole.Admin);
         var user = await AddUserAsync("andrea.mendoza@vitalita.pe");
 
         var result = await _service.Handle(new UpdateUserCommand(user.Id, admin.Id, true, admin.Email, null,
@@ -275,7 +275,7 @@ public class UserCommandServiceTests
     [Fact]
     public async Task DeactivateUser_SetsInactiveAndDoesNotRemoveTheRow()
     {
-        var admin = await AddUserAsync("admin@vitalita.pe", UserRole.Admin);
+        var admin = await AddUserAsync("fixture.admin@vitalita.test", UserRole.Admin);
         var user = await AddUserAsync("andrea.mendoza@vitalita.pe");
 
         SuccessOf(await _service.Handle(new DeactivateUserCommand(user.Id, admin.Id)));
@@ -289,7 +289,7 @@ public class UserCommandServiceTests
     [Fact]
     public async Task DeactivateUser_ThenSignIn_IsRejected()
     {
-        var admin = await AddUserAsync("admin@vitalita.pe", UserRole.Admin);
+        var admin = await AddUserAsync("fixture.admin@vitalita.test", UserRole.Admin);
         var user = await AddUserAsync("andrea.mendoza@vitalita.pe");
         await _service.Handle(new DeactivateUserCommand(user.Id, admin.Id));
 
@@ -301,7 +301,7 @@ public class UserCommandServiceTests
     [Fact]
     public async Task DeactivateUser_Self_ReturnsCannotDeactivateSelf()
     {
-        var admin = await AddUserAsync("admin@vitalita.pe", UserRole.Admin);
+        var admin = await AddUserAsync("fixture.admin@vitalita.test", UserRole.Admin);
 
         var result = await _service.Handle(new DeactivateUserCommand(admin.Id, admin.Id));
 
@@ -322,7 +322,7 @@ public class UserCommandServiceTests
     [Fact]
     public async Task SeedAdmin_CreatesAnAdministrator()
     {
-        var admin = SuccessOf(await _service.Handle(new SeedAdminCommand(Email("admin@vitalita.pe"), Password)));
+        var admin = SuccessOf(await _service.Handle(new SeedAdminCommand(Email("fixture.admin@vitalita.test"), Password)));
 
         Assert.Equal(UserRole.Admin, admin.Role);
         Assert.Single(_repository.Users);
@@ -331,10 +331,10 @@ public class UserCommandServiceTests
     [Fact]
     public async Task SeedAdmin_WithExistingEmail_LeavesTheUserUnchanged()
     {
-        var existing = await AddUserAsync("admin@vitalita.pe");
+        var existing = await AddUserAsync("fixture.admin@vitalita.test");
         var hash = existing.PasswordHash;
 
-        var result = await _service.Handle(new SeedAdminCommand(Email("admin@vitalita.pe"), "Different123"));
+        var result = await _service.Handle(new SeedAdminCommand(Email("fixture.admin@vitalita.test"), "Different123"));
 
         Assert.Equal(SeedAdminError.EmailAlreadyRegistered, FailureOf(result));
         Assert.Equal(UserRole.Caregiver, existing.Role);
