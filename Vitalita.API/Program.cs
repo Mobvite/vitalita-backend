@@ -17,6 +17,8 @@ using Vitalita.API.IAM.Infrastructure.Persistence.EFC.Repositories;
 using Vitalita.API.IAM.Infrastructure.Seeding;
 using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Services;
+using Vitalita.API.IAM.Interfaces.ACL;
+using Vitalita.API.IAM.Interfaces.ACL.Services;
 using Vitalita.API.IAM.Interfaces.REST.Transform;
 using Vitalita.API.Resources;
 using Vitalita.API.Shared.Domain.Repositories;
@@ -160,6 +162,7 @@ builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddSingleton<IHashingService, HashingService>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 var app = builder.Build();
 
