@@ -33,8 +33,8 @@ Requirements: .NET SDK 10, Docker.
    Pending migrations are applied on startup.
 
    - API: `http://localhost:5240/api/v1`
-   - OpenAPI document: `http://localhost:5240/openapi/v1.json`
-   - Scalar: `http://localhost:5240/scalar`
+   - Swagger UI: `http://localhost:5240/swagger` (the root `http://localhost:5240/` redirects here)
+   - OpenAPI document: `http://localhost:5240/swagger/v1/swagger.json`
 
 4. **Tests**
 
