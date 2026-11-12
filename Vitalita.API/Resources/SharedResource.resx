@@ -573,4 +573,28 @@
     <data name="ProfilesExpiresAtProperty" xml:space="preserve">
         <value>Last UTC instant to accept the invitation.</value>
     </data>
+    <data name="SessionUserNotFound" xml:space="preserve">
+        <value>The user of this session no longer exists. Sign in again.</value>
+    </data>
+    <data name="IamGetCurrentUserSummary" xml:space="preserve">
+        <value>Get the signed-in user</value>
+    </data>
+    <data name="IamGetCurrentUserDescription" xml:space="preserve">
+        <value>Returns the user of the Bearer token, read again from the database. 401 when the token is missing, invalid or expired, or when the user no longer exists or is inactive.</value>
+    </data>
+    <data name="IamRefreshTokenSummary" xml:space="preserve">
+        <value>Refresh the access token</value>
+    </data>
+    <data name="IamRefreshTokenDescription" xml:space="preserve">
+        <value>No body. Requires a valid Bearer token, checks again that the user exists and is active, and returns a new token with the same shape as the sign-in. The new token lasts the configured minutes (15 at most).</value>
+    </data>
+    <data name="IamCurrentUserResponse" xml:space="preserve">
+        <value>The user of the token.</value>
+    </data>
+    <data name="IamTokenRefreshedResponse" xml:space="preserve">
+        <value>User id, email, role, status and the new token.</value>
+    </data>
+    <data name="IamSessionInvalidResponse" xml:space="preserve">
+        <value>Missing, invalid or expired token, or the user no longer exists or is inactive.</value>
+    </data>
 </root>
