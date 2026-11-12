@@ -21,6 +21,16 @@ using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Services;
 using Vitalita.API.IAM.Interfaces.ACL;
 using Vitalita.API.IAM.Interfaces.ACL.Services;
 using Vitalita.API.IAM.Interfaces.REST.Transform;
+using Vitalita.API.Profiles.Application.Internal.CommandServices;
+using Vitalita.API.Profiles.Application.Internal.Policies;
+using Vitalita.API.Profiles.Application.Internal.QueryServices;
+using Vitalita.API.Profiles.Application.Services;
+using Vitalita.API.Profiles.Domain.Repositories;
+using Vitalita.API.Profiles.Domain.Services;
+using Vitalita.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
+using Vitalita.API.Profiles.Infrastructure.Security;
+using Vitalita.API.Profiles.Interfaces.ACL;
+using Vitalita.API.Profiles.Interfaces.ACL.Services;
 using Vitalita.API.Resources;
 using Vitalita.API.Shared.Domain.Repositories;
 using Vitalita.API.Shared.Domain.Services;
@@ -30,6 +40,7 @@ using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Interceptors;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Vitalita.API.Shared.Infrastructure.Time;
+using ProfilesOpenApiAssembler = Vitalita.API.Profiles.Interfaces.REST.Transform.LocalizedOpenApiAssembler;
 
 const string frontendCorsPolicy = "AllowFrontend";
 
@@ -93,6 +104,8 @@ builder.Services.AddOpenApi(options =>
     options.AddOperationTransformer(BearerSecuritySchemeTransformer.TransformOperationAsync);
     options.AddOperationTransformer(LocalizedOpenApiAssembler.TransformOperationAsync);
     options.AddSchemaTransformer(LocalizedOpenApiAssembler.TransformSchemaAsync);
+    options.AddOperationTransformer(ProfilesOpenApiAssembler.TransformOperationAsync);
+    options.AddSchemaTransformer(ProfilesOpenApiAssembler.TransformSchemaAsync);
 });
 
 // CORS: allowed origins come from configuration (Cors:AllowedOrigins, or Cors__AllowedOrigins__0 in production).
@@ -167,6 +180,23 @@ builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddSingleton<IHashingService, HashingService>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+
+// Profiles bounded context.
+builder.Services.AddScoped<ICaregiverProfileRepository, CaregiverProfileRepository>();
+builder.Services.AddScoped<IFamilyMemberProfileRepository, FamilyMemberProfileRepository>();
+builder.Services.AddScoped<IOlderAdultRepository, OlderAdultRepository>();
+builder.Services.AddScoped<IFamilyAccessRepository, FamilyAccessRepository>();
+builder.Services.AddScoped<ProfileAccessPolicy>();
+builder.Services.AddSingleton<IInvitationCodeGenerator, InvitationCodeGenerator>();
+builder.Services.AddScoped<ICaregiverProfileCommandService, CaregiverProfileCommandService>();
+builder.Services.AddScoped<ICaregiverProfileQueryService, CaregiverProfileQueryService>();
+builder.Services.AddScoped<IFamilyMemberProfileCommandService, FamilyMemberProfileCommandService>();
+builder.Services.AddScoped<IFamilyMemberProfileQueryService, FamilyMemberProfileQueryService>();
+builder.Services.AddScoped<IOlderAdultCommandService, OlderAdultCommandService>();
+builder.Services.AddScoped<IOlderAdultQueryService, OlderAdultQueryService>();
+builder.Services.AddScoped<IFamilyAccessCommandService, FamilyAccessCommandService>();
+builder.Services.AddScoped<IFamilyAccessQueryService, FamilyAccessQueryService>();
+builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 
 var app = builder.Build();
 

@@ -9,6 +9,7 @@ using Vitalita.API.IAM.Domain.Model.Exceptions;
 using Vitalita.API.IAM.Domain.Model.ValueObjects;
 using Vitalita.API.IAM.Domain.Repositories;
 using Vitalita.API.Shared.Application.Patterns;
+using Vitalita.API.Shared.Application.Persistence;
 using Vitalita.API.Shared.Domain.Repositories;
 using Vitalita.API.Shared.Domain.Services;
 
@@ -139,7 +140,7 @@ public class UserCommandService(
             await unitOfWork.CompleteAsync(cancellationToken);
             return new Result<User, UpdateUserError>.Success(user);
         }
-        catch (DbUpdateException ex) when (IsDuplicateKeyViolation(ex))
+        catch (DbUpdateException ex) when (ex.IsDuplicateKeyViolation())
         {
             logger.LogWarning(ex, "Duplicate email while updating user {UserId}", command.UserId);
             return new Result<User, UpdateUserError>.Failure(UpdateUserError.DuplicateEmail);
@@ -205,7 +206,7 @@ public class UserCommandService(
             await unitOfWork.CompleteAsync(cancellationToken);
             return null;
         }
-        catch (DbUpdateException ex) when (IsDuplicateKeyViolation(ex))
+        catch (DbUpdateException ex) when (ex.IsDuplicateKeyViolation())
         {
             logger.LogWarning(ex, "Duplicate email rejected by the unique index while creating a user");
             return SaveError.DuplicateEmail;
@@ -215,23 +216,5 @@ public class UserCommandService(
             logger.LogError(ex, "Database update failed while creating a user");
             return SaveError.Unexpected;
         }
-    }
-
-    /// <summary>
-    ///     Determines whether a <see cref="DbUpdateException" /> is a MySQL duplicate key violation (error 1062).
-    /// </summary>
-    private static bool IsDuplicateKeyViolation(DbUpdateException exception)
-    {
-        for (Exception? current = exception; current is not null; current = current.InnerException)
-        {
-            if (!string.Equals(current.GetType().Name, "MySqlException", StringComparison.Ordinal)) continue;
-            var numberProperty = current.GetType().GetProperty("Number");
-            if (numberProperty?.PropertyType == typeof(int) &&
-                numberProperty.GetValue(current) is int errorCode &&
-                errorCode == 1062)
-                return true;
-        }
-
-        return false;
     }
 }
