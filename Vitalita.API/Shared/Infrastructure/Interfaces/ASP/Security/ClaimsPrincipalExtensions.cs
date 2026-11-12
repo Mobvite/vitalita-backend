@@ -14,6 +14,16 @@ public static class ClaimsPrincipalExtensions
     public const string UserIdClaimType = "sub";
 
     /// <summary>
+    ///     Name of the claim that carries the user email.
+    /// </summary>
+    public const string EmailClaimType = "email";
+
+    /// <summary>
+    ///     Name of the claim that carries the user role.
+    /// </summary>
+    public const string RoleClaimType = "role";
+
+    /// <summary>
     ///     Gets the identifier of the authenticated user.
     /// </summary>
     /// <param name="principal">The current user.</param>
@@ -30,4 +40,20 @@ public static class ClaimsPrincipalExtensions
     /// <param name="principal">The current user.</param>
     /// <returns><c>true</c> when the user has the <c>Admin</c> role.</returns>
     public static bool IsAdmin(this ClaimsPrincipal principal) => principal.IsInRole(AuthorizationPolicies.AdminRole);
+
+    /// <summary>
+    ///     Gets the email of the authenticated user.
+    /// </summary>
+    /// <param name="principal">The current user.</param>
+    /// <returns>The email claim, or <c>null</c> when the request is anonymous or the claim is missing.</returns>
+    public static string? GetEmail(this ClaimsPrincipal principal) =>
+        principal.FindFirst(EmailClaimType)?.Value is { Length: > 0 } email ? email : null;
+
+    /// <summary>
+    ///     Gets the role of the authenticated user.
+    /// </summary>
+    /// <param name="principal">The current user.</param>
+    /// <returns>The role claim (<c>Caregiver</c>, <c>FamilyMember</c> or <c>Admin</c>), or <c>null</c>.</returns>
+    public static string? GetRole(this ClaimsPrincipal principal) =>
+        principal.FindFirst(RoleClaimType)?.Value is { Length: > 0 } role ? role : null;
 }
