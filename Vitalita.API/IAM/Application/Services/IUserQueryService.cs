@@ -1,5 +1,7 @@
+using Vitalita.API.IAM.Application.Errors;
 using Vitalita.API.IAM.Domain.Model.Aggregates;
 using Vitalita.API.IAM.Domain.Model.Queries;
+using Vitalita.API.Shared.Application.Patterns;
 
 namespace Vitalita.API.IAM.Application.Services;
 
@@ -24,4 +26,11 @@ public interface IUserQueryService
     ///     Lists every user.
     /// </summary>
     Task<IEnumerable<User>> Handle(GetAllUsersQuery query, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    ///     Gets the user of an access token, checking that it still exists and is active.
+    /// </summary>
+    /// <returns>The user, or <see cref="CurrentUserError.UserNotFound" /> / <see cref="CurrentUserError.InactiveAccount" />.</returns>
+    Task<Result<User, CurrentUserError>> Handle(GetCurrentUserQuery query,
+        CancellationToken cancellationToken = default);
 }

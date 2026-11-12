@@ -23,6 +23,12 @@ public interface IUserCommandService
         CancellationToken cancellationToken = default);
 
     /// <summary>
+    ///     Issues a new access token for the user of a valid token, after checking that it still exists and is active.
+    /// </summary>
+    Task<Result<AuthenticatedUser, RefreshTokenError>> Handle(RefreshTokenCommand command,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     ///     Creates an account with any role (administrators only).
     /// </summary>
     Task<Result<User, CreateUserError>> Handle(CreateUserCommand command,
