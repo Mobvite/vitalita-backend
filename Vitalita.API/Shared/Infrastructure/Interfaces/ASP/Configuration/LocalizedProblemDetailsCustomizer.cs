@@ -12,8 +12,9 @@ namespace Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 ///     <list type="bullet">
 ///         <item>
 ///             <description>
-///                 Replaces the framework default titles ("Not Found", "Bad Request", …) with localized ones
-///                 (<c>Accept-Language</c>). Titles set explicitly by a controller are kept.
+///                 Replaces the framework default titles ("Not Found", "Bad Request", …, and the
+///                 "One or more validation errors occurred." of <c>ValidationProblem(ModelState)</c>) with localized
+///                 ones (<c>Accept-Language</c>). Titles set explicitly by a controller are kept.
 ///             </description>
 ///         </item>
 ///         <item><description>Adds a localized <c>detail</c> to 5xx responses that do not have one.</description></item>
@@ -36,6 +37,9 @@ public static class LocalizedProblemDetailsCustomizer
 
     // Default title used by ASP.NET Core for 500 responses.
     private const string FrameworkServerErrorTitle = "An error occurred while processing your request.";
+
+    // Default title of ValidationProblemDetails, used when a controller calls ValidationProblem(ModelState).
+    private const string FrameworkValidationTitle = "One or more validation errors occurred.";
 
     private static readonly IReadOnlyDictionary<int, string> TitleResourceKeys = new Dictionary<int, string>
     {
@@ -63,6 +67,10 @@ public static class LocalizedProblemDetailsCustomizer
             if (IsFrameworkDefaultTitle(problemDetails.Title, status))
                 problemDetails.Title = localizer["UnexpectedServerError"].Value;
             problemDetails.Detail ??= localizer["UnexpectedErrorProcessingRequest"].Value;
+        }
+        else if (problemDetails.Title == FrameworkValidationTitle)
+        {
+            problemDetails.Title = localizer["InvalidModelStateTitle"].Value;
         }
         else if (IsFrameworkDefaultTitle(problemDetails.Title, status) &&
                  TitleResourceKeys.TryGetValue(status, out var titleKey))
