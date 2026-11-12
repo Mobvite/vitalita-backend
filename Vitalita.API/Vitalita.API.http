@@ -20,3 +20,86 @@ OPTIONS {{Vitalita.API_HostAddress}}/api/v1/does-not-exist
 Origin: http://localhost:5173
 Access-Control-Request-Method: PUT
 Access-Control-Request-Headers: authorization,content-type
+
+### IAM: sign up (Caregiver by default). 201 + Location; 409 if the email exists; 400 if role=Admin
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/sign-up
+Content-Type: application/json
+Accept-Language: es
+
+{
+  "email": "andrea.mendoza@vitalita.pe",
+  "password": "Vitalita123",
+  "role": "Caregiver"
+}
+
+### IAM: sign up as Admin is rejected with 400
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/sign-up
+Content-Type: application/json
+
+{
+  "email": "not.an.admin@vitalita.pe",
+  "password": "Vitalita123",
+  "role": "Admin"
+}
+
+### IAM: sign in. 200 with id, email, role, status and token; 401 for wrong credentials or inactive account
+# @name signIn
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/sign-in
+Content-Type: application/json
+
+{
+  "email": "andrea.mendoza@vitalita.pe",
+  "password": "Vitalita123"
+}
+
+### IAM: public email lookup. Array with zero or one {id, email}
+GET {{Vitalita.API_HostAddress}}/api/v1/users?email=andrea.mendoza@vitalita.pe
+Accept: application/json
+
+### IAM: get a user by id (Bearer token; own user or Admin)
+GET {{Vitalita.API_HostAddress}}/api/v1/users/{{signIn.response.body.id}}
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### IAM: sign in as the administrator seeded from Authentication:Admin (user-secrets)
+# @name adminSignIn
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/sign-in
+Content-Type: application/json
+
+{
+  "email": "<Authentication:Admin:Email>",
+  "password": "<Authentication:Admin:Password>"
+}
+
+### IAM: list every user (Admin only; 401 without token, 403 for other roles)
+GET {{Vitalita.API_HostAddress}}/api/v1/users
+Accept: application/json
+Authorization: Bearer {{adminSignIn.response.body.token}}
+
+### IAM: create a user with any role (Admin only). 201 + Location
+# @name createdUser
+POST {{Vitalita.API_HostAddress}}/api/v1/users
+Content-Type: application/json
+Authorization: Bearer {{adminSignIn.response.body.token}}
+
+{
+  "email": "renzo.rodriguez@vitalita.pe",
+  "password": "Vitalita123",
+  "role": "FamilyMember"
+}
+
+### IAM: replace a user (Admin, or the user themselves without changing role/status). password is optional
+PUT {{Vitalita.API_HostAddress}}/api/v1/users/{{createdUser.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{adminSignIn.response.body.token}}
+
+{
+  "email": "renzo.rodriguez@vitalita.pe",
+  "role": "FamilyMember",
+  "status": "Active",
+  "password": null
+}
+
+### IAM: deactivate a user (logical delete, Admin only). 204; afterwards its sign-in returns 401
+DELETE {{Vitalita.API_HostAddress}}/api/v1/users/{{createdUser.response.body.id}}
+Authorization: Bearer {{adminSignIn.response.body.token}}

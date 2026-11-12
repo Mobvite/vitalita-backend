@@ -48,4 +48,187 @@
     <data name="UnexpectedErrorProcessingRequest" xml:space="preserve">
         <value>Ocurrió un error inesperado al procesar tu solicitud.</value>
     </data>
+    <data name="RequiredField" xml:space="preserve">
+        <value>Este campo es obligatorio.</value>
+    </data>
+    <data name="InvalidEmail" xml:space="preserve">
+        <value>Ingresa un correo electrónico válido.</value>
+    </data>
+    <data name="EmailLength" xml:space="preserve">
+        <value>El correo electrónico no puede tener más de 254 caracteres.</value>
+    </data>
+    <data name="PasswordLength" xml:space="preserve">
+        <value>La contraseña debe tener entre 8 y 72 caracteres.</value>
+    </data>
+    <data name="InvalidRole" xml:space="preserve">
+        <value>El rol no es válido.</value>
+    </data>
+    <data name="AdminSignUpNotAllowed" xml:space="preserve">
+        <value>No se puede crear una cuenta de administrador desde el registro.</value>
+    </data>
+    <data name="EmailAlreadyInUse" xml:space="preserve">
+        <value>El correo electrónico ya está en uso.</value>
+    </data>
+    <data name="InvalidCredentials" xml:space="preserve">
+        <value>El correo electrónico o la contraseña son incorrectos.</value>
+    </data>
+    <data name="AccountInactive" xml:space="preserve">
+        <value>La cuenta está inactiva.</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>No se encontró el usuario.</value>
+    </data>
+    <data name="UserAccessForbidden" xml:space="preserve">
+        <value>Solo puedes acceder a tu propio usuario.</value>
+    </data>
+    <data name="IamSignUpSummary" xml:space="preserve">
+        <value>Registrarse</value>
+    </data>
+    <data name="IamSignUpDescription" xml:space="preserve">
+        <value>Registra una cuenta Caregiver o FamilyMember. El rol por defecto es Caregiver; Admin se rechaza con 400. La contraseña se guarda como hash BCrypt y nunca se devuelve. Endpoint público.</value>
+    </data>
+    <data name="IamSignInSummary" xml:space="preserve">
+        <value>Iniciar sesión</value>
+    </data>
+    <data name="IamSignInDescription" xml:space="preserve">
+        <value>Autentica a un usuario y devuelve un token de acceso JWT (15 minutos como máximo). Credenciales incorrectas y cuentas inactivas devuelven 401. Endpoint público.</value>
+    </data>
+    <data name="IamGetUsersSummary" xml:space="preserve">
+        <value>Buscar usuarios por correo o listar todos los usuarios</value>
+    </data>
+    <data name="IamGetUsersDescription" xml:space="preserve">
+        <value>Con ?email= es una búsqueda pública que devuelve un arreglo con cero o un elemento que solo tiene id y email (compromiso de compatibilidad con el frontend). Sin email requiere un token Bearer con rol Admin y devuelve los usuarios completos.</value>
+    </data>
+    <data name="IamGetUserByIdSummary" xml:space="preserve">
+        <value>Obtener un usuario por id</value>
+    </data>
+    <data name="IamGetUserByIdDescription" xml:space="preserve">
+        <value>Los administradores pueden leer cualquier usuario; los demás solo pueden leer el suyo.</value>
+    </data>
+    <data name="IamUserCreatedResponse" xml:space="preserve">
+        <value>Usuario creado. La cabecera Location apunta al nuevo usuario.</value>
+    </data>
+    <data name="IamValidationErrorResponse" xml:space="preserve">
+        <value>Error de validación (ProblemDetails con los campos inválidos).</value>
+    </data>
+    <data name="IamEmailInUseResponse" xml:space="preserve">
+        <value>El correo electrónico ya está en uso.</value>
+    </data>
+    <data name="IamServerErrorResponse" xml:space="preserve">
+        <value>Error inesperado del servidor.</value>
+    </data>
+    <data name="IamSignedInResponse" xml:space="preserve">
+        <value>Usuario autenticado con su token de acceso.</value>
+    </data>
+    <data name="IamInvalidCredentialsResponse" xml:space="preserve">
+        <value>Credenciales incorrectas o cuenta inactiva.</value>
+    </data>
+    <data name="IamUsersResponse" xml:space="preserve">
+        <value>Usuarios encontrados (solo id y email en la búsqueda por correo).</value>
+    </data>
+    <data name="IamUserResponse" xml:space="preserve">
+        <value>El usuario.</value>
+    </data>
+    <data name="IamUnauthorizedResponse" xml:space="preserve">
+        <value>Token Bearer ausente, inválido o expirado.</value>
+    </data>
+    <data name="IamAdminOnlyResponse" xml:space="preserve">
+        <value>El usuario autenticado no es administrador.</value>
+    </data>
+    <data name="IamOwnUserOrAdminResponse" xml:space="preserve">
+        <value>Solo los administradores o el propio usuario pueden acceder a este usuario.</value>
+    </data>
+    <data name="IamUserNotFoundResponse" xml:space="preserve">
+        <value>El usuario no existe.</value>
+    </data>
+    <data name="IamSignUpResourceSchema" xml:space="preserve">
+        <value>Datos para registrar una cuenta.</value>
+    </data>
+    <data name="IamSignInResourceSchema" xml:space="preserve">
+        <value>Credenciales de inicio de sesión.</value>
+    </data>
+    <data name="IamAuthenticatedUserResourceSchema" xml:space="preserve">
+        <value>Usuario autenticado y token de acceso.</value>
+    </data>
+    <data name="IamUserResourceSchema" xml:space="preserve">
+        <value>Cuenta de usuario. Nunca contiene la contraseña.</value>
+    </data>
+    <data name="IamUserEmailResourceSchema" xml:space="preserve">
+        <value>Datos mínimos del usuario devueltos por la búsqueda por correo.</value>
+    </data>
+    <data name="IamUserIdProperty" xml:space="preserve">
+        <value>Identificador del usuario.</value>
+    </data>
+    <data name="IamEmailProperty" xml:space="preserve">
+        <value>Correo de la cuenta (se guarda en minúsculas).</value>
+    </data>
+    <data name="IamPasswordProperty" xml:space="preserve">
+        <value>Contraseña de 8 a 72 caracteres. Nunca se devuelve.</value>
+    </data>
+    <data name="IamRoleProperty" xml:space="preserve">
+        <value>Rol de la cuenta: Caregiver, FamilyMember o Admin.</value>
+    </data>
+    <data name="IamStatusProperty" xml:space="preserve">
+        <value>Estado de la cuenta: Active o Inactive.</value>
+    </data>
+    <data name="IamTokenProperty" xml:space="preserve">
+        <value>Token de acceso JWT. Envíalo como Authorization: Bearer &lt;token&gt;.</value>
+    </data>
+    <data name="IamCreatedAtProperty" xml:space="preserve">
+        <value>Instante UTC en que se creó la cuenta.</value>
+    </data>
+    <data name="IamLastLoginAtProperty" xml:space="preserve">
+        <value>Instante UTC del último inicio de sesión, o null.</value>
+    </data>
+    <data name="InvalidStatus" xml:space="preserve">
+        <value>El estado no es válido.</value>
+    </data>
+    <data name="RoleChangeNotAllowed" xml:space="preserve">
+        <value>No puedes cambiar tu propio rol.</value>
+    </data>
+    <data name="StatusChangeNotAllowed" xml:space="preserve">
+        <value>No puedes cambiar tu propio estado.</value>
+    </data>
+    <data name="CannotDeactivateSelf" xml:space="preserve">
+        <value>No puedes desactivar tu propia cuenta.</value>
+    </data>
+    <data name="IamCreateUserSummary" xml:space="preserve">
+        <value>Crear un usuario (Admin)</value>
+    </data>
+    <data name="IamCreateUserDescription" xml:space="preserve">
+        <value>Crea un usuario con cualquier rol, incluido Admin. Solo para administradores.</value>
+    </data>
+    <data name="IamUpdateUserSummary" xml:space="preserve">
+        <value>Actualizar un usuario</value>
+    </data>
+    <data name="IamUpdateUserDescription" xml:space="preserve">
+        <value>Reemplaza el correo, el rol, el estado y, opcionalmente, la contraseña de un usuario. Los administradores pueden actualizar a cualquiera; los demás solo a sí mismos. Nadie puede cambiar su propio rol ni su estado.</value>
+    </data>
+    <data name="IamDeactivateUserSummary" xml:space="preserve">
+        <value>Desactivar un usuario (Admin)</value>
+    </data>
+    <data name="IamDeactivateUserDescription" xml:space="preserve">
+        <value>Borrado lógico: el estado pasa a Inactive y la fila se conserva. El usuario ya no puede iniciar sesión, pero los tokens ya emitidos siguen siendo válidos hasta que expiren (15 minutos como máximo). Un administrador no puede desactivarse a sí mismo.</value>
+    </data>
+    <data name="IamUserUpdatedResponse" xml:space="preserve">
+        <value>El usuario actualizado.</value>
+    </data>
+    <data name="IamUpdateForbiddenResponse" xml:space="preserve">
+        <value>Actualizar a otro usuario sin ser administrador, o cambiar tu propio rol o estado.</value>
+    </data>
+    <data name="IamUserDeactivatedResponse" xml:space="preserve">
+        <value>Usuario desactivado.</value>
+    </data>
+    <data name="IamCannotDeactivateSelfResponse" xml:space="preserve">
+        <value>Un administrador no puede desactivar su propia cuenta.</value>
+    </data>
+    <data name="IamCreateUserResourceSchema" xml:space="preserve">
+        <value>Datos para crear un usuario como administrador.</value>
+    </data>
+    <data name="IamUpdateUserResourceSchema" xml:space="preserve">
+        <value>Datos completos del usuario para PUT. La contraseña es opcional.</value>
+    </data>
+    <data name="BearerSchemeDescription" xml:space="preserve">
+        <value>Token de acceso JWT devuelto por POST /api/v1/authentication/sign-in. Pega solo el token (sin la palabra Bearer).</value>
+    </data>
 </root>

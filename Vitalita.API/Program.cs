@@ -1,13 +1,31 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Vitalita.API.IAM.Application.Internal.CommandServices;
+using Vitalita.API.IAM.Application.Internal.OutboundServices;
+using Vitalita.API.IAM.Application.Internal.QueryServices;
+using Vitalita.API.IAM.Application.Services;
+using Vitalita.API.IAM.Domain.Repositories;
+using Vitalita.API.IAM.Infrastructure.Hashing.BCrypt.Services;
+using Vitalita.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using Vitalita.API.IAM.Infrastructure.Seeding;
+using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Services;
+using Vitalita.API.IAM.Interfaces.ACL;
+using Vitalita.API.IAM.Interfaces.ACL.Services;
+using Vitalita.API.IAM.Interfaces.REST.Transform;
 using Vitalita.API.Resources;
 using Vitalita.API.Shared.Domain.Repositories;
 using Vitalita.API.Shared.Domain.Services;
 using Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Security;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Interceptors;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -22,6 +40,9 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 // Localization (Resources/SharedResource*.resx).
 builder.Services.AddLocalization();
+
+// Localized validation messages for every DataAnnotations attribute (see LocalizedValidationAttributeAdapterProvider).
+builder.Services.AddSingleton<IValidationAttributeAdapterProvider, LocalizedValidationAttributeAdapterProvider>();
 
 // Controllers: kebab-case routes, camelCase JSON, enums as strings, localized validation errors.
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()))
@@ -68,6 +89,10 @@ builder.Services.AddOpenApi(options =>
 {
     options.AddDocumentTransformer(LocalizedOpenApiDocumentTransformer.TransformAsync);
     options.AddSchemaTransformer(StringEnumSchemaTransformer.TransformAsync);
+    options.AddDocumentTransformer(BearerSecuritySchemeTransformer.TransformDocumentAsync);
+    options.AddOperationTransformer(BearerSecuritySchemeTransformer.TransformOperationAsync);
+    options.AddOperationTransformer(LocalizedOpenApiAssembler.TransformOperationAsync);
+    options.AddSchemaTransformer(LocalizedOpenApiAssembler.TransformSchemaAsync);
 });
 
 // CORS: allowed origins come from configuration (Cors:AllowedOrigins, or Cors__AllowedOrigins__0 in production).
@@ -98,19 +123,60 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
         .AddInterceptors(serviceProvider.GetRequiredService<AuditableEntityInterceptor>())
         .EnableDetailedErrors();
 
-    if (builder.Environment.IsDevelopment())
-        options.EnableSensitiveDataLogging();
+    // EnableSensitiveDataLogging is intentionally not used, not even in development: it writes SQL parameter
+    // values (password hashes, emails) to the logs.
 });
 
 // Bounded context registrations go here.
 
+// IAM bounded context.
+// JWT settings: Issuer, Audience and ExpirationMinutes (1-15) live in appsettings.json. The secret comes from
+// user-secrets (development) or Authentication__Jwt__Secret (production) and is validated on startup.
+builder.Services.AddOptions<JwtSettings>()
+    .Bind(builder.Configuration.GetSection(JwtSettings.SectionName))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+    .Configure<IOptions<JwtSettings>>((options, jwtSettings) =>
+    {
+        var settings = jwtSettings.Value;
+        options.MapInboundClaims = false; // keep the original claim names (sub, email, role)
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = settings.Issuer,
+            ValidateAudience = true,
+            ValidAudience = settings.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = TokenService.CreateSigningKey(settings.Secret),
+            ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero, // the token lasts exactly ExpirationMinutes
+            NameClaimType = TokenService.UserIdClaimType,
+            RoleClaimType = TokenService.RoleClaimType
+        };
+    });
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(AuthorizationPolicies.AdminOnly, policy => policy.RequireRole(AuthorizationPolicies.AdminRole));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddSingleton<IHashingService, HashingService>();
+builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+
 var app = builder.Build();
 
-// Apply pending migrations on startup (no-op when the schema is up to date).
+// Apply pending migrations on startup (no-op when the schema is up to date), then create the first
+// administrator when Authentication:Admin:Email and Authentication:Admin:Password are configured.
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     context.Database.Migrate();
+    await AdminSeeder.SeedAsync(scope.ServiceProvider, app.Configuration);
 }
 
 // CORS first, so error responses (404, 500) also carry the CORS headers.
@@ -131,6 +197,7 @@ app.UseStatusCodePages();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 // OpenAPI document and Swagger UI are available in all environments (same as the reference project).
