@@ -116,6 +116,30 @@ Full flow against a running API (needs `curl` and `jq`):
 ./scripts/profiles-flow.sh                       # API_URL=http://localhost:5240 by default
 ```
 
+## Monitoring
+
+Endpoints: `/api/v1/daily-reports`, `/api/v1/vital-signs` and `/api/v1/medications`. Each one has `GET` (list),
+`GET /{id}`, `POST` and `PUT /{id}`; there is no `DELETE` (a medication is deactivated with `active: false`).
+
+- Every endpoint needs a token. Lists are filtered with `?olderAdultId=` (plus `?active=` for medications); without
+  a filter they are for administrators only.
+- Ownership through the Profiles ACL (`IProfilesContextFacade`): reads need the caregiver in charge or a family member
+  with an `Active` access; writes need the caregiver in charge; `Admin` can do everything. An older adult the
+  requester cannot access, or that does not exist, returns `403` (never `404`).
+- `reportDate` and `measuredAt` are UTC instants (ending in `Z`) and cannot be in the future (5 minutes of tolerance).
+  `recordedByUserId` comes from the token. `scheduleTimes` are wall-clock `HH:mm` values.
+- Vital sign ranges (same as the frontend): HeartRate 20-250 bpm, BloodPressure 50-260 / 30-160 mmHg (systolic
+  greater than diastolic, diastolic in `secondaryValue`), OxygenSaturation 50-100 %, Temperature 30-45 °C, Glucose
+  20-600 mg/dL. The unit is derived from the type.
+- Known limitation: records can still be added to an older adult with status `Archived` (the Profiles ACL does not
+  expose the status yet).
+
+Full flow against a running API (needs `curl` and `jq`):
+
+```bash
+./scripts/monitoring-flow.sh                     # API_URL=http://localhost:5240 by default
+```
+
 ## Conventions
 
 - Routes: `api/v1/<kebab-case-plural>`; JSON in camelCase; enums as strings.

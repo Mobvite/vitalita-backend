@@ -9,6 +9,7 @@ using Vitalita.API.Profiles.Domain.Model.ValueObjects;
 using Vitalita.API.Profiles.Domain.Repositories;
 using Vitalita.API.Shared.Application.Patterns;
 using Vitalita.API.Shared.Application.Persistence;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 using Vitalita.API.Shared.Domain.Repositories;
 using Vitalita.API.Shared.Domain.Services;
 

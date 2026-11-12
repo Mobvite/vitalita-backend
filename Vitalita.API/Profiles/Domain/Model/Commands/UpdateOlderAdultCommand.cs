@@ -1,5 +1,5 @@
 using Vitalita.API.Profiles.Domain.Model.Aggregates;
-using Vitalita.API.Profiles.Domain.Model.ValueObjects;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 
 namespace Vitalita.API.Profiles.Domain.Model.Commands;
 

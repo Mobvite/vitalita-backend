@@ -1,6 +1,6 @@
 using Vitalita.API.Profiles.Domain.Model.Commands;
-using Vitalita.API.Profiles.Domain.Model.ValueObjects;
 using Vitalita.API.Profiles.Interfaces.REST.Resources;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 
 namespace Vitalita.API.Profiles.Interfaces.REST.Transform;
 

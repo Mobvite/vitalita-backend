@@ -1,6 +1,7 @@
 using Vitalita.API.Profiles.Application.Internal.Policies;
 using Vitalita.API.Profiles.Domain.Model.ValueObjects;
 using Vitalita.API.Profiles.Domain.Repositories;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 
 namespace Vitalita.API.Profiles.Interfaces.ACL.Services;
 

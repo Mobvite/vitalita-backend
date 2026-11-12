@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Security.Claims;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 
 namespace Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Security;
 
@@ -56,4 +57,12 @@ public static class ClaimsPrincipalExtensions
     /// <returns>The role claim (<c>Caregiver</c>, <c>FamilyMember</c> or <c>Admin</c>), or <c>null</c>.</returns>
     public static string? GetRole(this ClaimsPrincipal principal) =>
         principal.FindFirst(RoleClaimType)?.Value is { Length: > 0 } role ? role : null;
+
+    /// <summary>
+    ///     Builds the <see cref="Requester" /> of a request from the claims.
+    /// </summary>
+    /// <param name="principal">The current user.</param>
+    /// <returns>The requester, or <c>null</c> when there is no valid <c>sub</c> claim.</returns>
+    public static Requester? ToRequester(this ClaimsPrincipal principal) =>
+        principal.GetUserId() is { } userId ? new Requester(userId, principal.GetRole(), principal.GetEmail()) : null;
 }

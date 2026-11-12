@@ -5,6 +5,7 @@ using Vitalita.API.Profiles.Domain.Model.Aggregates;
 using Vitalita.API.Profiles.Domain.Model.Queries;
 using Vitalita.API.Profiles.Domain.Repositories;
 using Vitalita.API.Shared.Application.Patterns;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 
 namespace Vitalita.API.Profiles.Application.Internal.QueryServices;
 

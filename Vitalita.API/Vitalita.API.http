@@ -266,3 +266,110 @@ Authorization: Bearer {{signIn.response.body.token}}
 
 ### Profiles: family member steps (sign up with the invited email, sign in, POST /family-member-profiles and
 ### PUT /family-access/{id} with status Active and the own familyMemberId) are in ./scripts/profiles-flow.sh.
+
+### ---------------------------------------------------------------------------------------------------------------
+### Monitoring. Full flow in one command: ./scripts/monitoring-flow.sh
+### The requests below use the caregiver signed in with "signIn" and the older adult created with "olderAdult".
+### Instants are UTC ending in Z and cannot be in the future (5 minutes of tolerance).
+### ---------------------------------------------------------------------------------------------------------------
+
+### Monitoring: record a daily report (caregiver in charge). recordedByUserId comes from the token
+# @name dailyReport
+POST {{Vitalita.API_HostAddress}}/api/v1/daily-reports
+Content-Type: application/json
+Accept-Language: es
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "reportDate": "2026-11-11T20:00:00Z",
+  "mood": "Good",
+  "generalCondition": "Stable",
+  "observations": "Durmió bien y almorzó completo."
+}
+
+### Monitoring: daily reports of an older adult (caregiver in charge, family with active access, or Admin)
+GET {{Vitalita.API_HostAddress}}/api/v1/daily-reports?olderAdultId={{olderAdult.response.body.id}}
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### Monitoring: replace a daily report (olderAdultId cannot change: 409)
+PUT {{Vitalita.API_HostAddress}}/api/v1/daily-reports/{{dailyReport.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "reportDate": "2026-11-11T20:00:00Z",
+  "mood": "Neutral",
+  "generalCondition": "Attention",
+  "observations": "Tos leve por la tarde."
+}
+
+### Monitoring: record a blood pressure (secondaryValue = diastolic; unit derived from the type)
+# @name vitalSign
+POST {{Vitalita.API_HostAddress}}/api/v1/vital-signs
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "type": "BloodPressure",
+  "value": 120,
+  "secondaryValue": 80,
+  "measuredAt": "2026-11-11T13:00:00Z"
+}
+
+### Monitoring: out of range. 400 with the range of the type in errors.value
+POST {{Vitalita.API_HostAddress}}/api/v1/vital-signs
+Content-Type: application/json
+Accept-Language: es
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "type": "HeartRate",
+  "value": 300,
+  "measuredAt": "2026-11-11T13:00:00Z"
+}
+
+### Monitoring: vital signs of an older adult
+GET {{Vitalita.API_HostAddress}}/api/v1/vital-signs?olderAdultId={{olderAdult.response.body.id}}
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### Monitoring: register a medication (scheduleTimes HH:mm, stored sorted and without duplicates)
+# @name medication
+POST {{Vitalita.API_HostAddress}}/api/v1/medications
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "name": "Metformina",
+  "dosage": "850 mg",
+  "frequency": "Cada 12 horas",
+  "scheduleTimes": ["20:00", "08:00"],
+  "instructions": "Tomar después del desayuno y la cena.",
+  "active": true
+}
+
+### Monitoring: deactivate the medication (there is no DELETE)
+PUT {{Vitalita.API_HostAddress}}/api/v1/medications/{{medication.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "name": "Metformina",
+  "dosage": "850 mg",
+  "frequency": "Cada 12 horas",
+  "scheduleTimes": ["08:00", "20:00"],
+  "instructions": "Tomar después del desayuno y la cena.",
+  "active": false
+}
+
+### Monitoring: active medications of an older adult
+GET {{Vitalita.API_HostAddress}}/api/v1/medications?olderAdultId={{olderAdult.response.body.id}}&active=true
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}

@@ -8,6 +8,7 @@ using Vitalita.API.Profiles.Domain.Model.ValueObjects;
 using Vitalita.API.Profiles.Domain.Repositories;
 using Vitalita.API.Profiles.Domain.Services;
 using Vitalita.API.Profiles.Interfaces.ACL.Services;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 using Vitalita.API.Tests.IAM.Fakes;
 
 namespace Vitalita.API.Tests.Profiles.Fakes;

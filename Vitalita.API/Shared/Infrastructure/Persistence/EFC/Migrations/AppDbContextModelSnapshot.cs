@@ -73,6 +73,175 @@ namespace Vitalita.API.Shared.Infrastructure.Persistence.EFC.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("Vitalita.API.Monitoring.Domain.Model.Aggregates.DailyReport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("GeneralCondition")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("general_condition");
+
+                    b.Property<string>("Mood")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("mood");
+
+                    b.Property<string>("Observations")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)")
+                        .HasColumnName("observations");
+
+                    b.Property<int>("OlderAdultId")
+                        .HasColumnType("int")
+                        .HasColumnName("older_adult_id");
+
+                    b.Property<int>("RecordedByUserId")
+                        .HasColumnType("int")
+                        .HasColumnName("recorded_by_user_id");
+
+                    b.Property<DateTime>("ReportDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("report_date");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_daily_reports");
+
+                    b.HasIndex("OlderAdultId")
+                        .HasDatabaseName("ix_daily_reports_older_adult_id");
+
+                    b.ToTable("daily_reports");
+                });
+
+            modelBuilder.Entity("Vitalita.API.Monitoring.Domain.Model.Aggregates.Medication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("active");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Dosage")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("dosage");
+
+                    b.Property<string>("Frequency")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("frequency");
+
+                    b.Property<string>("Instructions")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("instructions");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("OlderAdultId")
+                        .HasColumnType("int")
+                        .HasColumnName("older_adult_id");
+
+                    b.Property<string>("ScheduleTimes")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("schedule_times");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_medications");
+
+                    b.HasIndex("OlderAdultId")
+                        .HasDatabaseName("ix_medications_older_adult_id");
+
+                    b.ToTable("medications");
+                });
+
+            modelBuilder.Entity("Vitalita.API.Monitoring.Domain.Model.Aggregates.VitalSign", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("MeasuredAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("measured_at");
+
+                    b.Property<int>("OlderAdultId")
+                        .HasColumnType("int")
+                        .HasColumnName("older_adult_id");
+
+                    b.Property<decimal?>("SecondaryValue")
+                        .HasPrecision(6, 2)
+                        .HasColumnType("decimal(6,2)")
+                        .HasColumnName("secondary_value");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("type");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)")
+                        .HasColumnName("unit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at");
+
+                    b.Property<decimal>("Value")
+                        .HasPrecision(6, 2)
+                        .HasColumnType("decimal(6,2)")
+                        .HasColumnName("value");
+
+                    b.HasKey("Id")
+                        .HasName("pk_vital_signs");
+
+                    b.HasIndex("OlderAdultId")
+                        .HasDatabaseName("ix_vital_signs_older_adult_id");
+
+                    b.ToTable("vital_signs");
+                });
+
             modelBuilder.Entity("Vitalita.API.Profiles.Domain.Model.Aggregates.CaregiverProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -280,7 +449,7 @@ namespace Vitalita.API.Shared.Infrastructure.Persistence.EFC.Migrations
                         .HasColumnType("json")
                         .HasColumnName("allergies");
 
-                    b.Property<DateOnly>("BirthDate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("date")
                         .HasColumnName("birth_date");
 
