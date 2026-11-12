@@ -14,6 +14,5 @@ public static class RequesterFromClaimsAssembler
     /// </summary>
     /// <param name="principal">The current user.</param>
     /// <returns>The requester, or <c>null</c> when there is no valid <c>sub</c> claim.</returns>
-    public static Requester? ToRequesterFromPrincipal(ClaimsPrincipal principal) =>
-        principal.GetUserId() is { } userId ? new Requester(userId, principal.GetRole(), principal.GetEmail()) : null;
+    public static Requester? ToRequesterFromPrincipal(ClaimsPrincipal principal) => principal.ToRequester();
 }
