@@ -32,7 +32,8 @@ public class Medication : IAuditableEntity
     /// <param name="olderAdultId">Older adult that takes it.</param>
     /// <param name="data">The medication data.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="olderAdultId" /> is not positive.</exception>
-    /// <exception cref="ArgumentException">Thrown when a required value is missing or a time is not <c>HH:mm</c>.</exception>
+    /// <exception cref="ArgumentException">Thrown when the name or the dosage is missing.</exception>
+    /// <exception cref="InvalidScheduleTimesException">Thrown when the schedule times are not valid.</exception>
     public Medication(int olderAdultId, MedicationData data) : this()
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(olderAdultId);
@@ -76,6 +77,7 @@ public class Medication : IAuditableEntity
     /// <param name="olderAdultId">The older adult sent by the client; it must be the current one.</param>
     /// <param name="data">The new data.</param>
     /// <exception cref="OlderAdultChangeNotAllowedException">Thrown when the older adult is another one.</exception>
+    /// <exception cref="InvalidScheduleTimesException">Thrown when the schedule times are not valid.</exception>
     public void Update(int olderAdultId, MedicationData data)
     {
         if (olderAdultId != OlderAdultId) throw new OlderAdultChangeNotAllowedException();

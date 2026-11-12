@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Vitalita.API.Monitoring.Domain.Model.Exceptions;
 
 namespace Vitalita.API.Monitoring.Domain.Model.ValueObjects;
 
@@ -19,7 +20,7 @@ public static partial class ScheduleTimes
     /// </summary>
     /// <param name="times">The times.</param>
     /// <returns>The normalized times.</returns>
-    /// <exception cref="ArgumentException">
+    /// <exception cref="InvalidScheduleTimesException">
     ///     Thrown when there is no time, more than <see cref="MonitoringLimits.ScheduleTimesMaxCount" />, or one is not
     ///     <c>HH:mm</c>.
     /// </exception>
@@ -28,10 +29,10 @@ public static partial class ScheduleTimes
         var normalized = (times ?? []).Select(time => time?.Trim() ?? string.Empty).Distinct()
             .Order(StringComparer.Ordinal).ToList();
         if (normalized.Count == 0 || normalized.Count > MonitoringLimits.ScheduleTimesMaxCount)
-            throw new ArgumentException(
-                $"A medication has 1 to {MonitoringLimits.ScheduleTimesMaxCount} schedule times.", nameof(times));
+            throw new InvalidScheduleTimesException(
+                $"A medication has 1 to {MonitoringLimits.ScheduleTimesMaxCount} schedule times.");
         if (!normalized.All(IsValid))
-            throw new ArgumentException("Every schedule time must be HH:mm.", nameof(times));
+            throw new InvalidScheduleTimesException("Every schedule time must be HH:mm.");
         return normalized;
     }
 
