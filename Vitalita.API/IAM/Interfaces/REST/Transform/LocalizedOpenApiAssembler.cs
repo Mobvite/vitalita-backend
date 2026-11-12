@@ -34,6 +34,18 @@ public static class LocalizedOpenApiAssembler
                 ["400"] = "IamValidationErrorResponse",
                 ["401"] = "IamInvalidCredentialsResponse"
             }),
+            ["GetCurrentUser"] = ("IamGetCurrentUserSummary", "IamGetCurrentUserDescription",
+                new Dictionary<string, string>
+                {
+                    ["200"] = "IamCurrentUserResponse",
+                    ["401"] = "IamSessionInvalidResponse"
+                }),
+            ["RefreshToken"] = ("IamRefreshTokenSummary", "IamRefreshTokenDescription",
+                new Dictionary<string, string>
+                {
+                    ["200"] = "IamTokenRefreshedResponse",
+                    ["401"] = "IamSessionInvalidResponse"
+                }),
             ["GetUsers"] = ("IamGetUsersSummary", "IamGetUsersDescription", new Dictionary<string, string>
             {
                 ["200"] = "IamUsersResponse",

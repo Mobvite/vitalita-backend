@@ -86,6 +86,28 @@ public class UserCommandService(
     }
 
     /// <inheritdoc />
+    /// <remarks>
+    ///     The status is read again from the database, so a deactivated user cannot extend their session. The new
+    ///     token has the configured lifetime (15 minutes at most); the last sign-in instant does not change.
+    /// </remarks>
+    public async Task<Result<AuthenticatedUser, RefreshTokenError>> Handle(RefreshTokenCommand command,
+        CancellationToken cancellationToken = default)
+    {
+        var user = await userRepository.FindByIdAsync(command.UserId, cancellationToken);
+        if (user is null)
+            return new Result<AuthenticatedUser, RefreshTokenError>.Failure(RefreshTokenError.UserNotFound);
+
+        if (!user.IsActive)
+        {
+            logger.LogInformation("Token refresh rejected for inactive user {UserId}", user.Id);
+            return new Result<AuthenticatedUser, RefreshTokenError>.Failure(RefreshTokenError.InactiveAccount);
+        }
+
+        return new Result<AuthenticatedUser, RefreshTokenError>.Success(
+            new AuthenticatedUser(user, tokenService.GenerateToken(user)));
+    }
+
+    /// <inheritdoc />
     public async Task<Result<User, CreateUserError>> Handle(CreateUserCommand command,
         CancellationToken cancellationToken = default)
     {

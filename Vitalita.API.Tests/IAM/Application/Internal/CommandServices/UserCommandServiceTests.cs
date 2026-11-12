@@ -125,6 +125,40 @@ public class UserCommandServiceTests
         Assert.Equal(0, _unitOfWork.CompleteCalls);
     }
 
+    // Refresh token
+
+    [Fact]
+    public async Task RefreshToken_ForActiveUser_ReturnsANewTokenWithoutChangingTheLastSignIn()
+    {
+        var user = await AddUserAsync("andrea.mendoza@vitalita.pe");
+
+        var authenticated = SuccessOf(await _service.Handle(new RefreshTokenCommand(user.Id)));
+
+        Assert.Same(user, authenticated.User);
+        Assert.Equal($"token-for-{user.Id}", authenticated.Token);
+        Assert.Null(user.LastLoginAt);
+        Assert.Equal(0, _unitOfWork.CompleteCalls);
+    }
+
+    [Fact]
+    public async Task RefreshToken_ForInactiveUser_ReturnsInactiveAccount()
+    {
+        var user = await AddUserAsync("andrea.mendoza@vitalita.pe");
+        user.Deactivate(requesterId: 999);
+
+        var result = await _service.Handle(new RefreshTokenCommand(user.Id));
+
+        Assert.Equal(RefreshTokenError.InactiveAccount, FailureOf(result));
+    }
+
+    [Fact]
+    public async Task RefreshToken_ForMissingUser_ReturnsUserNotFound()
+    {
+        var result = await _service.Handle(new RefreshTokenCommand(42));
+
+        Assert.Equal(RefreshTokenError.UserNotFound, FailureOf(result));
+    }
+
     // Create (admin)
 
     [Fact]

@@ -1,7 +1,9 @@
+using Vitalita.API.IAM.Application.Errors;
 using Vitalita.API.IAM.Application.Services;
 using Vitalita.API.IAM.Domain.Model.Aggregates;
 using Vitalita.API.IAM.Domain.Model.Queries;
 using Vitalita.API.IAM.Domain.Repositories;
+using Vitalita.API.Shared.Application.Patterns;
 
 namespace Vitalita.API.IAM.Application.Internal.QueryServices;
 
@@ -29,5 +31,16 @@ public class UserQueryService(IUserRepository userRepository) : IUserQueryServic
     public async Task<IEnumerable<User>> Handle(GetAllUsersQuery query, CancellationToken cancellationToken = default)
     {
         return await userRepository.ListAsync(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task<Result<User, CurrentUserError>> Handle(GetCurrentUserQuery query,
+        CancellationToken cancellationToken = default)
+    {
+        var user = await userRepository.FindByIdAsync(query.UserId, cancellationToken);
+        if (user is null) return new Result<User, CurrentUserError>.Failure(CurrentUserError.UserNotFound);
+        return user.IsActive
+            ? new Result<User, CurrentUserError>.Success(user)
+            : new Result<User, CurrentUserError>.Failure(CurrentUserError.InactiveAccount);
     }
 }

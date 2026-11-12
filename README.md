@@ -81,6 +81,11 @@ In development, CORS allows `http://localhost:5173` (Vite) via `appsettings.Deve
 
 - `POST /api/v1/authentication/sign-up` and `POST /api/v1/authentication/sign-in` are public. Sign-in returns a JWT
   (HS256, claims `sub`, `email`, `role`) that lasts `Authentication:Jwt:ExpirationMinutes` (15 minutes at most).
+- `GET /api/v1/authentication/me` (Bearer) returns the user of the token (`id`, `email`, `role`, `status`,
+  `createdAt`, `lastLoginAt`), read again from the database: `401` if the user no longer exists or is inactive.
+- `POST /api/v1/authentication/refresh` (Bearer, no body) checks again that the user exists and is active and returns
+  a new token with the same shape as sign-in. The new token lasts the configured minutes (15 at most); a deactivated
+  user cannot refresh (`401`).
 - Send it as `Authorization: Bearer <token>`. In Swagger UI: sign in, copy `token`, click **Authorize** and paste it.
 - Roles: `Caregiver`, `FamilyMember`, `Admin`. The public sign-up never creates an `Admin` (400).
 - `DELETE /api/v1/users/{id}` is a logical delete (status `Inactive`). **A deactivated user keeps their current token
