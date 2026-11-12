@@ -29,6 +29,8 @@ using Vitalita.API.Profiles.Domain.Repositories;
 using Vitalita.API.Profiles.Domain.Services;
 using Vitalita.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
 using Vitalita.API.Profiles.Infrastructure.Security;
+using Vitalita.API.Profiles.Interfaces.ACL;
+using Vitalita.API.Profiles.Interfaces.ACL.Services;
 using Vitalita.API.Resources;
 using Vitalita.API.Shared.Domain.Repositories;
 using Vitalita.API.Shared.Domain.Services;
@@ -194,6 +196,7 @@ builder.Services.AddScoped<IOlderAdultCommandService, OlderAdultCommandService>(
 builder.Services.AddScoped<IOlderAdultQueryService, OlderAdultQueryService>();
 builder.Services.AddScoped<IFamilyAccessCommandService, FamilyAccessCommandService>();
 builder.Services.AddScoped<IFamilyAccessQueryService, FamilyAccessQueryService>();
+builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 
 var app = builder.Build();
 
