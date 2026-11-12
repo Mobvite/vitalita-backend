@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Vitalita.API.Profiles.Domain.Model.ValueObjects;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 using Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Security;
 
 namespace Vitalita.API.Profiles.Interfaces.REST.Transform;

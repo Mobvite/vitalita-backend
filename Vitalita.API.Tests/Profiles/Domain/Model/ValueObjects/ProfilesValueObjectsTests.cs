@@ -1,5 +1,6 @@
 using Vitalita.API.Profiles.Domain.Model.Commands;
 using Vitalita.API.Profiles.Domain.Model.ValueObjects;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 
 namespace Vitalita.API.Tests.Profiles.Domain.Model.ValueObjects;
 

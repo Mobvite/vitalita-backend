@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Vitalita.API.Profiles.Domain.Model.ValueObjects;
+namespace Vitalita.API.Shared.Domain.Model.ValueObjects;
 
 /// <summary>
 ///     The authenticated user that sends a request, taken from the JWT claims.

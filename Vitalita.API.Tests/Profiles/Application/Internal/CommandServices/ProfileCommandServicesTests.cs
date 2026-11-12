@@ -1,7 +1,7 @@
 using Vitalita.API.Profiles.Application.Errors;
 using Vitalita.API.Profiles.Domain.Model.Commands;
-using Vitalita.API.Profiles.Domain.Model.ValueObjects;
 using Vitalita.API.Shared.Application.Patterns;
+using Vitalita.API.Shared.Domain.Model.ValueObjects;
 using Vitalita.API.Tests.Profiles.Fakes;
 
 namespace Vitalita.API.Tests.Profiles.Application.Internal.CommandServices;
