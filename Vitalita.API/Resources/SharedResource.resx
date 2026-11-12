@@ -597,4 +597,235 @@
     <data name="IamSessionInvalidResponse" xml:space="preserve">
         <value>Missing, invalid or expired token, or the user no longer exists or is inactive.</value>
     </data>
+    <data name="InvalidMood" xml:space="preserve">
+        <value>The mood must be VeryGood, Good, Neutral, Bad or VeryBad.</value>
+    </data>
+    <data name="InvalidGeneralCondition" xml:space="preserve">
+        <value>The general condition must be Stable, Attention or Critical.</value>
+    </data>
+    <data name="InvalidVitalSignType" xml:space="preserve">
+        <value>The type must be HeartRate, BloodPressure, OxygenSaturation, Temperature or Glucose.</value>
+    </data>
+    <data name="MedicationNameLength" xml:space="preserve">
+        <value>The medication name can have at most 100 characters.</value>
+    </data>
+    <data name="DosageLength" xml:space="preserve">
+        <value>The dosage can have at most 50 characters.</value>
+    </data>
+    <data name="FrequencyLength" xml:space="preserve">
+        <value>The frequency can have at most 100 characters.</value>
+    </data>
+    <data name="InstructionsLength" xml:space="preserve">
+        <value>The instructions can have at most 500 characters.</value>
+    </data>
+    <data name="ScheduleTimesLimit" xml:space="preserve">
+        <value>Add 1 to 12 schedule times in HH:mm format.</value>
+    </data>
+    <data name="InstantInFuture" xml:space="preserve">
+        <value>The date and time cannot be in the future.</value>
+    </data>
+    <data name="VitalSignValueOutOfRange" xml:space="preserve">
+        <value>The value must be between {0} and {1} {2}.</value>
+    </data>
+    <data name="DiastolicRequired" xml:space="preserve">
+        <value>Blood pressure needs the diastolic value.</value>
+    </data>
+    <data name="DiastolicOutOfRange" xml:space="preserve">
+        <value>The diastolic value must be between {0} and {1} {2}.</value>
+    </data>
+    <data name="SecondaryValueNotAllowed" xml:space="preserve">
+        <value>Only blood pressure has a secondary value.</value>
+    </data>
+    <data name="SystolicNotGreaterThanDiastolic" xml:space="preserve">
+        <value>The systolic value must be greater than the diastolic value.</value>
+    </data>
+    <data name="MonitoringAccessForbidden" xml:space="preserve">
+        <value>You do not have access to the records of this older adult.</value>
+    </data>
+    <data name="MonitoringOlderAdultChangeNotAllowed" xml:space="preserve">
+        <value>The older adult of a record cannot be changed.</value>
+    </data>
+    <data name="DailyReportNotFound" xml:space="preserve">
+        <value>The daily report was not found.</value>
+    </data>
+    <data name="VitalSignNotFound" xml:space="preserve">
+        <value>The vital sign was not found.</value>
+    </data>
+    <data name="MedicationNotFound" xml:space="preserve">
+        <value>The medication was not found.</value>
+    </data>
+    <data name="MonitoringGetDailyReportsSummary" xml:space="preserve">
+        <value>Get daily reports</value>
+    </data>
+    <data name="MonitoringGetDailyReportsDescription" xml:space="preserve">
+        <value>?olderAdultId= returns the reports of that older adult (caregiver in charge, family member with an active access or administrator; 403 otherwise). Without filters, administrators only.</value>
+    </data>
+    <data name="MonitoringGetDailyReportByIdSummary" xml:space="preserve">
+        <value>Get a daily report</value>
+    </data>
+    <data name="MonitoringGetDailyReportByIdDescription" xml:space="preserve">
+        <value>404 when it does not exist; 403 when the requester cannot read its older adult.</value>
+    </data>
+    <data name="MonitoringCreateDailyReportSummary" xml:space="preserve">
+        <value>Record a daily report</value>
+    </data>
+    <data name="MonitoringCreateDailyReportDescription" xml:space="preserve">
+        <value>Only the caregiver in charge. recordedByUserId is the token user. reportDate is a UTC instant and cannot be in the future.</value>
+    </data>
+    <data name="MonitoringUpdateDailyReportSummary" xml:space="preserve">
+        <value>Update a daily report</value>
+    </data>
+    <data name="MonitoringUpdateDailyReportDescription" xml:space="preserve">
+        <value>Replaces the report. Only the caregiver in charge; olderAdultId cannot change (409); the original author is kept.</value>
+    </data>
+    <data name="MonitoringGetVitalSignsSummary" xml:space="preserve">
+        <value>Get vital signs</value>
+    </data>
+    <data name="MonitoringGetVitalSignsDescription" xml:space="preserve">
+        <value>?olderAdultId= returns the measurements of that older adult (caregiver in charge, family member with an active access or administrator; 403 otherwise). Without filters, administrators only.</value>
+    </data>
+    <data name="MonitoringGetVitalSignByIdSummary" xml:space="preserve">
+        <value>Get a vital sign</value>
+    </data>
+    <data name="MonitoringGetVitalSignByIdDescription" xml:space="preserve">
+        <value>404 when it does not exist; 403 when the requester cannot read its older adult.</value>
+    </data>
+    <data name="MonitoringCreateVitalSignSummary" xml:space="preserve">
+        <value>Record a vital sign</value>
+    </data>
+    <data name="MonitoringCreateVitalSignDescription" xml:space="preserve">
+        <value>Only the caregiver in charge. The value must be inside the range of its type; blood pressure needs secondaryValue lower than value. The unit is derived from the type. measuredAt cannot be in the future.</value>
+    </data>
+    <data name="MonitoringUpdateVitalSignSummary" xml:space="preserve">
+        <value>Correct a vital sign</value>
+    </data>
+    <data name="MonitoringUpdateVitalSignDescription" xml:space="preserve">
+        <value>Replaces the measurement. Only the caregiver in charge; olderAdultId cannot change (409).</value>
+    </data>
+    <data name="MonitoringGetMedicationsSummary" xml:space="preserve">
+        <value>Get medications</value>
+    </data>
+    <data name="MonitoringGetMedicationsDescription" xml:space="preserve">
+        <value>?olderAdultId= returns the medications of that older adult (caregiver in charge, family member with an active access or administrator; 403 otherwise). Without filters, administrators only. ?active= filters by the active flag.</value>
+    </data>
+    <data name="MonitoringGetMedicationByIdSummary" xml:space="preserve">
+        <value>Get a medication</value>
+    </data>
+    <data name="MonitoringGetMedicationByIdDescription" xml:space="preserve">
+        <value>404 when it does not exist; 403 when the requester cannot read its older adult.</value>
+    </data>
+    <data name="MonitoringCreateMedicationSummary" xml:space="preserve">
+        <value>Register a medication</value>
+    </data>
+    <data name="MonitoringCreateMedicationDescription" xml:space="preserve">
+        <value>Only the caregiver in charge. scheduleTimes has 1 to 12 HH:mm times, stored sorted and without duplicates. active defaults to true.</value>
+    </data>
+    <data name="MonitoringUpdateMedicationSummary" xml:space="preserve">
+        <value>Update or deactivate a medication</value>
+    </data>
+    <data name="MonitoringUpdateMedicationDescription" xml:space="preserve">
+        <value>Replaces the medication; send active: false to deactivate it (there is no delete). Only the caregiver in charge; olderAdultId cannot change (409).</value>
+    </data>
+    <data name="MonitoringListResponse" xml:space="preserve">
+        <value>Matching records (a plain array, empty when there are none).</value>
+    </data>
+    <data name="MonitoringItemResponse" xml:space="preserve">
+        <value>The record.</value>
+    </data>
+    <data name="MonitoringCreatedResponse" xml:space="preserve">
+        <value>Created. The Location header points to the new record.</value>
+    </data>
+    <data name="MonitoringUpdatedResponse" xml:space="preserve">
+        <value>The updated record.</value>
+    </data>
+    <data name="MonitoringValidationErrorResponse" xml:space="preserve">
+        <value>Invalid data (validation problem with the errors per field).</value>
+    </data>
+    <data name="MonitoringUnauthorizedResponse" xml:space="preserve">
+        <value>Missing, invalid or expired token.</value>
+    </data>
+    <data name="MonitoringForbiddenResponse" xml:space="preserve">
+        <value>The requester cannot read or write the records of this older adult.</value>
+    </data>
+    <data name="MonitoringNotFoundResponse" xml:space="preserve">
+        <value>The record does not exist.</value>
+    </data>
+    <data name="MonitoringConflictResponse" xml:space="preserve">
+        <value>The older adult of a record cannot be changed.</value>
+    </data>
+    <data name="MonitoringServerErrorResponse" xml:space="preserve">
+        <value>Unexpected server error.</value>
+    </data>
+    <data name="MonitoringDailyReportResourceSchema" xml:space="preserve">
+        <value>Daily report.</value>
+    </data>
+    <data name="MonitoringSaveDailyReportResourceSchema" xml:space="preserve">
+        <value>Data to record or replace a daily report.</value>
+    </data>
+    <data name="MonitoringVitalSignResourceSchema" xml:space="preserve">
+        <value>Vital sign measurement.</value>
+    </data>
+    <data name="MonitoringSaveVitalSignResourceSchema" xml:space="preserve">
+        <value>Data to record or correct a vital sign.</value>
+    </data>
+    <data name="MonitoringMedicationResourceSchema" xml:space="preserve">
+        <value>Medication of an older adult.</value>
+    </data>
+    <data name="MonitoringSaveMedicationResourceSchema" xml:space="preserve">
+        <value>Data to register or replace a medication.</value>
+    </data>
+    <data name="MonitoringIdProperty" xml:space="preserve">
+        <value>Identifier.</value>
+    </data>
+    <data name="MonitoringOlderAdultIdProperty" xml:space="preserve">
+        <value>Older adult of the record.</value>
+    </data>
+    <data name="MonitoringRecordedByUserIdProperty" xml:space="preserve">
+        <value>IAM user that wrote the report (from the token).</value>
+    </data>
+    <data name="MonitoringReportDateProperty" xml:space="preserve">
+        <value>UTC instant of the report.</value>
+    </data>
+    <data name="MonitoringMoodProperty" xml:space="preserve">
+        <value>Mood: VeryGood, Good, Neutral, Bad or VeryBad.</value>
+    </data>
+    <data name="MonitoringGeneralConditionProperty" xml:space="preserve">
+        <value>General condition: Stable, Attention or Critical.</value>
+    </data>
+    <data name="MonitoringObservationsProperty" xml:space="preserve">
+        <value>Observations.</value>
+    </data>
+    <data name="MonitoringTypeProperty" xml:space="preserve">
+        <value>Vital sign type.</value>
+    </data>
+    <data name="MonitoringValueProperty" xml:space="preserve">
+        <value>Main value (systolic for blood pressure).</value>
+    </data>
+    <data name="MonitoringSecondaryValueProperty" xml:space="preserve">
+        <value>Diastolic value for blood pressure; null for the other types.</value>
+    </data>
+    <data name="MonitoringUnitProperty" xml:space="preserve">
+        <value>Unit derived from the type.</value>
+    </data>
+    <data name="MonitoringMeasuredAtProperty" xml:space="preserve">
+        <value>UTC instant of the measurement.</value>
+    </data>
+    <data name="MonitoringNameProperty" xml:space="preserve">
+        <value>Medicine name.</value>
+    </data>
+    <data name="MonitoringDosageProperty" xml:space="preserve">
+        <value>Dosage.</value>
+    </data>
+    <data name="MonitoringFrequencyProperty" xml:space="preserve">
+        <value>Frequency.</value>
+    </data>
+    <data name="MonitoringScheduleTimesProperty" xml:space="preserve">
+        <value>Daily schedule times (HH:mm, wall clock).</value>
+    </data>
+    <data name="MonitoringInstructionsProperty" xml:space="preserve">
+        <value>Instructions.</value>
+    </data>
+    <data name="MonitoringActiveProperty" xml:space="preserve">
+        <value>Whether the medication is still taken.</value>
+    </data>
 </root>
