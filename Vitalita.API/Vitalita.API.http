@@ -52,6 +52,25 @@ Content-Type: application/json
   "password": "Vitalita123"
 }
 
+### IAM: current user of the token. 200 {id, email, role, status, createdAt, lastLoginAt}; 401 without token,
+### or when the user no longer exists or is inactive
+GET {{Vitalita.API_HostAddress}}/api/v1/authentication/me
+Accept: application/json
+Accept-Language: es
+Authorization: Bearer {{signIn.response.body.token}}
+
+### IAM: refresh the token (no body). 200 with the same shape as sign-in and a new token (15 minutes at most);
+### 401 when the token is missing, invalid or expired, or the user is inactive
+# @name refresh
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/refresh
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### IAM: the refreshed token works
+GET {{Vitalita.API_HostAddress}}/api/v1/authentication/me
+Accept: application/json
+Authorization: Bearer {{refresh.response.body.token}}
+
 ### IAM: public email lookup. Array with zero or one {id, email}
 GET {{Vitalita.API_HostAddress}}/api/v1/users?email=andrea.mendoza@vitalita.pe
 Accept: application/json
