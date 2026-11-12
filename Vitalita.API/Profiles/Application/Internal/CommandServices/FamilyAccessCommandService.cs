@@ -143,11 +143,12 @@ public class FamilyAccessCommandService(
         }
     }
 
-    private static UpdateFamilyAccessError? ChangeRelationship(FamilyAccess access, FamilyRelationship relationship)
+    private static UpdateFamilyAccessError? ChangeRelationship(FamilyAccess access, FamilyRelationship? relationship)
     {
+        if (relationship is null) return null;
         try
         {
-            access.ChangeRelationship(relationship);
+            access.ChangeRelationship(relationship.Value);
             return null;
         }
         catch (InvalidAccessStatusTransitionException)

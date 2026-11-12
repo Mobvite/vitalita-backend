@@ -231,4 +231,346 @@
     <data name="BearerSchemeDescription" xml:space="preserve">
         <value>JWT access token returned by POST /api/v1/authentication/sign-in. Paste only the token (without the word Bearer).</value>
     </data>
+    <data name="InvalidIdentifier" xml:space="preserve">
+        <value>Must be a positive identifier.</value>
+    </data>
+    <data name="NameLength" xml:space="preserve">
+        <value>Use at most 100 characters.</value>
+    </data>
+    <data name="PhoneNumberFormat" xml:space="preserve">
+        <value>Enter a valid phone number: 6 to 20 digits, spaces or a leading +.</value>
+    </data>
+    <data name="ProfessionalTitleLength" xml:space="preserve">
+        <value>The professional title can have at most 100 characters.</value>
+    </data>
+    <data name="BioLength" xml:space="preserve">
+        <value>The presentation can have at most 500 characters.</value>
+    </data>
+    <data name="PhotoUrlFormat" xml:space="preserve">
+        <value>The photo must be an http or https URL of up to 500 characters.</value>
+    </data>
+    <data name="CertificationsLimit" xml:space="preserve">
+        <value>Add at most 20 certifications of up to 100 characters each.</value>
+    </data>
+    <data name="ClinicalListLimit" xml:space="preserve">
+        <value>Add at most 30 items of up to 100 characters each.</value>
+    </data>
+    <data name="DocumentNumberFormat" xml:space="preserve">
+        <value>The DNI must have 8 digits.</value>
+    </data>
+    <data name="InvalidBloodType" xml:space="preserve">
+        <value>The blood type must be O+, O-, A+, A-, B+, B-, AB+ or AB-.</value>
+    </data>
+    <data name="ObservationsLength" xml:space="preserve">
+        <value>The observations can have at most 1000 characters.</value>
+    </data>
+    <data name="InvalidOlderAdultStatus" xml:space="preserve">
+        <value>The status must be Active, Inactive or Archived.</value>
+    </data>
+    <data name="InvalidRelationship" xml:space="preserve">
+        <value>The relationship must be Son, Daughter, Spouse, Grandchild, Sibling or Other.</value>
+    </data>
+    <data name="InvalidAccessStatus" xml:space="preserve">
+        <value>The status must be Pending, Active or Revoked.</value>
+    </data>
+    <data name="InvalidInvitationCode" xml:space="preserve">
+        <value>The invitation code must have 1 to 20 characters.</value>
+    </data>
+    <data name="BirthDateInFuture" xml:space="preserve">
+        <value>The birth date cannot be in the future.</value>
+    </data>
+    <data name="FamilyMemberRequired" xml:space="preserve">
+        <value>The family member profile is required to accept the invitation.</value>
+    </data>
+    <data name="ProfileAccessForbidden" xml:space="preserve">
+        <value>You do not have access to this resource.</value>
+    </data>
+    <data name="ProfileCreationForbidden" xml:space="preserve">
+        <value>You can only create your own profile, with the matching role.</value>
+    </data>
+    <data name="NoValidInvitation" xml:space="preserve">
+        <value>There is no pending invitation for your email.</value>
+    </data>
+    <data name="ProfileUserNotFound" xml:space="preserve">
+        <value>The user does not exist.</value>
+    </data>
+    <data name="ProfileAlreadyExists" xml:space="preserve">
+        <value>This user already has a profile.</value>
+    </data>
+    <data name="ProfileOwnerChangeNotAllowed" xml:space="preserve">
+        <value>The owner of a profile cannot be changed.</value>
+    </data>
+    <data name="CaregiverProfileNotFound" xml:space="preserve">
+        <value>The caregiver profile was not found.</value>
+    </data>
+    <data name="FamilyMemberProfileNotFound" xml:space="preserve">
+        <value>The family member profile was not found.</value>
+    </data>
+    <data name="OlderAdultNotFound" xml:space="preserve">
+        <value>The older adult was not found.</value>
+    </data>
+    <data name="FamilyAccessNotFound" xml:space="preserve">
+        <value>The family access was not found.</value>
+    </data>
+    <data name="CaregiverProfileDoesNotExist" xml:space="preserve">
+        <value>The caregiver profile does not exist.</value>
+    </data>
+    <data name="OlderAdultDoesNotExist" xml:space="preserve">
+        <value>The older adult does not exist.</value>
+    </data>
+    <data name="FamilyMemberProfileDoesNotExist" xml:space="preserve">
+        <value>The family member profile does not exist.</value>
+    </data>
+    <data name="OlderAdultCaregiverChangeNotAllowed" xml:space="preserve">
+        <value>The caregiver in charge of an older adult cannot be changed.</value>
+    </data>
+    <data name="InvitationAlreadyExists" xml:space="preserve">
+        <value>This email already has a pending or active access to the older adult.</value>
+    </data>
+    <data name="InvitationNotAcceptable" xml:space="preserve">
+        <value>The invitation expired or is no longer pending.</value>
+    </data>
+    <data name="InvalidAccessStatusTransition" xml:space="preserve">
+        <value>This status change is not allowed: a revoked access is final and an active access cannot go back to pending.</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfilesSummary" xml:space="preserve">
+        <value>Get caregiver profiles</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfilesDescription" xml:space="preserve">
+        <value>With ?userId=, returns an array with the caregiver profile of that user (zero or one element); only the user themselves or an administrator. Without filters, lists every profile (administrators only).</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfileByIdSummary" xml:space="preserve">
+        <value>Get a caregiver profile</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfileByIdDescription" xml:space="preserve">
+        <value>The owner, administrators and family members with an active access to an older adult in the charge of this caregiver can read it.</value>
+    </data>
+    <data name="ProfilesCreateCaregiverProfileSummary" xml:space="preserve">
+        <value>Create a caregiver profile</value>
+    </data>
+    <data name="ProfilesCreateCaregiverProfileDescription" xml:space="preserve">
+        <value>A user with the Caregiver role creates only their own profile (userId = token sub); administrators can create it for any existing user. One profile per user (409).</value>
+    </data>
+    <data name="ProfilesUpdateCaregiverProfileSummary" xml:space="preserve">
+        <value>Update a caregiver profile</value>
+    </data>
+    <data name="ProfilesUpdateCaregiverProfileDescription" xml:space="preserve">
+        <value>Replaces the whole profile. Only the owner or an administrator; userId cannot change (409).</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfilesSummary" xml:space="preserve">
+        <value>Get family member profiles</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfilesDescription" xml:space="preserve">
+        <value>?id=1&amp;id=2 returns the profiles the requester can read (their own, and for caregivers the ones linked to their older adults); the others are left out. ?userId= returns zero or one profile of the user themselves. Without filters, administrators only.</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfileByIdSummary" xml:space="preserve">
+        <value>Get a family member profile</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfileByIdDescription" xml:space="preserve">
+        <value>The owner, administrators and caregivers with an older adult linked to this family member can read it.</value>
+    </data>
+    <data name="ProfilesCreateFamilyMemberProfileSummary" xml:space="preserve">
+        <value>Create a family member profile</value>
+    </data>
+    <data name="ProfilesCreateFamilyMemberProfileDescription" xml:space="preserve">
+        <value>A user with the FamilyMember role creates only their own profile, and only when their email has a pending, unexpired invitation (403 otherwise). One profile per user (409).</value>
+    </data>
+    <data name="ProfilesUpdateFamilyMemberProfileSummary" xml:space="preserve">
+        <value>Update a family member profile</value>
+    </data>
+    <data name="ProfilesUpdateFamilyMemberProfileDescription" xml:space="preserve">
+        <value>Replaces the whole profile. Only the owner or an administrator; userId cannot change (409).</value>
+    </data>
+    <data name="ProfilesGetOlderAdultsSummary" xml:space="preserve">
+        <value>Get older adults</value>
+    </data>
+    <data name="ProfilesGetOlderAdultsDescription" xml:space="preserve">
+        <value>?id=1&amp;id=2 returns the older adults the requester can read (in their charge or with an active family access); the others are left out. ?caregiverId= returns the older adults of the requester's own caregiver profile (403 otherwise). Without filters, administrators only.</value>
+    </data>
+    <data name="ProfilesGetOlderAdultByIdSummary" xml:space="preserve">
+        <value>Get an older adult</value>
+    </data>
+    <data name="ProfilesGetOlderAdultByIdDescription" xml:space="preserve">
+        <value>The caregiver in charge, administrators and family members with an active access can read it.</value>
+    </data>
+    <data name="ProfilesCreateOlderAdultSummary" xml:space="preserve">
+        <value>Register an older adult</value>
+    </data>
+    <data name="ProfilesCreateOlderAdultDescription" xml:space="preserve">
+        <value>caregiverId must be the requester's own caregiver profile. birthDate (yyyy-MM-dd) cannot be later than today in Peru. A missing status means Active.</value>
+    </data>
+    <data name="ProfilesUpdateOlderAdultSummary" xml:space="preserve">
+        <value>Update an older adult</value>
+    </data>
+    <data name="ProfilesUpdateOlderAdultDescription" xml:space="preserve">
+        <value>Replaces the whole older adult. Only the caregiver in charge; status is required (use Archived to end the follow-up) and caregiverId cannot change (409).</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessesSummary" xml:space="preserve">
+        <value>Look up an invitation or list family accesses</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessesDescription" xml:space="preserve">
+        <value>?invitationCode= is public: it returns the invitation (id, invitedEmail, invitationCode, relationship, status, expiresAt) only when it is pending and not expired, otherwise []. With a token: ?olderAdultId= (caregiver in charge), ?familyMemberId= (own profile) or no filter (administrators); status filters all of them.</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessByIdSummary" xml:space="preserve">
+        <value>Get a family access</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessByIdDescription" xml:space="preserve">
+        <value>The caregiver in charge, the linked family member and administrators can read it.</value>
+    </data>
+    <data name="ProfilesCreateFamilyAccessSummary" xml:space="preserve">
+        <value>Invite a family member</value>
+    </data>
+    <data name="ProfilesCreateFamilyAccessDescription" xml:space="preserve">
+        <value>Only the caregiver in charge. The server generates a random code (VITA- + 8 characters), status Pending and an expiration of 7 days, ignoring those fields in the body. 409 when the email already has a pending or active access.</value>
+    </data>
+    <data name="ProfilesUpdateFamilyAccessSummary" xml:space="preserve">
+        <value>Accept, revoke or update a family access</value>
+    </data>
+    <data name="ProfilesUpdateFamilyAccessDescription" xml:space="preserve">
+        <value>Pending → Active: the invited person (token email) with their own familyMemberId, before expiresAt. → Revoked: the caregiver in charge. Same status: only relationship changes. Revoked is final (409). Only status, familyMemberId and relationship are read.</value>
+    </data>
+    <data name="ProfilesListResponse" xml:space="preserve">
+        <value>Matching resources (a plain array, empty when nothing matches).</value>
+    </data>
+    <data name="ProfilesItemResponse" xml:space="preserve">
+        <value>The resource.</value>
+    </data>
+    <data name="ProfilesCreatedResponse" xml:space="preserve">
+        <value>Created. The Location header points to the new resource.</value>
+    </data>
+    <data name="ProfilesUpdatedResponse" xml:space="preserve">
+        <value>The updated resource.</value>
+    </data>
+    <data name="ProfilesValidationErrorResponse" xml:space="preserve">
+        <value>Invalid data (validation problem with the errors per field).</value>
+    </data>
+    <data name="ProfilesUnauthorizedResponse" xml:space="preserve">
+        <value>Missing, invalid or expired token.</value>
+    </data>
+    <data name="ProfilesForbiddenResponse" xml:space="preserve">
+        <value>The requester cannot read or change this resource.</value>
+    </data>
+    <data name="ProfilesNotFoundResponse" xml:space="preserve">
+        <value>The resource does not exist.</value>
+    </data>
+    <data name="ProfilesConflictResponse" xml:space="preserve">
+        <value>Conflict with the current state: duplicate, owner change or status transition not allowed.</value>
+    </data>
+    <data name="ProfilesServerErrorResponse" xml:space="preserve">
+        <value>Unexpected server error.</value>
+    </data>
+    <data name="ProfilesCaregiverProfileResourceSchema" xml:space="preserve">
+        <value>Caregiver profile.</value>
+    </data>
+    <data name="ProfilesSaveCaregiverProfileResourceSchema" xml:space="preserve">
+        <value>Data to create or replace a caregiver profile.</value>
+    </data>
+    <data name="ProfilesFamilyMemberProfileResourceSchema" xml:space="preserve">
+        <value>Family member profile.</value>
+    </data>
+    <data name="ProfilesSaveFamilyMemberProfileResourceSchema" xml:space="preserve">
+        <value>Data to create or replace a family member profile.</value>
+    </data>
+    <data name="ProfilesOlderAdultResourceSchema" xml:space="preserve">
+        <value>Older adult.</value>
+    </data>
+    <data name="ProfilesSaveOlderAdultResourceSchema" xml:space="preserve">
+        <value>Data to register or replace an older adult.</value>
+    </data>
+    <data name="ProfilesEmergencyContactResourceSchema" xml:space="preserve">
+        <value>Person to call in an emergency.</value>
+    </data>
+    <data name="ProfilesFamilyAccessResourceSchema" xml:space="preserve">
+        <value>Family access: invitation and read access to an older adult.</value>
+    </data>
+    <data name="ProfilesInvitationResourceSchema" xml:space="preserve">
+        <value>Public view of a pending invitation.</value>
+    </data>
+    <data name="ProfilesCreateFamilyAccessResourceSchema" xml:space="preserve">
+        <value>Data to invite a family member.</value>
+    </data>
+    <data name="ProfilesUpdateFamilyAccessResourceSchema" xml:space="preserve">
+        <value>Change of a family access (only status, familyMemberId and relationship are read).</value>
+    </data>
+    <data name="ProfilesIdProperty" xml:space="preserve">
+        <value>Identifier.</value>
+    </data>
+    <data name="ProfilesUserIdProperty" xml:space="preserve">
+        <value>IAM user that owns the profile.</value>
+    </data>
+    <data name="ProfilesFirstNameProperty" xml:space="preserve">
+        <value>First name.</value>
+    </data>
+    <data name="ProfilesLastNameProperty" xml:space="preserve">
+        <value>Last name.</value>
+    </data>
+    <data name="ProfilesPhoneNumberProperty" xml:space="preserve">
+        <value>Phone number (may be empty).</value>
+    </data>
+    <data name="ProfilesProfessionalTitleProperty" xml:space="preserve">
+        <value>Professional title.</value>
+    </data>
+    <data name="ProfilesBioProperty" xml:space="preserve">
+        <value>Short presentation.</value>
+    </data>
+    <data name="ProfilesPhotoUrlProperty" xml:space="preserve">
+        <value>Photo URL (may be empty).</value>
+    </data>
+    <data name="ProfilesCertificationsProperty" xml:space="preserve">
+        <value>Certifications and courses.</value>
+    </data>
+    <data name="ProfilesCaregiverIdProperty" xml:space="preserve">
+        <value>Caregiver profile in charge.</value>
+    </data>
+    <data name="ProfilesBirthDateProperty" xml:space="preserve">
+        <value>Birth date (yyyy-MM-dd).</value>
+    </data>
+    <data name="ProfilesDocumentNumberProperty" xml:space="preserve">
+        <value>National ID (DNI): empty or 8 digits.</value>
+    </data>
+    <data name="ProfilesBloodTypeProperty" xml:space="preserve">
+        <value>Blood type (empty when unknown).</value>
+    </data>
+    <data name="ProfilesAllergiesProperty" xml:space="preserve">
+        <value>Known allergies.</value>
+    </data>
+    <data name="ProfilesChronicConditionsProperty" xml:space="preserve">
+        <value>Chronic conditions.</value>
+    </data>
+    <data name="ProfilesEmergencyContactProperty" xml:space="preserve">
+        <value>Person to call in an emergency.</value>
+    </data>
+    <data name="ProfilesContactNameProperty" xml:space="preserve">
+        <value>Full name of the contact.</value>
+    </data>
+    <data name="ProfilesRelationshipProperty" xml:space="preserve">
+        <value>Relationship with the older adult.</value>
+    </data>
+    <data name="ProfilesObservationsProperty" xml:space="preserve">
+        <value>Care observations.</value>
+    </data>
+    <data name="ProfilesStatusProperty" xml:space="preserve">
+        <value>Status.</value>
+    </data>
+    <data name="ProfilesOlderAdultIdProperty" xml:space="preserve">
+        <value>Older adult shared.</value>
+    </data>
+    <data name="ProfilesFamilyMemberIdProperty" xml:space="preserve">
+        <value>Family member profile (null while pending).</value>
+    </data>
+    <data name="ProfilesInvitedEmailProperty" xml:space="preserve">
+        <value>Email of the invited person.</value>
+    </data>
+    <data name="ProfilesInvitationCodeProperty" xml:space="preserve">
+        <value>Invitation code.</value>
+    </data>
+    <data name="ProfilesInvitedAtProperty" xml:space="preserve">
+        <value>UTC instant of the invitation.</value>
+    </data>
+    <data name="ProfilesAcceptedAtProperty" xml:space="preserve">
+        <value>UTC instant of the acceptance.</value>
+    </data>
+    <data name="ProfilesExpiresAtProperty" xml:space="preserve">
+        <value>Last UTC instant to accept the invitation.</value>
+    </data>
 </root>

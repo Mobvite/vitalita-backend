@@ -12,10 +12,10 @@ namespace Vitalita.API.Profiles.Domain.Model.Commands;
 /// <param name="Requester">The authenticated user.</param>
 /// <param name="Status">The requested status.</param>
 /// <param name="FamilyMemberId">Family member profile; required to accept.</param>
-/// <param name="Relationship">The relationship with the older adult.</param>
+/// <param name="Relationship">The new relationship, or <c>null</c> to keep the current one.</param>
 public record UpdateFamilyAccessCommand(
     int Id,
     Requester Requester,
     AccessStatus Status,
     int? FamilyMemberId,
-    FamilyRelationship Relationship);
+    FamilyRelationship? Relationship);
