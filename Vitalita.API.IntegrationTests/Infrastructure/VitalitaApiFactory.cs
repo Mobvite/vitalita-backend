@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
 
 namespace Vitalita.API.IntegrationTests.Infrastructure;
 
@@ -25,14 +24,13 @@ public sealed class VitalitaApiFactory : WebApplicationFactory<Program>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
-        builder.ConfigureAppConfiguration(configuration => configuration.AddInMemoryCollection(
-            new Dictionary<string, string?>
-            {
-                ["ConnectionStrings:DefaultConnection"] = _connectionString,
-                ["Authentication:Jwt:Secret"] = JwtSecret,
-                ["Authentication:Admin:Email"] = AdminEmail,
-                ["Authentication:Admin:Password"] = AdminPassword
-            }));
+
+        // UseSetting (in-memory host settings) is visible from WebApplication.CreateBuilder on, so the startup
+        // configuration check in Program.cs sees these values. ConfigureAppConfiguration would only apply at Build().
+        builder.UseSetting("ConnectionStrings:DefaultConnection", _connectionString);
+        builder.UseSetting("Authentication:Jwt:Secret", JwtSecret);
+        builder.UseSetting("Authentication:Admin:Email", AdminEmail);
+        builder.UseSetting("Authentication:Admin:Password", AdminPassword);
     }
 }
 
