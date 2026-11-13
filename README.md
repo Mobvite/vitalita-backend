@@ -147,6 +147,17 @@ docker run --rm -p 8080:8080 \
 
 Then open `http://localhost:8080/health` and `http://localhost:8080/swagger`. Migrations are applied on startup.
 
+If startup fails (a missing variable, an unreachable database, ...), the container prints one line
+`Vitalita API failed to start: <exception type>: <message>` on stderr and exits with code `1`; configuration values
+are never printed.
+
+### Expected warnings in the logs
+
+On every start the container logs two `Microsoft.AspNetCore.DataProtection` warnings: the key ring is stored in
+`/home/app/.aspnet/DataProtection-Keys` (lost when the container is replaced) and is not encrypted at rest. They are
+harmless: the API authenticates with JWT bearer tokens signed with `Authentication__Jwt__Secret` and uses no cookies,
+sessions or antiforgery tokens, so nothing it issues depends on those keys.
+
 ### Render
 
 - New **Web Service** from this repository, runtime **Docker** (it uses the root `Dockerfile`).
