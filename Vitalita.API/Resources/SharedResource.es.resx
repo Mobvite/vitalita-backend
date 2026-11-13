@@ -828,4 +828,19 @@
     <data name="MonitoringActiveProperty" xml:space="preserve">
         <value>Si el medicamento se sigue tomando.</value>
     </data>
+    <data name="HealthGetHealthSummary" xml:space="preserve">
+        <value>Verificación de salud</value>
+    </data>
+    <data name="HealthGetHealthDescription" xml:space="preserve">
+        <value>Sonda de disponibilidad para la plataforma de hosting. Devuelve 200 con {"status":"Healthy"} mientras el proceso está activo. No consulta la base de datos. Endpoint público.</value>
+    </data>
+    <data name="HealthOkResponse" xml:space="preserve">
+        <value>El proceso de la API está activo.</value>
+    </data>
+    <data name="HealthResourceSchema" xml:space="preserve">
+        <value>Estado de salud de la API.</value>
+    </data>
+    <data name="HealthStatusProperty" xml:space="preserve">
+        <value>Siempre Healthy cuando la API responde.</value>
+    </data>
 </root>

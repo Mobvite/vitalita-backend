@@ -828,4 +828,19 @@
     <data name="MonitoringActiveProperty" xml:space="preserve">
         <value>Whether the medication is still taken.</value>
     </data>
+    <data name="HealthGetHealthSummary" xml:space="preserve">
+        <value>Health check</value>
+    </data>
+    <data name="HealthGetHealthDescription" xml:space="preserve">
+        <value>Liveness probe for the hosting platform. Returns 200 with {"status":"Healthy"} while the process is up. It does not check the database. Public endpoint.</value>
+    </data>
+    <data name="HealthOkResponse" xml:space="preserve">
+        <value>The API process is up.</value>
+    </data>
+    <data name="HealthResourceSchema" xml:space="preserve">
+        <value>Health status of the API.</value>
+    </data>
+    <data name="HealthStatusProperty" xml:space="preserve">
+        <value>Always Healthy when the API answers.</value>
+    </data>
 </root>
