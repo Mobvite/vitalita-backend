@@ -59,8 +59,53 @@ Requirements: .NET SDK 10, Docker.
 5. **Tests**
 
    ```bash
-   dotnet test
+   dotnet test Vitalita.API.Tests              # unit tests, no database
+   dotnet test Vitalita.API.IntegrationTests   # integration tests, need vitalita_test (see below)
+   dotnet test                                 # both
    ```
+
+## Integration tests
+
+`Vitalita.API.IntegrationTests` hosts the real API in memory (`WebApplicationFactory<Program>`) and calls it over HTTP
+against the Docker MySQL, in a separate database `vitalita_test`. Migrations and the test administrator are applied by
+the API startup. The development database is never touched: the tests refuse to start unless the database name ends
+with `_test`.
+
+**1. Create the database (once).** It asks for the MySQL root password interactively:
+
+```bash
+docker exec -it vitalita-mysql mysql -uroot -p -e "CREATE DATABASE IF NOT EXISTS vitalita_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; GRANT ALL PRIVILEGES ON vitalita_test.* TO 'vitalita'@'%'; FLUSH PRIVILEGES;"
+```
+
+**2. Set the connection string** (never in code or versioned files), with one of these options:
+
+```bash
+# a) environment variable (takes precedence)
+export VITALITA_TEST_CONNECTION="server=127.0.0.1;port=3307;database=vitalita_test;user=vitalita;password=<your password>"
+
+# b) git-ignored file with that same string on a single line
+#    Vitalita.API.IntegrationTests/.test-connection
+```
+
+If neither exists, every test fails with a message that explains both options (it never prints the string).
+The JWT secret and the administrator (`admin@vitalita.test`) are test-only values injected as in-memory configuration
+by `VitalitaApiFactory`; the environment is `Testing`, so your user-secrets are not loaded.
+
+**3. Run** `dotnet test Vitalita.API.IntegrationTests`.
+
+**Isolation.** All classes share one API host (xUnit collection fixture `Api`, run one at a time). Each test creates
+its own users with unique emails (`<prefix>.<guid>@vitalita.test`), so tests do not depend on their order or on data left
+by earlier runs. Data accumulates in `vitalita_test`; drop and recreate the database whenever you want a clean slate.
+
+| Test class | Endpoints covered |
+|---|---|
+| `IamEndpointsTests` | `POST /authentication/sign-up`, `POST /authentication/sign-in`, `GET /authentication/me`, `POST /authentication/refresh`, `GET /users` (admin list, anonymous `?email=` lookup), `GET /users/{id}`, `POST /users`, `PUT /users/{id}`, `DELETE /users/{id}` (soft delete) |
+| `ProfilesEndpointsTests` | `POST`/`GET /caregiver-profiles` (`?userId=`, admin list, `/{id}`), `POST`/`PUT`/`GET /older-adults` (`?caregiverId=`, `?id=` batch, `/{id}`), `POST /family-access`, `GET /family-access?invitationCode=` (public), `GET /family-access?familyMemberId=&status=`, `PUT /family-access/{id}` (acceptance), `POST`/`GET /family-member-profiles` (`?id=`) |
+| `MonitoringEndpointsTests` | `POST`/`PUT`/`GET /daily-reports` (`?olderAdultId=`, `/{id}`), `POST`/`GET /vital-signs` (`?olderAdultId=`, `/{id}`), `POST`/`PUT`/`GET /medications` (`?olderAdultId=&active=`, admin list) |
+| `LocalizationTests` | `Accept-Language: en`/`es` on `POST /authentication/sign-up` (validation), `GET /daily-reports` (business 403) and `GET /authentication/me` (framework 401) |
+
+Each test checks the status code, the key JSON fields and, for errors, the `application/problem+json` content type and
+the `message` extension (literal `.resx` texts, so a changed translation fails a test).
 
 ## Configuration in production
 
