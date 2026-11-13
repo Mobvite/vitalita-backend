@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -118,6 +119,16 @@ builder.Services.AddOpenApi(options =>
     options.AddSchemaTransformer(MonitoringOpenApiAssembler.TransformSchemaAsync);
 });
 
+// Behind a reverse proxy (Render) TLS ends at the proxy: trust X-Forwarded-For and X-Forwarded-Proto so the request
+// scheme and client IP are the original ones. The proxy addresses are not fixed, so the known networks and proxies
+// are cleared; the container is only reachable through the platform proxy.
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownIPNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 // CORS: allowed origins come from configuration (Cors:AllowedOrigins, or Cors__AllowedOrigins__0 in production).
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 builder.Services.AddCors(options => options.AddPolicy(frontendCorsPolicy, policy => policy
@@ -232,7 +243,10 @@ using (var scope = app.Services.CreateScope())
     await AdminSeeder.SeedAsync(scope.ServiceProvider, app.Configuration);
 }
 
-// CORS first, so error responses (404, 500) also carry the CORS headers.
+// Forwarded headers first, so everything after sees the original scheme and client IP.
+app.UseForwardedHeaders();
+
+// CORS next, so error responses (404, 500) also carry the CORS headers.
 app.UseCors(frontendCorsPolicy);
 
 // Localization before the exception handler, so error messages follow Accept-Language.
@@ -248,7 +262,10 @@ app.UseRequestLocalization(localizationOptions);
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 
-app.UseHttpsRedirection();
+// HTTPS redirection only in development (the https launch profile). In containers the API listens on plain HTTP
+// and the platform proxy terminates TLS, so there is no local https port to redirect to.
+if (app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
