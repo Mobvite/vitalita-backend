@@ -228,7 +228,11 @@ public sealed class ProfilesEndpointsTests(VitalitaApiFactory factory) : ApiTest
             .ShouldBeProblem(HttpStatusCode.Conflict, Messages.ProfileAlreadyExists);
 
         (await Api.PutAsync($"/older-adults/{olderAdultId}",
-                new { caregiverId = other.ProfileId, firstName = "María", lastName = "Rodríguez", birthDate = "1948-03-12" },
+                new
+                {
+                    caregiverId = other.ProfileId, firstName = "María", lastName = "Rodríguez",
+                    birthDate = "1948-03-12", status = "Active"
+                },
                 caregiver.Token))
             .ShouldBeProblem(HttpStatusCode.Conflict, Messages.OlderAdultCaregiverChangeNotAllowed);
 
