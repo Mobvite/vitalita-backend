@@ -480,3 +480,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Integration tests: local connection string (one line, never commit it)
+Vitalita.API.IntegrationTests/.test-connection
