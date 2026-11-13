@@ -42,6 +42,7 @@ using Vitalita.API.Profiles.Interfaces.ACL.Services;
 using Vitalita.API.Resources;
 using Vitalita.API.Shared.Domain.Repositories;
 using Vitalita.API.Shared.Domain.Services;
+using Vitalita.API.Shared.Infrastructure.Configuration;
 using Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Security;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -55,6 +56,9 @@ using ProfilesOpenApiAssembler = Vitalita.API.Profiles.Interfaces.REST.Transform
 const string frontendCorsPolicy = "AllowFrontend";
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Fail fast with one clear message when a required setting is missing (environment variables in production).
+RequiredConfigurationValidator.Validate(builder.Configuration, builder.Environment);
 
 // Lowercase URLs; the [controller] token is converted to kebab-case by the convention below.
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
