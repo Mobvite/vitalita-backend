@@ -107,20 +107,55 @@ by earlier runs. Data accumulates in `vitalita_test`; drop and recreate the data
 Each test checks the status code, the key JSON fields and, for errors, the `application/problem+json` content type and
 the `message` extension (literal `.resx` texts, so a changed translation fails a test).
 
-## Configuration in production
+## Deployment
 
-Use environment variables, never committed files:
+The API ships as a Docker image (`Dockerfile` at the repository root): a multi-stage build that publishes
+`Vitalita.API` with the .NET 10 SDK and runs it on the ASP.NET Core runtime image as the non-root user `app`, listening
+on plain HTTP port **8080** (`ASPNETCORE_HTTP_PORTS=8080`, `ASPNETCORE_ENVIRONMENT=Production`). Test projects,
+secrets and local files are excluded by `.dockerignore`.
 
-| Setting | Environment variable |
-|---|---|
-| MySQL connection string | `ConnectionStrings__DefaultConnection` |
-| Allowed frontend origins (CORS) | `Cors__AllowedOrigins__0`, `Cors__AllowedOrigins__1`, ... |
-| JWT signing secret (required, at least 32 bytes) | `Authentication__Jwt__Secret` |
-| JWT lifetime in minutes (optional, 1-15, default 15) | `Authentication__Jwt__ExpirationMinutes` |
-| First administrator email (optional) | `Authentication__Admin__Email` |
-| First administrator password (optional, 8-72 characters) | `Authentication__Admin__Password` |
+### Configuration (environment variables only)
+
+In Production the configuration comes only from environment variables; `appsettings.json` holds no secrets and
+user-secrets are not loaded. The startup fails with one message that lists every missing variable by name.
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `ConnectionStrings__DefaultConnection` | Yes | MySQL connection string |
+| `Authentication__Jwt__Secret` | Yes | JWT signing secret, at least 32 bytes (e.g. `openssl rand -base64 48`) |
+| `Cors__AllowedOrigins__0` | Yes (Production) | Frontend origin allowed by CORS; add `Cors__AllowedOrigins__1`, ... for more |
+| `Authentication__Admin__Email` | Optional, together with the password | First administrator, created on startup if it does not exist |
+| `Authentication__Admin__Password` | Optional, together with the email | First administrator password (8-72 characters) |
+| `Authentication__Jwt__ExpirationMinutes` | Optional | Token lifetime, 1-15 (default 15) |
+
+**Azure Database for MySQL** requires TLS: add `SslMode=Required;` to the connection string, for example
+`server=<host>.mysql.database.azure.com;port=3306;database=vitalita;user=<user>;password=<password>;SslMode=Required;`.
 
 In development, CORS allows `http://localhost:5173` (Vite) via `appsettings.Development.json`.
+
+### Build and run locally
+
+```bash
+docker build -t vitalita-api .
+
+docker run --rm -p 8080:8080 \
+  -e ConnectionStrings__DefaultConnection="server=host.docker.internal;port=3307;database=<db>;user=vitalita;password=<password>" \
+  -e Authentication__Jwt__Secret="<at least 32 bytes>" \
+  -e Cors__AllowedOrigins__0="http://localhost:5173" \
+  vitalita-api
+```
+
+Then open `http://localhost:8080/health` and `http://localhost:8080/swagger`. Migrations are applied on startup.
+
+### Render
+
+- New **Web Service** from this repository, runtime **Docker** (it uses the root `Dockerfile`).
+- Set the environment variables above in the service settings, never in the repository.
+- **Health check path:** `/health`. It returns `200 {"status":"Healthy"}`, is anonymous and does not query the database.
+- Render terminates TLS at its proxy and forwards plain HTTP to port 8080. The API trusts `X-Forwarded-For` and
+  `X-Forwarded-Proto` (so it sees the original `https` scheme and client IP) and redirects to HTTPS only in Development.
+- API documentation (all environments): `https://<service>.onrender.com/swagger` (the root `/` redirects there) and
+  the OpenAPI document at `/swagger/v1/swagger.json`.
 
 ## Authentication
 
