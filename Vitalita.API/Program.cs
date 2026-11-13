@@ -48,6 +48,7 @@ using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Interceptors;
 using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Vitalita.API.Shared.Infrastructure.Time;
+using Vitalita.API.Shared.Interfaces.REST.Transform;
 using MonitoringOpenApiAssembler = Vitalita.API.Monitoring.Interfaces.REST.Transform.LocalizedOpenApiAssembler;
 using ProfilesOpenApiAssembler = Vitalita.API.Profiles.Interfaces.REST.Transform.LocalizedOpenApiAssembler;
 
@@ -117,6 +118,8 @@ builder.Services.AddOpenApi(options =>
     options.AddSchemaTransformer(ProfilesOpenApiAssembler.TransformSchemaAsync);
     options.AddOperationTransformer(MonitoringOpenApiAssembler.TransformOperationAsync);
     options.AddSchemaTransformer(MonitoringOpenApiAssembler.TransformSchemaAsync);
+    options.AddOperationTransformer(HealthOpenApiAssembler.TransformOperationAsync);
+    options.AddSchemaTransformer(HealthOpenApiAssembler.TransformSchemaAsync);
 });
 
 // Behind a reverse proxy (Render) TLS ends at the proxy: trust X-Forwarded-For and X-Forwarded-Proto so the request
