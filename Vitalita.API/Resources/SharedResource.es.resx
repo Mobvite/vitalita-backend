@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ApiTitle" xml:space="preserve">
+        <value>Vitalita API</value>
+    </data>
+    <data name="ApiDescription" xml:space="preserve">
+        <value>API REST de Vitalita, una plataforma para cuidadores y familiares de adultos mayores en el Perú.</value>
+    </data>
+    <data name="InvalidModelStateTitle" xml:space="preserve">
+        <value>La solicitud contiene valores no válidos.</value>
+    </data>
+    <data name="BadRequestTitle" xml:space="preserve">
+        <value>La solicitud no es válida.</value>
+    </data>
+    <data name="UnauthorizedTitle" xml:space="preserve">
+        <value>Se requiere autenticación para acceder a este recurso.</value>
+    </data>
+    <data name="ForbiddenTitle" xml:space="preserve">
+        <value>No tienes permiso para acceder a este recurso.</value>
+    </data>
+    <data name="ResourceNotFound" xml:space="preserve">
+        <value>No se encontró el recurso solicitado.</value>
+    </data>
+    <data name="MethodNotAllowedTitle" xml:space="preserve">
+        <value>El método HTTP no está permitido para este recurso.</value>
+    </data>
+    <data name="ConflictTitle" xml:space="preserve">
+        <value>La solicitud entra en conflicto con el estado actual del recurso.</value>
+    </data>
+    <data name="UnsupportedMediaTypeTitle" xml:space="preserve">
+        <value>El tipo de contenido de la solicitud no es compatible.</value>
+    </data>
+    <data name="UnexpectedServerError" xml:space="preserve">
+        <value>Error inesperado del servidor.</value>
+    </data>
+    <data name="UnexpectedErrorProcessingRequest" xml:space="preserve">
+        <value>Ocurrió un error inesperado al procesar tu solicitud.</value>
+    </data>
+    <data name="RequiredField" xml:space="preserve">
+        <value>Este campo es obligatorio.</value>
+    </data>
+    <data name="InvalidEmail" xml:space="preserve">
+        <value>Ingresa un correo electrónico válido.</value>
+    </data>
+    <data name="EmailLength" xml:space="preserve">
+        <value>El correo electrónico no puede tener más de 254 caracteres.</value>
+    </data>
+    <data name="PasswordLength" xml:space="preserve">
+        <value>La contraseña debe tener entre 8 y 72 caracteres.</value>
+    </data>
+    <data name="InvalidRole" xml:space="preserve">
+        <value>El rol no es válido.</value>
+    </data>
+    <data name="AdminSignUpNotAllowed" xml:space="preserve">
+        <value>No se puede crear una cuenta de administrador desde el registro.</value>
+    </data>
+    <data name="EmailAlreadyInUse" xml:space="preserve">
+        <value>El correo electrónico ya está en uso.</value>
+    </data>
+    <data name="InvalidCredentials" xml:space="preserve">
+        <value>El correo electrónico o la contraseña son incorrectos.</value>
+    </data>
+    <data name="AccountInactive" xml:space="preserve">
+        <value>La cuenta está inactiva.</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>No se encontró el usuario.</value>
+    </data>
+    <data name="UserAccessForbidden" xml:space="preserve">
+        <value>Solo puedes acceder a tu propio usuario.</value>
+    </data>
+    <data name="IamSignUpSummary" xml:space="preserve">
+        <value>Registrarse</value>
+    </data>
+    <data name="IamSignUpDescription" xml:space="preserve">
+        <value>Registra una cuenta Caregiver o FamilyMember. El rol por defecto es Caregiver; Admin se rechaza con 400. La contraseña se guarda como hash BCrypt y nunca se devuelve. Endpoint público.</value>
+    </data>
+    <data name="IamSignInSummary" xml:space="preserve">
+        <value>Iniciar sesión</value>
+    </data>
+    <data name="IamSignInDescription" xml:space="preserve">
+        <value>Autentica a un usuario y devuelve un token de acceso JWT (15 minutos como máximo). Credenciales incorrectas y cuentas inactivas devuelven 401. Endpoint público.</value>
+    </data>
+    <data name="IamGetUsersSummary" xml:space="preserve">
+        <value>Buscar usuarios por correo o listar todos los usuarios</value>
+    </data>
+    <data name="IamGetUsersDescription" xml:space="preserve">
+        <value>Con ?email= es una búsqueda pública que devuelve un arreglo con cero o un elemento que solo tiene id y email (compromiso de compatibilidad con el frontend). Sin email requiere un token Bearer con rol Admin y devuelve los usuarios completos.</value>
+    </data>
+    <data name="IamGetUserByIdSummary" xml:space="preserve">
+        <value>Obtener un usuario por id</value>
+    </data>
+    <data name="IamGetUserByIdDescription" xml:space="preserve">
+        <value>Los administradores pueden leer cualquier usuario; los demás solo pueden leer el suyo.</value>
+    </data>
+    <data name="IamUserCreatedResponse" xml:space="preserve">
+        <value>Usuario creado. La cabecera Location apunta al nuevo usuario.</value>
+    </data>
+    <data name="IamValidationErrorResponse" xml:space="preserve">
+        <value>Error de validación (ProblemDetails con los campos inválidos).</value>
+    </data>
+    <data name="IamEmailInUseResponse" xml:space="preserve">
+        <value>El correo electrónico ya está en uso.</value>
+    </data>
+    <data name="IamServerErrorResponse" xml:space="preserve">
+        <value>Error inesperado del servidor.</value>
+    </data>
+    <data name="IamSignedInResponse" xml:space="preserve">
+        <value>Usuario autenticado con su token de acceso.</value>
+    </data>
+    <data name="IamInvalidCredentialsResponse" xml:space="preserve">
+        <value>Credenciales incorrectas o cuenta inactiva.</value>
+    </data>
+    <data name="IamUsersResponse" xml:space="preserve">
+        <value>Usuarios encontrados (solo id y email en la búsqueda por correo).</value>
+    </data>
+    <data name="IamUserResponse" xml:space="preserve">
+        <value>El usuario.</value>
+    </data>
+    <data name="IamUnauthorizedResponse" xml:space="preserve">
+        <value>Token Bearer ausente, inválido o expirado.</value>
+    </data>
+    <data name="IamAdminOnlyResponse" xml:space="preserve">
+        <value>El usuario autenticado no es administrador.</value>
+    </data>
+    <data name="IamOwnUserOrAdminResponse" xml:space="preserve">
+        <value>Solo los administradores o el propio usuario pueden acceder a este usuario.</value>
+    </data>
+    <data name="IamUserNotFoundResponse" xml:space="preserve">
+        <value>El usuario no existe.</value>
+    </data>
+    <data name="IamSignUpResourceSchema" xml:space="preserve">
+        <value>Datos para registrar una cuenta.</value>
+    </data>
+    <data name="IamSignInResourceSchema" xml:space="preserve">
+        <value>Credenciales de inicio de sesión.</value>
+    </data>
+    <data name="IamAuthenticatedUserResourceSchema" xml:space="preserve">
+        <value>Usuario autenticado y token de acceso.</value>
+    </data>
+    <data name="IamUserResourceSchema" xml:space="preserve">
+        <value>Cuenta de usuario. Nunca contiene la contraseña.</value>
+    </data>
+    <data name="IamUserEmailResourceSchema" xml:space="preserve">
+        <value>Datos mínimos del usuario devueltos por la búsqueda por correo.</value>
+    </data>
+    <data name="IamUserIdProperty" xml:space="preserve">
+        <value>Identificador del usuario.</value>
+    </data>
+    <data name="IamEmailProperty" xml:space="preserve">
+        <value>Correo de la cuenta (se guarda en minúsculas).</value>
+    </data>
+    <data name="IamPasswordProperty" xml:space="preserve">
+        <value>Contraseña de 8 a 72 caracteres. Nunca se devuelve.</value>
+    </data>
+    <data name="IamRoleProperty" xml:space="preserve">
+        <value>Rol de la cuenta: Caregiver, FamilyMember o Admin.</value>
+    </data>
+    <data name="IamStatusProperty" xml:space="preserve">
+        <value>Estado de la cuenta: Active o Inactive.</value>
+    </data>
+    <data name="IamTokenProperty" xml:space="preserve">
+        <value>Token de acceso JWT. Envíalo como Authorization: Bearer &lt;token&gt;.</value>
+    </data>
+    <data name="IamCreatedAtProperty" xml:space="preserve">
+        <value>Instante UTC en que se creó la cuenta.</value>
+    </data>
+    <data name="IamLastLoginAtProperty" xml:space="preserve">
+        <value>Instante UTC del último inicio de sesión, o null.</value>
+    </data>
+    <data name="InvalidStatus" xml:space="preserve">
+        <value>El estado no es válido.</value>
+    </data>
+    <data name="RoleChangeNotAllowed" xml:space="preserve">
+        <value>No puedes cambiar tu propio rol.</value>
+    </data>
+    <data name="StatusChangeNotAllowed" xml:space="preserve">
+        <value>No puedes cambiar tu propio estado.</value>
+    </data>
+    <data name="CannotDeactivateSelf" xml:space="preserve">
+        <value>No puedes desactivar tu propia cuenta.</value>
+    </data>
+    <data name="IamCreateUserSummary" xml:space="preserve">
+        <value>Crear un usuario (Admin)</value>
+    </data>
+    <data name="IamCreateUserDescription" xml:space="preserve">
+        <value>Crea un usuario con cualquier rol, incluido Admin. Solo para administradores.</value>
+    </data>
+    <data name="IamUpdateUserSummary" xml:space="preserve">
+        <value>Actualizar un usuario</value>
+    </data>
+    <data name="IamUpdateUserDescription" xml:space="preserve">
+        <value>Reemplaza el correo, el rol, el estado y, opcionalmente, la contraseña de un usuario. Los administradores pueden actualizar a cualquiera; los demás solo a sí mismos. Nadie puede cambiar su propio rol ni su estado.</value>
+    </data>
+    <data name="IamDeactivateUserSummary" xml:space="preserve">
+        <value>Desactivar un usuario (Admin)</value>
+    </data>
+    <data name="IamDeactivateUserDescription" xml:space="preserve">
+        <value>Borrado lógico: el estado pasa a Inactive y la fila se conserva. El usuario ya no puede iniciar sesión, pero los tokens ya emitidos siguen siendo válidos hasta que expiren (15 minutos como máximo). Un administrador no puede desactivarse a sí mismo.</value>
+    </data>
+    <data name="IamUserUpdatedResponse" xml:space="preserve">
+        <value>El usuario actualizado.</value>
+    </data>
+    <data name="IamUpdateForbiddenResponse" xml:space="preserve">
+        <value>Actualizar a otro usuario sin ser administrador, o cambiar tu propio rol o estado.</value>
+    </data>
+    <data name="IamUserDeactivatedResponse" xml:space="preserve">
+        <value>Usuario desactivado.</value>
+    </data>
+    <data name="IamCannotDeactivateSelfResponse" xml:space="preserve">
+        <value>Un administrador no puede desactivar su propia cuenta.</value>
+    </data>
+    <data name="IamCreateUserResourceSchema" xml:space="preserve">
+        <value>Datos para crear un usuario como administrador.</value>
+    </data>
+    <data name="IamUpdateUserResourceSchema" xml:space="preserve">
+        <value>Datos completos del usuario para PUT. La contraseña es opcional.</value>
+    </data>
+    <data name="BearerSchemeDescription" xml:space="preserve">
+        <value>Token de acceso JWT devuelto por POST /api/v1/authentication/sign-in. Pega solo el token (sin la palabra Bearer).</value>
+    </data>
+    <data name="InvalidIdentifier" xml:space="preserve">
+        <value>Debe ser un identificador positivo.</value>
+    </data>
+    <data name="NameLength" xml:space="preserve">
+        <value>Usa como máximo 100 caracteres.</value>
+    </data>
+    <data name="PhoneNumberFormat" xml:space="preserve">
+        <value>Ingresa un teléfono válido: de 6 a 20 dígitos, espacios o un + inicial.</value>
+    </data>
+    <data name="ProfessionalTitleLength" xml:space="preserve">
+        <value>El título profesional puede tener como máximo 100 caracteres.</value>
+    </data>
+    <data name="BioLength" xml:space="preserve">
+        <value>La presentación puede tener como máximo 500 caracteres.</value>
+    </data>
+    <data name="PhotoUrlFormat" xml:space="preserve">
+        <value>La foto debe ser una URL http o https de hasta 500 caracteres.</value>
+    </data>
+    <data name="CertificationsLimit" xml:space="preserve">
+        <value>Agrega como máximo 20 certificaciones de hasta 100 caracteres cada una.</value>
+    </data>
+    <data name="ClinicalListLimit" xml:space="preserve">
+        <value>Agrega como máximo 30 elementos de hasta 100 caracteres cada uno.</value>
+    </data>
+    <data name="DocumentNumberFormat" xml:space="preserve">
+        <value>El DNI debe tener 8 dígitos.</value>
+    </data>
+    <data name="InvalidBloodType" xml:space="preserve">
+        <value>El grupo sanguíneo debe ser O+, O-, A+, A-, B+, B-, AB+ o AB-.</value>
+    </data>
+    <data name="ObservationsLength" xml:space="preserve">
+        <value>Las observaciones pueden tener como máximo 1000 caracteres.</value>
+    </data>
+    <data name="InvalidOlderAdultStatus" xml:space="preserve">
+        <value>El estado debe ser Active, Inactive o Archived.</value>
+    </data>
+    <data name="InvalidRelationship" xml:space="preserve">
+        <value>El parentesco debe ser Son, Daughter, Spouse, Grandchild, Sibling u Other.</value>
+    </data>
+    <data name="InvalidAccessStatus" xml:space="preserve">
+        <value>El estado debe ser Pending, Active o Revoked.</value>
+    </data>
+    <data name="InvalidInvitationCode" xml:space="preserve">
+        <value>El código de invitación debe tener de 1 a 20 caracteres.</value>
+    </data>
+    <data name="BirthDateInFuture" xml:space="preserve">
+        <value>La fecha de nacimiento no puede ser futura.</value>
+    </data>
+    <data name="FamilyMemberRequired" xml:space="preserve">
+        <value>El perfil del familiar es obligatorio para aceptar la invitación.</value>
+    </data>
+    <data name="ProfileAccessForbidden" xml:space="preserve">
+        <value>No tienes acceso a este recurso.</value>
+    </data>
+    <data name="ProfileCreationForbidden" xml:space="preserve">
+        <value>Solo puedes crear tu propio perfil, con el rol correspondiente.</value>
+    </data>
+    <data name="NoValidInvitation" xml:space="preserve">
+        <value>No hay una invitación pendiente para tu correo.</value>
+    </data>
+    <data name="ProfileUserNotFound" xml:space="preserve">
+        <value>El usuario no existe.</value>
+    </data>
+    <data name="ProfileAlreadyExists" xml:space="preserve">
+        <value>Este usuario ya tiene un perfil.</value>
+    </data>
+    <data name="ProfileOwnerChangeNotAllowed" xml:space="preserve">
+        <value>No se puede cambiar el dueño de un perfil.</value>
+    </data>
+    <data name="CaregiverProfileNotFound" xml:space="preserve">
+        <value>No se encontró el perfil del cuidador.</value>
+    </data>
+    <data name="FamilyMemberProfileNotFound" xml:space="preserve">
+        <value>No se encontró el perfil del familiar.</value>
+    </data>
+    <data name="OlderAdultNotFound" xml:space="preserve">
+        <value>No se encontró el adulto mayor.</value>
+    </data>
+    <data name="FamilyAccessNotFound" xml:space="preserve">
+        <value>No se encontró el acceso familiar.</value>
+    </data>
+    <data name="CaregiverProfileDoesNotExist" xml:space="preserve">
+        <value>El perfil del cuidador no existe.</value>
+    </data>
+    <data name="OlderAdultDoesNotExist" xml:space="preserve">
+        <value>El adulto mayor no existe.</value>
+    </data>
+    <data name="FamilyMemberProfileDoesNotExist" xml:space="preserve">
+        <value>El perfil del familiar no existe.</value>
+    </data>
+    <data name="OlderAdultCaregiverChangeNotAllowed" xml:space="preserve">
+        <value>No se puede cambiar el cuidador a cargo de un adulto mayor.</value>
+    </data>
+    <data name="InvitationAlreadyExists" xml:space="preserve">
+        <value>Este correo ya tiene un acceso pendiente o activo al adulto mayor.</value>
+    </data>
+    <data name="InvitationNotAcceptable" xml:space="preserve">
+        <value>La invitación venció o ya no está pendiente.</value>
+    </data>
+    <data name="InvalidAccessStatusTransition" xml:space="preserve">
+        <value>Este cambio de estado no está permitido: un acceso revocado es definitivo y un acceso activo no puede volver a pendiente.</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfilesSummary" xml:space="preserve">
+        <value>Obtener perfiles de cuidador</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfilesDescription" xml:space="preserve">
+        <value>Con ?userId= devuelve un arreglo con el perfil de cuidador de ese usuario (cero o un elemento); solo el propio usuario o un administrador. Sin filtros lista todos los perfiles (solo administradores).</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfileByIdSummary" xml:space="preserve">
+        <value>Obtener un perfil de cuidador</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfileByIdDescription" xml:space="preserve">
+        <value>Lo pueden leer el dueño, los administradores y los familiares con acceso activo a un adulto mayor a cargo de este cuidador.</value>
+    </data>
+    <data name="ProfilesCreateCaregiverProfileSummary" xml:space="preserve">
+        <value>Crear un perfil de cuidador</value>
+    </data>
+    <data name="ProfilesCreateCaregiverProfileDescription" xml:space="preserve">
+        <value>Un usuario con rol Caregiver crea solo su propio perfil (userId = sub del token); los administradores pueden crearlo para cualquier usuario existente. Un perfil por usuario (409).</value>
+    </data>
+    <data name="ProfilesUpdateCaregiverProfileSummary" xml:space="preserve">
+        <value>Actualizar un perfil de cuidador</value>
+    </data>
+    <data name="ProfilesUpdateCaregiverProfileDescription" xml:space="preserve">
+        <value>Reemplaza el perfil completo. Solo el dueño o un administrador; userId no puede cambiar (409).</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfilesSummary" xml:space="preserve">
+        <value>Obtener perfiles de familiar</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfilesDescription" xml:space="preserve">
+        <value>?id=1&amp;id=2 devuelve los perfiles que el solicitante puede leer (el suyo y, para cuidadores, los vinculados a sus adultos mayores); los demás se omiten. ?userId= devuelve cero o un perfil del propio usuario. Sin filtros, solo administradores.</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfileByIdSummary" xml:space="preserve">
+        <value>Obtener un perfil de familiar</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfileByIdDescription" xml:space="preserve">
+        <value>Lo pueden leer el dueño, los administradores y los cuidadores con un adulto mayor vinculado a este familiar.</value>
+    </data>
+    <data name="ProfilesCreateFamilyMemberProfileSummary" xml:space="preserve">
+        <value>Crear un perfil de familiar</value>
+    </data>
+    <data name="ProfilesCreateFamilyMemberProfileDescription" xml:space="preserve">
+        <value>Un usuario con rol FamilyMember crea solo su propio perfil, y solo si su correo tiene una invitación pendiente y vigente (403 si no). Un perfil por usuario (409).</value>
+    </data>
+    <data name="ProfilesUpdateFamilyMemberProfileSummary" xml:space="preserve">
+        <value>Actualizar un perfil de familiar</value>
+    </data>
+    <data name="ProfilesUpdateFamilyMemberProfileDescription" xml:space="preserve">
+        <value>Reemplaza el perfil completo. Solo el dueño o un administrador; userId no puede cambiar (409).</value>
+    </data>
+    <data name="ProfilesGetOlderAdultsSummary" xml:space="preserve">
+        <value>Obtener adultos mayores</value>
+    </data>
+    <data name="ProfilesGetOlderAdultsDescription" xml:space="preserve">
+        <value>?id=1&amp;id=2 devuelve los adultos mayores que el solicitante puede leer (a su cargo o con acceso familiar activo); los demás se omiten. ?caregiverId= devuelve los adultos mayores del propio perfil de cuidador (403 si no). Sin filtros, solo administradores.</value>
+    </data>
+    <data name="ProfilesGetOlderAdultByIdSummary" xml:space="preserve">
+        <value>Obtener un adulto mayor</value>
+    </data>
+    <data name="ProfilesGetOlderAdultByIdDescription" xml:space="preserve">
+        <value>Lo pueden leer el cuidador a cargo, los administradores y los familiares con acceso activo.</value>
+    </data>
+    <data name="ProfilesCreateOlderAdultSummary" xml:space="preserve">
+        <value>Registrar un adulto mayor</value>
+    </data>
+    <data name="ProfilesCreateOlderAdultDescription" xml:space="preserve">
+        <value>caregiverId debe ser el propio perfil de cuidador del solicitante. birthDate (yyyy-MM-dd) no puede ser posterior a hoy en Perú. Si falta status, es Active.</value>
+    </data>
+    <data name="ProfilesUpdateOlderAdultSummary" xml:space="preserve">
+        <value>Actualizar un adulto mayor</value>
+    </data>
+    <data name="ProfilesUpdateOlderAdultDescription" xml:space="preserve">
+        <value>Reemplaza el adulto mayor completo. Solo el cuidador a cargo; status es obligatorio (usa Archived para terminar el seguimiento) y caregiverId no puede cambiar (409).</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessesSummary" xml:space="preserve">
+        <value>Buscar una invitación o listar accesos familiares</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessesDescription" xml:space="preserve">
+        <value>?invitationCode= es público: devuelve la invitación (id, invitedEmail, invitationCode, relationship, status, expiresAt) solo si está pendiente y vigente; si no, []. Con token: ?olderAdultId= (cuidador a cargo), ?familyMemberId= (perfil propio) o sin filtro (administradores); status filtra todos los casos.</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessByIdSummary" xml:space="preserve">
+        <value>Obtener un acceso familiar</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessByIdDescription" xml:space="preserve">
+        <value>Lo pueden leer el cuidador a cargo, el familiar vinculado y los administradores.</value>
+    </data>
+    <data name="ProfilesCreateFamilyAccessSummary" xml:space="preserve">
+        <value>Invitar a un familiar</value>
+    </data>
+    <data name="ProfilesCreateFamilyAccessDescription" xml:space="preserve">
+        <value>Solo el cuidador a cargo. El servidor genera un código aleatorio (VITA- + 8 caracteres), el estado Pending y un vencimiento de 7 días, e ignora esos campos del cuerpo. 409 si el correo ya tiene un acceso pendiente o activo.</value>
+    </data>
+    <data name="ProfilesUpdateFamilyAccessSummary" xml:space="preserve">
+        <value>Aceptar, revocar o actualizar un acceso familiar</value>
+    </data>
+    <data name="ProfilesUpdateFamilyAccessDescription" xml:space="preserve">
+        <value>Pending → Active: la persona invitada (correo del token) con su propio familyMemberId, antes de expiresAt. → Revoked: el cuidador a cargo. Mismo estado: solo cambia relationship. Revoked es definitivo (409). Solo se leen status, familyMemberId y relationship.</value>
+    </data>
+    <data name="ProfilesListResponse" xml:space="preserve">
+        <value>Recursos encontrados (un arreglo simple, vacío si no hay coincidencias).</value>
+    </data>
+    <data name="ProfilesItemResponse" xml:space="preserve">
+        <value>El recurso.</value>
+    </data>
+    <data name="ProfilesCreatedResponse" xml:space="preserve">
+        <value>Creado. La cabecera Location apunta al nuevo recurso.</value>
+    </data>
+    <data name="ProfilesUpdatedResponse" xml:space="preserve">
+        <value>El recurso actualizado.</value>
+    </data>
+    <data name="ProfilesValidationErrorResponse" xml:space="preserve">
+        <value>Datos inválidos (problema de validación con los errores por campo).</value>
+    </data>
+    <data name="ProfilesUnauthorizedResponse" xml:space="preserve">
+        <value>Token ausente, inválido o vencido.</value>
+    </data>
+    <data name="ProfilesForbiddenResponse" xml:space="preserve">
+        <value>El solicitante no puede leer ni modificar este recurso.</value>
+    </data>
+    <data name="ProfilesNotFoundResponse" xml:space="preserve">
+        <value>El recurso no existe.</value>
+    </data>
+    <data name="ProfilesConflictResponse" xml:space="preserve">
+        <value>Conflicto con el estado actual: duplicado, cambio de dueño o transición de estado no permitida.</value>
+    </data>
+    <data name="ProfilesServerErrorResponse" xml:space="preserve">
+        <value>Error inesperado del servidor.</value>
+    </data>
+    <data name="ProfilesCaregiverProfileResourceSchema" xml:space="preserve">
+        <value>Perfil de cuidador.</value>
+    </data>
+    <data name="ProfilesSaveCaregiverProfileResourceSchema" xml:space="preserve">
+        <value>Datos para crear o reemplazar un perfil de cuidador.</value>
+    </data>
+    <data name="ProfilesFamilyMemberProfileResourceSchema" xml:space="preserve">
+        <value>Perfil de familiar.</value>
+    </data>
+    <data name="ProfilesSaveFamilyMemberProfileResourceSchema" xml:space="preserve">
+        <value>Datos para crear o reemplazar un perfil de familiar.</value>
+    </data>
+    <data name="ProfilesOlderAdultResourceSchema" xml:space="preserve">
+        <value>Adulto mayor.</value>
+    </data>
+    <data name="ProfilesSaveOlderAdultResourceSchema" xml:space="preserve">
+        <value>Datos para registrar o reemplazar un adulto mayor.</value>
+    </data>
+    <data name="ProfilesEmergencyContactResourceSchema" xml:space="preserve">
+        <value>Persona a la que llamar en una emergencia.</value>
+    </data>
+    <data name="ProfilesFamilyAccessResourceSchema" xml:space="preserve">
+        <value>Acceso familiar: invitación y acceso de lectura a un adulto mayor.</value>
+    </data>
+    <data name="ProfilesInvitationResourceSchema" xml:space="preserve">
+        <value>Vista pública de una invitación pendiente.</value>
+    </data>
+    <data name="ProfilesCreateFamilyAccessResourceSchema" xml:space="preserve">
+        <value>Datos para invitar a un familiar.</value>
+    </data>
+    <data name="ProfilesUpdateFamilyAccessResourceSchema" xml:space="preserve">
+        <value>Cambio de un acceso familiar (solo se leen status, familyMemberId y relationship).</value>
+    </data>
+    <data name="ProfilesIdProperty" xml:space="preserve">
+        <value>Identificador.</value>
+    </data>
+    <data name="ProfilesUserIdProperty" xml:space="preserve">
+        <value>Usuario de IAM dueño del perfil.</value>
+    </data>
+    <data name="ProfilesFirstNameProperty" xml:space="preserve">
+        <value>Nombres.</value>
+    </data>
+    <data name="ProfilesLastNameProperty" xml:space="preserve">
+        <value>Apellidos.</value>
+    </data>
+    <data name="ProfilesPhoneNumberProperty" xml:space="preserve">
+        <value>Teléfono (puede estar vacío).</value>
+    </data>
+    <data name="ProfilesProfessionalTitleProperty" xml:space="preserve">
+        <value>Título profesional.</value>
+    </data>
+    <data name="ProfilesBioProperty" xml:space="preserve">
+        <value>Presentación breve.</value>
+    </data>
+    <data name="ProfilesPhotoUrlProperty" xml:space="preserve">
+        <value>URL de la foto (puede estar vacía).</value>
+    </data>
+    <data name="ProfilesCertificationsProperty" xml:space="preserve">
+        <value>Certificaciones y cursos.</value>
+    </data>
+    <data name="ProfilesCaregiverIdProperty" xml:space="preserve">
+        <value>Perfil del cuidador a cargo.</value>
+    </data>
+    <data name="ProfilesBirthDateProperty" xml:space="preserve">
+        <value>Fecha de nacimiento (yyyy-MM-dd).</value>
+    </data>
+    <data name="ProfilesDocumentNumberProperty" xml:space="preserve">
+        <value>DNI: vacío u 8 dígitos.</value>
+    </data>
+    <data name="ProfilesBloodTypeProperty" xml:space="preserve">
+        <value>Grupo sanguíneo (vacío si se desconoce).</value>
+    </data>
+    <data name="ProfilesAllergiesProperty" xml:space="preserve">
+        <value>Alergias conocidas.</value>
+    </data>
+    <data name="ProfilesChronicConditionsProperty" xml:space="preserve">
+        <value>Enfermedades crónicas.</value>
+    </data>
+    <data name="ProfilesEmergencyContactProperty" xml:space="preserve">
+        <value>Persona a la que llamar en una emergencia.</value>
+    </data>
+    <data name="ProfilesContactNameProperty" xml:space="preserve">
+        <value>Nombre completo del contacto.</value>
+    </data>
+    <data name="ProfilesRelationshipProperty" xml:space="preserve">
+        <value>Parentesco con el adulto mayor.</value>
+    </data>
+    <data name="ProfilesObservationsProperty" xml:space="preserve">
+        <value>Observaciones de cuidado.</value>
+    </data>
+    <data name="ProfilesStatusProperty" xml:space="preserve">
+        <value>Estado.</value>
+    </data>
+    <data name="ProfilesOlderAdultIdProperty" xml:space="preserve">
+        <value>Adulto mayor compartido.</value>
+    </data>
+    <data name="ProfilesFamilyMemberIdProperty" xml:space="preserve">
+        <value>Perfil del familiar (null mientras está pendiente).</value>
+    </data>
+    <data name="ProfilesInvitedEmailProperty" xml:space="preserve">
+        <value>Correo de la persona invitada.</value>
+    </data>
+    <data name="ProfilesInvitationCodeProperty" xml:space="preserve">
+        <value>Código de invitación.</value>
+    </data>
+    <data name="ProfilesInvitedAtProperty" xml:space="preserve">
+        <value>Instante UTC de la invitación.</value>
+    </data>
+    <data name="ProfilesAcceptedAtProperty" xml:space="preserve">
+        <value>Instante UTC de la aceptación.</value>
+    </data>
+    <data name="ProfilesExpiresAtProperty" xml:space="preserve">
+        <value>Último instante UTC para aceptar la invitación.</value>
+    </data>
+    <data name="SessionUserNotFound" xml:space="preserve">
+        <value>El usuario de esta sesión ya no existe. Vuelve a iniciar sesión.</value>
+    </data>
+    <data name="IamGetCurrentUserSummary" xml:space="preserve">
+        <value>Obtener el usuario autenticado</value>
+    </data>
+    <data name="IamGetCurrentUserDescription" xml:space="preserve">
+        <value>Devuelve el usuario del token Bearer, leído nuevamente de la base de datos. 401 si el token falta, es inválido o venció, o si el usuario ya no existe o está desactivado.</value>
+    </data>
+    <data name="IamRefreshTokenSummary" xml:space="preserve">
+        <value>Renovar el token de acceso</value>
+    </data>
+    <data name="IamRefreshTokenDescription" xml:space="preserve">
+        <value>Sin cuerpo. Requiere un token Bearer válido, vuelve a comprobar que el usuario existe y está activo, y devuelve un token nuevo con la misma forma que el inicio de sesión. El token nuevo dura los minutos configurados (15 como máximo).</value>
+    </data>
+    <data name="IamCurrentUserResponse" xml:space="preserve">
+        <value>El usuario del token.</value>
+    </data>
+    <data name="IamTokenRefreshedResponse" xml:space="preserve">
+        <value>Id, correo, rol, estado del usuario y el token nuevo.</value>
+    </data>
+    <data name="IamSessionInvalidResponse" xml:space="preserve">
+        <value>Token ausente, inválido o vencido, o el usuario ya no existe o está desactivado.</value>
+    </data>
+    <data name="InvalidMood" xml:space="preserve">
+        <value>El ánimo debe ser VeryGood, Good, Neutral, Bad o VeryBad.</value>
+    </data>
+    <data name="InvalidGeneralCondition" xml:space="preserve">
+        <value>El estado general debe ser Stable, Attention o Critical.</value>
+    </data>
+    <data name="InvalidVitalSignType" xml:space="preserve">
+        <value>El tipo debe ser HeartRate, BloodPressure, OxygenSaturation, Temperature o Glucose.</value>
+    </data>
+    <data name="MedicationNameLength" xml:space="preserve">
+        <value>El nombre del medicamento puede tener como máximo 100 caracteres.</value>
+    </data>
+    <data name="DosageLength" xml:space="preserve">
+        <value>La dosis puede tener como máximo 50 caracteres.</value>
+    </data>
+    <data name="FrequencyLength" xml:space="preserve">
+        <value>La frecuencia puede tener como máximo 100 caracteres.</value>
+    </data>
+    <data name="InstructionsLength" xml:space="preserve">
+        <value>Las indicaciones pueden tener como máximo 500 caracteres.</value>
+    </data>
+    <data name="ScheduleTimesLimit" xml:space="preserve">
+        <value>Agrega de 1 a 12 horarios en formato HH:mm.</value>
+    </data>
+    <data name="InstantInFuture" xml:space="preserve">
+        <value>La fecha y hora no pueden ser futuras.</value>
+    </data>
+    <data name="VitalSignValueOutOfRange" xml:space="preserve">
+        <value>El valor debe estar entre {0} y {1} {2}.</value>
+    </data>
+    <data name="DiastolicRequired" xml:space="preserve">
+        <value>La presión arterial necesita el valor diastólico.</value>
+    </data>
+    <data name="DiastolicOutOfRange" xml:space="preserve">
+        <value>El valor diastólico debe estar entre {0} y {1} {2}.</value>
+    </data>
+    <data name="SecondaryValueNotAllowed" xml:space="preserve">
+        <value>Solo la presión arterial tiene un valor secundario.</value>
+    </data>
+    <data name="SystolicNotGreaterThanDiastolic" xml:space="preserve">
+        <value>El valor sistólico debe ser mayor que el diastólico.</value>
+    </data>
+    <data name="MonitoringAccessForbidden" xml:space="preserve">
+        <value>No tienes acceso a los registros de este adulto mayor.</value>
+    </data>
+    <data name="MonitoringOlderAdultChangeNotAllowed" xml:space="preserve">
+        <value>No se puede cambiar el adulto mayor de un registro.</value>
+    </data>
+    <data name="DailyReportNotFound" xml:space="preserve">
+        <value>No se encontró el reporte diario.</value>
+    </data>
+    <data name="VitalSignNotFound" xml:space="preserve">
+        <value>No se encontró el signo vital.</value>
+    </data>
+    <data name="MedicationNotFound" xml:space="preserve">
+        <value>No se encontró el medicamento.</value>
+    </data>
+    <data name="MonitoringGetDailyReportsSummary" xml:space="preserve">
+        <value>Obtener reportes diarios</value>
+    </data>
+    <data name="MonitoringGetDailyReportsDescription" xml:space="preserve">
+        <value>?olderAdultId= devuelve los reportes de ese adulto mayor (cuidador a cargo, familiar con acceso activo o administrador; 403 si no). Sin filtros, solo administradores.</value>
+    </data>
+    <data name="MonitoringGetDailyReportByIdSummary" xml:space="preserve">
+        <value>Obtener un reporte diario</value>
+    </data>
+    <data name="MonitoringGetDailyReportByIdDescription" xml:space="preserve">
+        <value>404 si no existe; 403 si el solicitante no puede leer a su adulto mayor.</value>
+    </data>
+    <data name="MonitoringCreateDailyReportSummary" xml:space="preserve">
+        <value>Registrar un reporte diario</value>
+    </data>
+    <data name="MonitoringCreateDailyReportDescription" xml:space="preserve">
+        <value>Solo el cuidador a cargo. recordedByUserId es el usuario del token. reportDate es un instante UTC y no puede ser futuro.</value>
+    </data>
+    <data name="MonitoringUpdateDailyReportSummary" xml:space="preserve">
+        <value>Actualizar un reporte diario</value>
+    </data>
+    <data name="MonitoringUpdateDailyReportDescription" xml:space="preserve">
+        <value>Reemplaza el reporte. Solo el cuidador a cargo; olderAdultId no puede cambiar (409); se conserva el autor original.</value>
+    </data>
+    <data name="MonitoringGetVitalSignsSummary" xml:space="preserve">
+        <value>Obtener signos vitales</value>
+    </data>
+    <data name="MonitoringGetVitalSignsDescription" xml:space="preserve">
+        <value>?olderAdultId= devuelve las mediciones de ese adulto mayor (cuidador a cargo, familiar con acceso activo o administrador; 403 si no). Sin filtros, solo administradores.</value>
+    </data>
+    <data name="MonitoringGetVitalSignByIdSummary" xml:space="preserve">
+        <value>Obtener un signo vital</value>
+    </data>
+    <data name="MonitoringGetVitalSignByIdDescription" xml:space="preserve">
+        <value>404 si no existe; 403 si el solicitante no puede leer a su adulto mayor.</value>
+    </data>
+    <data name="MonitoringCreateVitalSignSummary" xml:space="preserve">
+        <value>Registrar un signo vital</value>
+    </data>
+    <data name="MonitoringCreateVitalSignDescription" xml:space="preserve">
+        <value>Solo el cuidador a cargo. El valor debe estar dentro del rango de su tipo; la presión arterial necesita secondaryValue menor que value. La unidad se deriva del tipo. measuredAt no puede ser futuro.</value>
+    </data>
+    <data name="MonitoringUpdateVitalSignSummary" xml:space="preserve">
+        <value>Corregir un signo vital</value>
+    </data>
+    <data name="MonitoringUpdateVitalSignDescription" xml:space="preserve">
+        <value>Reemplaza la medición. Solo el cuidador a cargo; olderAdultId no puede cambiar (409).</value>
+    </data>
+    <data name="MonitoringGetMedicationsSummary" xml:space="preserve">
+        <value>Obtener medicamentos</value>
+    </data>
+    <data name="MonitoringGetMedicationsDescription" xml:space="preserve">
+        <value>?olderAdultId= devuelve los medicamentos de ese adulto mayor (cuidador a cargo, familiar con acceso activo o administrador; 403 si no). Sin filtros, solo administradores. ?active= filtra por el indicador activo.</value>
+    </data>
+    <data name="MonitoringGetMedicationByIdSummary" xml:space="preserve">
+        <value>Obtener un medicamento</value>
+    </data>
+    <data name="MonitoringGetMedicationByIdDescription" xml:space="preserve">
+        <value>404 si no existe; 403 si el solicitante no puede leer a su adulto mayor.</value>
+    </data>
+    <data name="MonitoringCreateMedicationSummary" xml:space="preserve">
+        <value>Registrar un medicamento</value>
+    </data>
+    <data name="MonitoringCreateMedicationDescription" xml:space="preserve">
+        <value>Solo el cuidador a cargo. scheduleTimes tiene de 1 a 12 horas HH:mm, guardadas ordenadas y sin duplicados. active es true por defecto.</value>
+    </data>
+    <data name="MonitoringUpdateMedicationSummary" xml:space="preserve">
+        <value>Actualizar o desactivar un medicamento</value>
+    </data>
+    <data name="MonitoringUpdateMedicationDescription" xml:space="preserve">
+        <value>Reemplaza el medicamento; envía active: false para desactivarlo (no hay eliminación). Solo el cuidador a cargo; olderAdultId no puede cambiar (409).</value>
+    </data>
+    <data name="MonitoringListResponse" xml:space="preserve">
+        <value>Registros encontrados (un arreglo simple, vacío si no hay).</value>
+    </data>
+    <data name="MonitoringItemResponse" xml:space="preserve">
+        <value>El registro.</value>
+    </data>
+    <data name="MonitoringCreatedResponse" xml:space="preserve">
+        <value>Creado. La cabecera Location apunta al nuevo registro.</value>
+    </data>
+    <data name="MonitoringUpdatedResponse" xml:space="preserve">
+        <value>El registro actualizado.</value>
+    </data>
+    <data name="MonitoringValidationErrorResponse" xml:space="preserve">
+        <value>Datos inválidos (problema de validación con los errores por campo).</value>
+    </data>
+    <data name="MonitoringUnauthorizedResponse" xml:space="preserve">
+        <value>Token ausente, inválido o vencido.</value>
+    </data>
+    <data name="MonitoringForbiddenResponse" xml:space="preserve">
+        <value>El solicitante no puede leer ni escribir los registros de este adulto mayor.</value>
+    </data>
+    <data name="MonitoringNotFoundResponse" xml:space="preserve">
+        <value>El registro no existe.</value>
+    </data>
+    <data name="MonitoringConflictResponse" xml:space="preserve">
+        <value>No se puede cambiar el adulto mayor de un registro.</value>
+    </data>
+    <data name="MonitoringServerErrorResponse" xml:space="preserve">
+        <value>Error inesperado del servidor.</value>
+    </data>
+    <data name="MonitoringDailyReportResourceSchema" xml:space="preserve">
+        <value>Reporte diario.</value>
+    </data>
+    <data name="MonitoringSaveDailyReportResourceSchema" xml:space="preserve">
+        <value>Datos para registrar o reemplazar un reporte diario.</value>
+    </data>
+    <data name="MonitoringVitalSignResourceSchema" xml:space="preserve">
+        <value>Medición de un signo vital.</value>
+    </data>
+    <data name="MonitoringSaveVitalSignResourceSchema" xml:space="preserve">
+        <value>Datos para registrar o corregir un signo vital.</value>
+    </data>
+    <data name="MonitoringMedicationResourceSchema" xml:space="preserve">
+        <value>Medicamento de un adulto mayor.</value>
+    </data>
+    <data name="MonitoringSaveMedicationResourceSchema" xml:space="preserve">
+        <value>Datos para registrar o reemplazar un medicamento.</value>
+    </data>
+    <data name="MonitoringIdProperty" xml:space="preserve">
+        <value>Identificador.</value>
+    </data>
+    <data name="MonitoringOlderAdultIdProperty" xml:space="preserve">
+        <value>Adulto mayor del registro.</value>
+    </data>
+    <data name="MonitoringRecordedByUserIdProperty" xml:space="preserve">
+        <value>Usuario de IAM que escribió el reporte (del token).</value>
+    </data>
+    <data name="MonitoringReportDateProperty" xml:space="preserve">
+        <value>Instante UTC del reporte.</value>
+    </data>
+    <data name="MonitoringMoodProperty" xml:space="preserve">
+        <value>Ánimo: VeryGood, Good, Neutral, Bad o VeryBad.</value>
+    </data>
+    <data name="MonitoringGeneralConditionProperty" xml:space="preserve">
+        <value>Estado general: Stable, Attention o Critical.</value>
+    </data>
+    <data name="MonitoringObservationsProperty" xml:space="preserve">
+        <value>Observaciones.</value>
+    </data>
+    <data name="MonitoringTypeProperty" xml:space="preserve">
+        <value>Tipo de signo vital.</value>
+    </data>
+    <data name="MonitoringValueProperty" xml:space="preserve">
+        <value>Valor principal (sistólica para la presión arterial).</value>
+    </data>
+    <data name="MonitoringSecondaryValueProperty" xml:space="preserve">
+        <value>Valor diastólico para la presión arterial; null para los demás tipos.</value>
+    </data>
+    <data name="MonitoringUnitProperty" xml:space="preserve">
+        <value>Unidad derivada del tipo.</value>
+    </data>
+    <data name="MonitoringMeasuredAtProperty" xml:space="preserve">
+        <value>Instante UTC de la medición.</value>
+    </data>
+    <data name="MonitoringNameProperty" xml:space="preserve">
+        <value>Nombre del medicamento.</value>
+    </data>
+    <data name="MonitoringDosageProperty" xml:space="preserve">
+        <value>Dosis.</value>
+    </data>
+    <data name="MonitoringFrequencyProperty" xml:space="preserve">
+        <value>Frecuencia.</value>
+    </data>
+    <data name="MonitoringScheduleTimesProperty" xml:space="preserve">
+        <value>Horarios diarios (HH:mm, hora local).</value>
+    </data>
+    <data name="MonitoringInstructionsProperty" xml:space="preserve">
+        <value>Indicaciones.</value>
+    </data>
+    <data name="MonitoringActiveProperty" xml:space="preserve">
+        <value>Si el medicamento se sigue tomando.</value>
+    </data>
+    <data name="HealthGetHealthSummary" xml:space="preserve">
+        <value>Verificación de salud</value>
+    </data>
+    <data name="HealthGetHealthDescription" xml:space="preserve">
+        <value>Sonda de disponibilidad para la plataforma de hosting. Devuelve 200 con {"status":"Healthy"} mientras el proceso está activo. No consulta la base de datos. Endpoint público.</value>
+    </data>
+    <data name="HealthOkResponse" xml:space="preserve">
+        <value>El proceso de la API está activo.</value>
+    </data>
+    <data name="HealthResourceSchema" xml:space="preserve">
+        <value>Estado de salud de la API.</value>
+    </data>
+    <data name="HealthStatusProperty" xml:space="preserve">
+        <value>Siempre Healthy cuando la API responde.</value>
+    </data>
+</root>

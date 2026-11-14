@@ -1,0 +1,33 @@
+# Only Vitalita.API and global.json are needed to build the image.
+
+# VCS, IDE and assistant files
+.git
+.gitignore
+.githooks
+.idea
+.vs
+.vscode
+.claude
+CLAUDE.md
+
+# Build output
+**/bin
+**/obj
+
+# Secrets and local configuration (never inside the image)
+.env
+.env.*
+**/.test-connection
+**/secrets.json
+**/*.user
+
+# Test projects
+Vitalita.API.Tests
+Vitalita.API.IntegrationTests
+
+# Local tooling and docs not needed at runtime
+docker-compose.yml
+scripts
+README.md
+Dockerfile
+.dockerignore

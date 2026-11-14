@@ -1,0 +1,375 @@
+@Vitalita.API_HostAddress = http://localhost:5240
+
+### OpenAPI document (Spanish)
+GET {{Vitalita.API_HostAddress}}/swagger/v1/swagger.json
+Accept: application/json
+Accept-Language: es
+
+### Unknown route: 404 ProblemDetails with "message", localized in Spanish
+GET {{Vitalita.API_HostAddress}}/api/v1/does-not-exist
+Accept: application/json
+Accept-Language: es
+Origin: http://localhost:5173
+
+### Same request in English (default culture)
+GET {{Vitalita.API_HostAddress}}/api/v1/does-not-exist
+Accept: application/json
+
+### CORS preflight from the Vite dev server
+OPTIONS {{Vitalita.API_HostAddress}}/api/v1/does-not-exist
+Origin: http://localhost:5173
+Access-Control-Request-Method: PUT
+Access-Control-Request-Headers: authorization,content-type
+
+### IAM: sign up (Caregiver by default). 201 + Location; 409 if the email exists; 400 if role=Admin
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/sign-up
+Content-Type: application/json
+Accept-Language: es
+
+{
+  "email": "andrea.mendoza@vitalita.pe",
+  "password": "Vitalita123",
+  "role": "Caregiver"
+}
+
+### IAM: sign up as Admin is rejected with 400
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/sign-up
+Content-Type: application/json
+
+{
+  "email": "not.an.admin@vitalita.pe",
+  "password": "Vitalita123",
+  "role": "Admin"
+}
+
+### IAM: sign in. 200 with id, email, role, status and token; 401 for wrong credentials or inactive account
+# @name signIn
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/sign-in
+Content-Type: application/json
+
+{
+  "email": "andrea.mendoza@vitalita.pe",
+  "password": "Vitalita123"
+}
+
+### IAM: current user of the token. 200 {id, email, role, status, createdAt, lastLoginAt}; 401 without token,
+### or when the user no longer exists or is inactive
+GET {{Vitalita.API_HostAddress}}/api/v1/authentication/me
+Accept: application/json
+Accept-Language: es
+Authorization: Bearer {{signIn.response.body.token}}
+
+### IAM: refresh the token (no body). 200 with the same shape as sign-in and a new token (15 minutes at most);
+### 401 when the token is missing, invalid or expired, or the user is inactive
+# @name refresh
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/refresh
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### IAM: the refreshed token works
+GET {{Vitalita.API_HostAddress}}/api/v1/authentication/me
+Accept: application/json
+Authorization: Bearer {{refresh.response.body.token}}
+
+### IAM: public email lookup. Array with zero or one {id, email}
+GET {{Vitalita.API_HostAddress}}/api/v1/users?email=andrea.mendoza@vitalita.pe
+Accept: application/json
+
+### IAM: get a user by id (Bearer token; own user or Admin)
+GET {{Vitalita.API_HostAddress}}/api/v1/users/{{signIn.response.body.id}}
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### IAM: sign in as the administrator seeded from Authentication:Admin (user-secrets)
+# @name adminSignIn
+POST {{Vitalita.API_HostAddress}}/api/v1/authentication/sign-in
+Content-Type: application/json
+
+{
+  "email": "<Authentication:Admin:Email>",
+  "password": "<Authentication:Admin:Password>"
+}
+
+### IAM: list every user (Admin only; 401 without token, 403 for other roles)
+GET {{Vitalita.API_HostAddress}}/api/v1/users
+Accept: application/json
+Authorization: Bearer {{adminSignIn.response.body.token}}
+
+### IAM: create a user with any role (Admin only). 201 + Location
+# @name createdUser
+POST {{Vitalita.API_HostAddress}}/api/v1/users
+Content-Type: application/json
+Authorization: Bearer {{adminSignIn.response.body.token}}
+
+{
+  "email": "renzo.rodriguez@vitalita.pe",
+  "password": "Vitalita123",
+  "role": "FamilyMember"
+}
+
+### IAM: replace a user (Admin, or the user themselves without changing role/status). password is optional
+PUT {{Vitalita.API_HostAddress}}/api/v1/users/{{createdUser.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{adminSignIn.response.body.token}}
+
+{
+  "email": "renzo.rodriguez@vitalita.pe",
+  "role": "FamilyMember",
+  "status": "Active",
+  "password": null
+}
+
+### IAM: deactivate a user (logical delete, Admin only). 204; afterwards its sign-in returns 401
+DELETE {{Vitalita.API_HostAddress}}/api/v1/users/{{createdUser.response.body.id}}
+Authorization: Bearer {{adminSignIn.response.body.token}}
+
+### ---------------------------------------------------------------------------------------------------------------
+### Profiles. Full flow in one command: ./scripts/profiles-flow.sh
+### The requests below use the caregiver signed in with "signIn" (andrea.mendoza@vitalita.pe, role Caregiver).
+### ---------------------------------------------------------------------------------------------------------------
+
+### Profiles: create the caregiver profile (own userId, role Caregiver). 201 + Location; 409 if it exists
+# @name caregiverProfile
+POST {{Vitalita.API_HostAddress}}/api/v1/caregiver-profiles
+Content-Type: application/json
+Accept-Language: es
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "userId": {{signIn.response.body.id}},
+  "firstName": "Andrea",
+  "lastName": "Mendoza",
+  "phoneNumber": "987654321",
+  "professionalTitle": "Licenciada en Enfermería",
+  "bio": "Enfermera con 12 años de experiencia en cuidado geriátrico domiciliario.",
+  "photoUrl": "",
+  "certifications": ["Cuidado geriátrico", "Primeros auxilios"]
+}
+
+### Profiles: caregiver profile of a user (array with zero or one element; own user or Admin)
+GET {{Vitalita.API_HostAddress}}/api/v1/caregiver-profiles?userId={{signIn.response.body.id}}
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### Profiles: replace the caregiver profile (owner only; userId cannot change)
+PUT {{Vitalita.API_HostAddress}}/api/v1/caregiver-profiles/{{caregiverProfile.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "userId": {{signIn.response.body.id}},
+  "firstName": "Andrea",
+  "lastName": "Mendoza Ríos",
+  "phoneNumber": "987654321",
+  "professionalTitle": "Licenciada en Enfermería",
+  "bio": "",
+  "photoUrl": "",
+  "certifications": ["Cuidado geriátrico"]
+}
+
+### Profiles: register an older adult (caregiverId = own caregiver profile). birthDate is yyyy-MM-dd
+# @name olderAdult
+POST {{Vitalita.API_HostAddress}}/api/v1/older-adults
+Content-Type: application/json
+Accept-Language: es
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "caregiverId": {{caregiverProfile.response.body.id}},
+  "firstName": "María",
+  "lastName": "Rodríguez",
+  "birthDate": "1948-03-12",
+  "documentNumber": "40218463",
+  "bloodType": "O+",
+  "allergies": ["Penicilina"],
+  "chronicConditions": ["Hipertensión arterial", "Diabetes tipo 2"],
+  "emergencyContact": { "name": "Renzo Rodríguez", "phoneNumber": "987111222", "relationship": "Son" },
+  "observations": "Requiere asistencia para caminar distancias largas.",
+  "status": "Active"
+}
+
+### Profiles: invalid older adult. 400 with localized errors per field
+POST {{Vitalita.API_HostAddress}}/api/v1/older-adults
+Content-Type: application/json
+Accept-Language: es
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "caregiverId": {{caregiverProfile.response.body.id}},
+  "firstName": "",
+  "lastName": "Rodríguez",
+  "birthDate": "2099-01-01",
+  "documentNumber": "123",
+  "bloodType": "Z+"
+}
+
+### Profiles: older adults of the caregiver (403 for another caregiver profile)
+GET {{Vitalita.API_HostAddress}}/api/v1/older-adults?caregiverId={{caregiverProfile.response.body.id}}
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### Profiles: older adults by ids (the ones the requester cannot read are left out)
+GET {{Vitalita.API_HostAddress}}/api/v1/older-adults?id={{olderAdult.response.body.id}}&id=999
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### Profiles: archive the older adult (PUT with the whole resource; status is required)
+PUT {{Vitalita.API_HostAddress}}/api/v1/older-adults/{{olderAdult.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "caregiverId": {{caregiverProfile.response.body.id}},
+  "firstName": "María",
+  "lastName": "Rodríguez",
+  "birthDate": "1948-03-12",
+  "documentNumber": "40218463",
+  "bloodType": "O+",
+  "allergies": ["Penicilina"],
+  "chronicConditions": ["Hipertensión arterial"],
+  "emergencyContact": { "name": "Renzo Rodríguez", "phoneNumber": "987111222", "relationship": "Son" },
+  "observations": "",
+  "status": "Active"
+}
+
+### Profiles: invite a family member. The server generates the code (VITA- + 8) and the dates; 409 if already invited
+# @name invitation
+POST {{Vitalita.API_HostAddress}}/api/v1/family-access
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "invitedEmail": "carla.rodriguez@correo.pe",
+  "relationship": "Daughter"
+}
+
+### Profiles: public invitation lookup (no token). [invitation] when pending and not expired; [] otherwise
+GET {{Vitalita.API_HostAddress}}/api/v1/family-access?invitationCode={{invitation.response.body.invitationCode}}
+Accept: application/json
+
+### Profiles: accesses of an older adult (caregiver in charge)
+GET {{Vitalita.API_HostAddress}}/api/v1/family-access?olderAdultId={{olderAdult.response.body.id}}
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### Profiles: revoke the invitation (caregiver in charge). Revoked is final: changing it again returns 409
+PUT {{Vitalita.API_HostAddress}}/api/v1/family-access/{{invitation.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "status": "Revoked",
+  "familyMemberId": null,
+  "relationship": "Daughter"
+}
+
+### Profiles: family member steps (sign up with the invited email, sign in, POST /family-member-profiles and
+### PUT /family-access/{id} with status Active and the own familyMemberId) are in ./scripts/profiles-flow.sh.
+
+### ---------------------------------------------------------------------------------------------------------------
+### Monitoring. Full flow in one command: ./scripts/monitoring-flow.sh
+### The requests below use the caregiver signed in with "signIn" and the older adult created with "olderAdult".
+### Instants are UTC ending in Z and cannot be in the future (5 minutes of tolerance).
+### ---------------------------------------------------------------------------------------------------------------
+
+### Monitoring: record a daily report (caregiver in charge). recordedByUserId comes from the token
+# @name dailyReport
+POST {{Vitalita.API_HostAddress}}/api/v1/daily-reports
+Content-Type: application/json
+Accept-Language: es
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "reportDate": "2026-11-11T20:00:00Z",
+  "mood": "Good",
+  "generalCondition": "Stable",
+  "observations": "Durmió bien y almorzó completo."
+}
+
+### Monitoring: daily reports of an older adult (caregiver in charge, family with active access, or Admin)
+GET {{Vitalita.API_HostAddress}}/api/v1/daily-reports?olderAdultId={{olderAdult.response.body.id}}
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### Monitoring: replace a daily report (olderAdultId cannot change: 409)
+PUT {{Vitalita.API_HostAddress}}/api/v1/daily-reports/{{dailyReport.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "reportDate": "2026-11-11T20:00:00Z",
+  "mood": "Neutral",
+  "generalCondition": "Attention",
+  "observations": "Tos leve por la tarde."
+}
+
+### Monitoring: record a blood pressure (secondaryValue = diastolic; unit derived from the type)
+# @name vitalSign
+POST {{Vitalita.API_HostAddress}}/api/v1/vital-signs
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "type": "BloodPressure",
+  "value": 120,
+  "secondaryValue": 80,
+  "measuredAt": "2026-11-11T13:00:00Z"
+}
+
+### Monitoring: out of range. 400 with the range of the type in errors.value
+POST {{Vitalita.API_HostAddress}}/api/v1/vital-signs
+Content-Type: application/json
+Accept-Language: es
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "type": "HeartRate",
+  "value": 300,
+  "measuredAt": "2026-11-11T13:00:00Z"
+}
+
+### Monitoring: vital signs of an older adult
+GET {{Vitalita.API_HostAddress}}/api/v1/vital-signs?olderAdultId={{olderAdult.response.body.id}}
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+### Monitoring: register a medication (scheduleTimes HH:mm, stored sorted and without duplicates)
+# @name medication
+POST {{Vitalita.API_HostAddress}}/api/v1/medications
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "name": "Metformina",
+  "dosage": "850 mg",
+  "frequency": "Cada 12 horas",
+  "scheduleTimes": ["20:00", "08:00"],
+  "instructions": "Tomar después del desayuno y la cena.",
+  "active": true
+}
+
+### Monitoring: deactivate the medication (there is no DELETE)
+PUT {{Vitalita.API_HostAddress}}/api/v1/medications/{{medication.response.body.id}}
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token}}
+
+{
+  "olderAdultId": {{olderAdult.response.body.id}},
+  "name": "Metformina",
+  "dosage": "850 mg",
+  "frequency": "Cada 12 horas",
+  "scheduleTimes": ["08:00", "20:00"],
+  "instructions": "Tomar después del desayuno y la cena.",
+  "active": false
+}
+
+### Monitoring: active medications of an older adult
+GET {{Vitalita.API_HostAddress}}/api/v1/medications?olderAdultId={{olderAdult.response.body.id}}&active=true
+Accept: application/json
+Authorization: Bearer {{signIn.response.body.token}}

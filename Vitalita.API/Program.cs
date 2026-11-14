@@ -1,0 +1,308 @@
+using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Vitalita.API.IAM.Application.Internal.CommandServices;
+using Vitalita.API.IAM.Application.Internal.OutboundServices;
+using Vitalita.API.IAM.Application.Internal.QueryServices;
+using Vitalita.API.IAM.Application.Services;
+using Vitalita.API.IAM.Domain.Repositories;
+using Vitalita.API.IAM.Infrastructure.Hashing.BCrypt.Services;
+using Vitalita.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using Vitalita.API.IAM.Infrastructure.Seeding;
+using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using Vitalita.API.IAM.Infrastructure.Tokens.JWT.Services;
+using Vitalita.API.IAM.Interfaces.ACL;
+using Vitalita.API.IAM.Interfaces.ACL.Services;
+using Vitalita.API.IAM.Interfaces.REST.Transform;
+using Vitalita.API.Monitoring.Application.Internal.CommandServices;
+using Vitalita.API.Monitoring.Application.Internal.OutboundServices;
+using Vitalita.API.Monitoring.Application.Internal.Policies;
+using Vitalita.API.Monitoring.Application.Internal.QueryServices;
+using Vitalita.API.Monitoring.Application.Services;
+using Vitalita.API.Monitoring.Domain.Repositories;
+using Vitalita.API.Monitoring.Infrastructure.Persistence.EFC.Repositories;
+using Vitalita.API.Profiles.Application.Internal.CommandServices;
+using Vitalita.API.Profiles.Application.Internal.Policies;
+using Vitalita.API.Profiles.Application.Internal.QueryServices;
+using Vitalita.API.Profiles.Application.Services;
+using Vitalita.API.Profiles.Domain.Repositories;
+using Vitalita.API.Profiles.Domain.Services;
+using Vitalita.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
+using Vitalita.API.Profiles.Infrastructure.Security;
+using Vitalita.API.Profiles.Interfaces.ACL;
+using Vitalita.API.Profiles.Interfaces.ACL.Services;
+using Vitalita.API.Resources;
+using Vitalita.API.Shared.Domain.Repositories;
+using Vitalita.API.Shared.Domain.Services;
+using Vitalita.API.Shared.Infrastructure.Configuration;
+using Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using Vitalita.API.Shared.Infrastructure.Interfaces.ASP.Security;
+using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Interceptors;
+using Vitalita.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using Vitalita.API.Shared.Infrastructure.Time;
+using Vitalita.API.Shared.Interfaces.REST.Transform;
+using MonitoringOpenApiAssembler = Vitalita.API.Monitoring.Interfaces.REST.Transform.LocalizedOpenApiAssembler;
+using ProfilesOpenApiAssembler = Vitalita.API.Profiles.Interfaces.REST.Transform.LocalizedOpenApiAssembler;
+
+const string frontendCorsPolicy = "AllowFrontend";
+
+// Startup failures (missing settings, unreachable database, ...) end the process with exit code 1 and a one-line
+// message on stderr. Without this, an unhandled exception makes .NET call abort(); as PID 1 in a container the
+// SIGABRT is ignored and the process spins forever instead of exiting. Only the exception type and message are
+// printed (never configuration values). The filter lets the exception propagate unchanged when the API is not the
+// process entry point (WebApplicationFactory in the integration tests, dotnet ef), and HostAbortedException is the
+// signal those tools use to stop the host after building it.
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
+
+    // Fail fast with one clear message when a required setting is missing (environment variables in production).
+    RequiredConfigurationValidator.Validate(builder.Configuration, builder.Environment);
+
+    // Lowercase URLs; the [controller] token is converted to kebab-case by the convention below.
+    builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+    // Localization (Resources/SharedResource*.resx).
+    builder.Services.AddLocalization();
+
+    // Localized validation messages for every DataAnnotations attribute (see LocalizedValidationAttributeAdapterProvider).
+    builder.Services.AddSingleton<IValidationAttributeAdapterProvider, LocalizedValidationAttributeAdapterProvider>();
+
+    // Controllers: kebab-case routes, camelCase JSON, enums as strings, localized validation errors.
+    builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()))
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        })
+        .AddDataAnnotationsLocalization(options =>
+            options.DataAnnotationLocalizerProvider = (_, factory) => factory.Create(typeof(SharedResource)))
+        .ConfigureApiBehaviorOptions(options =>
+        {
+            options.InvalidModelStateResponseFactory = context =>
+            {
+                var localizer = context.HttpContext.RequestServices
+                    .GetRequiredService<IStringLocalizer<SharedResource>>();
+                var problemDetailsFactory = context.HttpContext.RequestServices
+                    .GetRequiredService<ProblemDetailsFactory>();
+                var problemDetails = problemDetailsFactory.CreateValidationProblemDetails(
+                    context.HttpContext,
+                    context.ModelState,
+                    statusCode: StatusCodes.Status400BadRequest,
+                    title: localizer["InvalidModelStateTitle"].Value);
+
+                var result = new BadRequestObjectResult(problemDetails);
+                result.ContentTypes.Add("application/problem+json");
+                return result;
+            };
+        });
+
+    // Same JSON settings for responses written outside MVC (exception handler, status code pages, OpenAPI schemas).
+    builder.Services.ConfigureHttpJsonOptions(options =>
+    {
+        options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
+    // RFC 7807 ProblemDetails for every error, localized and with the "message" extension read by the frontend.
+    builder.Services.AddProblemDetails(options =>
+        options.CustomizeProblemDetails = LocalizedProblemDetailsCustomizer.Customize);
+
+    // Built-in OpenAPI document generation (Microsoft.AspNetCore.OpenApi), rendered by Swagger UI (/swagger).
+    builder.Services.AddOpenApi(options =>
+    {
+        options.AddDocumentTransformer(LocalizedOpenApiDocumentTransformer.TransformAsync);
+        options.AddSchemaTransformer(StringEnumSchemaTransformer.TransformAsync);
+        options.AddDocumentTransformer(BearerSecuritySchemeTransformer.TransformDocumentAsync);
+        options.AddOperationTransformer(BearerSecuritySchemeTransformer.TransformOperationAsync);
+        options.AddOperationTransformer(LocalizedOpenApiAssembler.TransformOperationAsync);
+        options.AddSchemaTransformer(LocalizedOpenApiAssembler.TransformSchemaAsync);
+        options.AddOperationTransformer(ProfilesOpenApiAssembler.TransformOperationAsync);
+        options.AddSchemaTransformer(ProfilesOpenApiAssembler.TransformSchemaAsync);
+        options.AddOperationTransformer(MonitoringOpenApiAssembler.TransformOperationAsync);
+        options.AddSchemaTransformer(MonitoringOpenApiAssembler.TransformSchemaAsync);
+        options.AddOperationTransformer(HealthOpenApiAssembler.TransformOperationAsync);
+        options.AddSchemaTransformer(HealthOpenApiAssembler.TransformSchemaAsync);
+    });
+
+    // Behind a reverse proxy (Render) TLS ends at the proxy: trust X-Forwarded-For and X-Forwarded-Proto so the request
+    // scheme and client IP are the original ones. The proxy addresses are not fixed, so the known networks and proxies
+    // are cleared; the container is only reachable through the platform proxy.
+    builder.Services.Configure<ForwardedHeadersOptions>(options =>
+    {
+        options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        options.KnownIPNetworks.Clear();
+        options.KnownProxies.Clear();
+    });
+
+    // CORS: allowed origins come from configuration (Cors:AllowedOrigins, or Cors__AllowedOrigins__0 in production).
+    var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+    builder.Services.AddCors(options => options.AddPolicy(frontendCorsPolicy, policy => policy
+        .WithOrigins(allowedOrigins)
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .WithExposedHeaders("Location")));
+
+    // Shared kernel services.
+    builder.Services.AddSingleton<IClock, SystemClock>();
+    builder.Services.AddSingleton<AuditableEntityInterceptor>();
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+    // Database: the connection string comes from user-secrets (development) or the
+    // ConnectionStrings__DefaultConnection environment variable (production). It is never stored in appsettings.
+    builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+    {
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new InvalidOperationException(
+                "Connection string 'DefaultConnection' is not set. Use 'dotnet user-secrets set " +
+                "\"ConnectionStrings:DefaultConnection\" \"...\"' in development or the " +
+                "'ConnectionStrings__DefaultConnection' environment variable in production.");
+
+        options.UseMySQL(connectionString)
+            .AddInterceptors(serviceProvider.GetRequiredService<AuditableEntityInterceptor>())
+            .EnableDetailedErrors();
+
+        // EnableSensitiveDataLogging is intentionally not used, not even in development: it writes SQL parameter
+        // values (password hashes, emails) to the logs.
+    });
+
+    // Bounded context registrations go here.
+
+    // IAM bounded context.
+    // JWT settings: Issuer, Audience and ExpirationMinutes (1-15) live in appsettings.json. The secret comes from
+    // user-secrets (development) or Authentication__Jwt__Secret (production) and is validated on startup.
+    builder.Services.AddOptions<JwtSettings>()
+        .Bind(builder.Configuration.GetSection(JwtSettings.SectionName))
+        .ValidateDataAnnotations()
+        .ValidateOnStart();
+
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+    builder.Services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+        .Configure<IOptions<JwtSettings>>((options, jwtSettings) =>
+        {
+            var settings = jwtSettings.Value;
+            options.MapInboundClaims = false; // keep the original claim names (sub, email, role)
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = settings.Issuer,
+                ValidateAudience = true,
+                ValidAudience = settings.Audience,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = TokenService.CreateSigningKey(settings.Secret),
+                ValidAlgorithms = [SecurityAlgorithms.HmacSha256],
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero, // the token lasts exactly ExpirationMinutes
+                NameClaimType = TokenService.UserIdClaimType,
+                RoleClaimType = TokenService.RoleClaimType
+            };
+        });
+    builder.Services.AddAuthorizationBuilder()
+        .AddPolicy(AuthorizationPolicies.AdminOnly, policy => policy.RequireRole(AuthorizationPolicies.AdminRole));
+
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+    builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+    builder.Services.AddSingleton<IHashingService, HashingService>();
+    builder.Services.AddSingleton<ITokenService, TokenService>();
+    builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+
+    // Profiles bounded context.
+    builder.Services.AddScoped<ICaregiverProfileRepository, CaregiverProfileRepository>();
+    builder.Services.AddScoped<IFamilyMemberProfileRepository, FamilyMemberProfileRepository>();
+    builder.Services.AddScoped<IOlderAdultRepository, OlderAdultRepository>();
+    builder.Services.AddScoped<IFamilyAccessRepository, FamilyAccessRepository>();
+    builder.Services.AddScoped<ProfileAccessPolicy>();
+    builder.Services.AddSingleton<IInvitationCodeGenerator, InvitationCodeGenerator>();
+    builder.Services.AddScoped<ICaregiverProfileCommandService, CaregiverProfileCommandService>();
+    builder.Services.AddScoped<ICaregiverProfileQueryService, CaregiverProfileQueryService>();
+    builder.Services.AddScoped<IFamilyMemberProfileCommandService, FamilyMemberProfileCommandService>();
+    builder.Services.AddScoped<IFamilyMemberProfileQueryService, FamilyMemberProfileQueryService>();
+    builder.Services.AddScoped<IOlderAdultCommandService, OlderAdultCommandService>();
+    builder.Services.AddScoped<IOlderAdultQueryService, OlderAdultQueryService>();
+    builder.Services.AddScoped<IFamilyAccessCommandService, FamilyAccessCommandService>();
+    builder.Services.AddScoped<IFamilyAccessQueryService, FamilyAccessQueryService>();
+    builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
+
+    // Monitoring bounded context.
+    builder.Services.AddScoped<IDailyReportRepository, DailyReportRepository>();
+    builder.Services.AddScoped<IVitalSignRepository, VitalSignRepository>();
+    builder.Services.AddScoped<IMedicationRepository, MedicationRepository>();
+    builder.Services.AddScoped<IExternalProfilesService, ExternalProfilesService>();
+    builder.Services.AddScoped<OlderAdultAccessPolicy>();
+    builder.Services.AddScoped<IDailyReportCommandService, DailyReportCommandService>();
+    builder.Services.AddScoped<IDailyReportQueryService, DailyReportQueryService>();
+    builder.Services.AddScoped<IVitalSignCommandService, VitalSignCommandService>();
+    builder.Services.AddScoped<IVitalSignQueryService, VitalSignQueryService>();
+    builder.Services.AddScoped<IMedicationCommandService, MedicationCommandService>();
+    builder.Services.AddScoped<IMedicationQueryService, MedicationQueryService>();
+
+    var app = builder.Build();
+
+    // Apply pending migrations on startup (no-op when the schema is up to date), then create the first
+    // administrator when Authentication:Admin:Email and Authentication:Admin:Password are configured.
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+        await AdminSeeder.SeedAsync(scope.ServiceProvider, app.Configuration);
+    }
+
+    // Forwarded headers first, so everything after sees the original scheme and client IP.
+    app.UseForwardedHeaders();
+
+    // CORS next, so error responses (404, 500) also carry the CORS headers.
+    app.UseCors(frontendCorsPolicy);
+
+    // Localization before the exception handler, so error messages follow Accept-Language.
+    string[] supportedCultures = ["en", "es"];
+    var localizationOptions = new RequestLocalizationOptions()
+        .SetDefaultCulture(supportedCultures[0])
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
+    localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
+    app.UseRequestLocalization(localizationOptions);
+
+    // Unhandled exceptions and empty error responses (404, 405, ...) become ProblemDetails.
+    app.UseExceptionHandler();
+    app.UseStatusCodePages();
+
+    // HTTPS redirection only in development (the https launch profile). In containers the API listens on plain HTTP
+    // and the platform proxy terminates TLS, so there is no local https port to redirect to.
+    if (app.Environment.IsDevelopment())
+        app.UseHttpsRedirection();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    // OpenAPI document and Swagger UI are available in all environments (same as the reference project).
+    app.MapOpenApi("/swagger/{documentName}/swagger.json");
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Vitalita API v1");
+        options.RoutePrefix = "swagger";
+    });
+    app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
+    app.MapControllers();
+
+    await app.RunAsync();
+    return 0;
+}
+catch (Exception exception) when (exception is not HostAbortedException &&
+                                  Assembly.GetEntryAssembly() == typeof(Program).Assembly)
+{
+    await Console.Error.WriteLineAsync(
+        $"Vitalita API failed to start: {exception.GetType().FullName}: {exception.Message}");
+    return 1;
+}

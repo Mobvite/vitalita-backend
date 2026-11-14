@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ApiTitle" xml:space="preserve">
+        <value>Vitalita API</value>
+    </data>
+    <data name="ApiDescription" xml:space="preserve">
+        <value>REST API of Vitalita, a platform for caregivers and family members of older adults in Peru.</value>
+    </data>
+    <data name="InvalidModelStateTitle" xml:space="preserve">
+        <value>The request contains invalid values.</value>
+    </data>
+    <data name="BadRequestTitle" xml:space="preserve">
+        <value>The request is not valid.</value>
+    </data>
+    <data name="UnauthorizedTitle" xml:space="preserve">
+        <value>Authentication is required to access this resource.</value>
+    </data>
+    <data name="ForbiddenTitle" xml:space="preserve">
+        <value>You do not have permission to access this resource.</value>
+    </data>
+    <data name="ResourceNotFound" xml:space="preserve">
+        <value>The requested resource was not found.</value>
+    </data>
+    <data name="MethodNotAllowedTitle" xml:space="preserve">
+        <value>The HTTP method is not allowed for this resource.</value>
+    </data>
+    <data name="ConflictTitle" xml:space="preserve">
+        <value>The request conflicts with the current state of the resource.</value>
+    </data>
+    <data name="UnsupportedMediaTypeTitle" xml:space="preserve">
+        <value>The media type of the request is not supported.</value>
+    </data>
+    <data name="UnexpectedServerError" xml:space="preserve">
+        <value>Unexpected server error.</value>
+    </data>
+    <data name="UnexpectedErrorProcessingRequest" xml:space="preserve">
+        <value>An unexpected error occurred while processing your request.</value>
+    </data>
+    <data name="RequiredField" xml:space="preserve">
+        <value>This field is required.</value>
+    </data>
+    <data name="InvalidEmail" xml:space="preserve">
+        <value>Enter a valid email address.</value>
+    </data>
+    <data name="EmailLength" xml:space="preserve">
+        <value>The email cannot be longer than 254 characters.</value>
+    </data>
+    <data name="PasswordLength" xml:space="preserve">
+        <value>The password must have between 8 and 72 characters.</value>
+    </data>
+    <data name="InvalidRole" xml:space="preserve">
+        <value>The role is not valid.</value>
+    </data>
+    <data name="AdminSignUpNotAllowed" xml:space="preserve">
+        <value>An administrator account cannot be created through the sign-up.</value>
+    </data>
+    <data name="EmailAlreadyInUse" xml:space="preserve">
+        <value>The email is already in use.</value>
+    </data>
+    <data name="InvalidCredentials" xml:space="preserve">
+        <value>The email or password is incorrect.</value>
+    </data>
+    <data name="AccountInactive" xml:space="preserve">
+        <value>The account is inactive.</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>The user was not found.</value>
+    </data>
+    <data name="UserAccessForbidden" xml:space="preserve">
+        <value>You can only access your own user.</value>
+    </data>
+    <data name="IamSignUpSummary" xml:space="preserve">
+        <value>Sign up</value>
+    </data>
+    <data name="IamSignUpDescription" xml:space="preserve">
+        <value>Registers a Caregiver or FamilyMember account. The role defaults to Caregiver; Admin is rejected with 400. The password is stored as a BCrypt hash and is never returned. Public endpoint.</value>
+    </data>
+    <data name="IamSignInSummary" xml:space="preserve">
+        <value>Sign in</value>
+    </data>
+    <data name="IamSignInDescription" xml:space="preserve">
+        <value>Authenticates a user and returns a JWT access token (15 minutes at most). Wrong credentials and inactive accounts return 401. Public endpoint.</value>
+    </data>
+    <data name="IamGetUsersSummary" xml:space="preserve">
+        <value>Look up users by email, or list all users</value>
+    </data>
+    <data name="IamGetUsersDescription" xml:space="preserve">
+        <value>With ?email= it is a public lookup that returns an array with zero or one element containing only id and email (compatibility compromise with the frontend). Without email it requires a Bearer token with the Admin role and returns the full users.</value>
+    </data>
+    <data name="IamGetUserByIdSummary" xml:space="preserve">
+        <value>Get a user by id</value>
+    </data>
+    <data name="IamGetUserByIdDescription" xml:space="preserve">
+        <value>Administrators can read any user; other users can only read themselves.</value>
+    </data>
+    <data name="IamUserCreatedResponse" xml:space="preserve">
+        <value>User created. The Location header points to the new user.</value>
+    </data>
+    <data name="IamValidationErrorResponse" xml:space="preserve">
+        <value>Validation error (ProblemDetails with the invalid fields).</value>
+    </data>
+    <data name="IamEmailInUseResponse" xml:space="preserve">
+        <value>The email is already in use.</value>
+    </data>
+    <data name="IamServerErrorResponse" xml:space="preserve">
+        <value>Unexpected server error.</value>
+    </data>
+    <data name="IamSignedInResponse" xml:space="preserve">
+        <value>Authenticated user with its access token.</value>
+    </data>
+    <data name="IamInvalidCredentialsResponse" xml:space="preserve">
+        <value>Wrong credentials or inactive account.</value>
+    </data>
+    <data name="IamUsersResponse" xml:space="preserve">
+        <value>Matching users (id and email only for the email lookup).</value>
+    </data>
+    <data name="IamUserResponse" xml:space="preserve">
+        <value>The user.</value>
+    </data>
+    <data name="IamUnauthorizedResponse" xml:space="preserve">
+        <value>Missing, invalid or expired Bearer token.</value>
+    </data>
+    <data name="IamAdminOnlyResponse" xml:space="preserve">
+        <value>The authenticated user is not an administrator.</value>
+    </data>
+    <data name="IamOwnUserOrAdminResponse" xml:space="preserve">
+        <value>Only administrators or the user themselves can access this user.</value>
+    </data>
+    <data name="IamUserNotFoundResponse" xml:space="preserve">
+        <value>The user does not exist.</value>
+    </data>
+    <data name="IamSignUpResourceSchema" xml:space="preserve">
+        <value>Data to register an account.</value>
+    </data>
+    <data name="IamSignInResourceSchema" xml:space="preserve">
+        <value>Sign-in credentials.</value>
+    </data>
+    <data name="IamAuthenticatedUserResourceSchema" xml:space="preserve">
+        <value>Authenticated user and access token.</value>
+    </data>
+    <data name="IamUserResourceSchema" xml:space="preserve">
+        <value>User account. It never contains the password.</value>
+    </data>
+    <data name="IamUserEmailResourceSchema" xml:space="preserve">
+        <value>Minimal user data returned by the email lookup.</value>
+    </data>
+    <data name="IamUserIdProperty" xml:space="preserve">
+        <value>User identifier.</value>
+    </data>
+    <data name="IamEmailProperty" xml:space="preserve">
+        <value>Account email (stored in lower case).</value>
+    </data>
+    <data name="IamPasswordProperty" xml:space="preserve">
+        <value>Password, 8 to 72 characters. It is never returned.</value>
+    </data>
+    <data name="IamRoleProperty" xml:space="preserve">
+        <value>Account role: Caregiver, FamilyMember or Admin.</value>
+    </data>
+    <data name="IamStatusProperty" xml:space="preserve">
+        <value>Account status: Active or Inactive.</value>
+    </data>
+    <data name="IamTokenProperty" xml:space="preserve">
+        <value>JWT access token. Send it as Authorization: Bearer &lt;token&gt;.</value>
+    </data>
+    <data name="IamCreatedAtProperty" xml:space="preserve">
+        <value>UTC instant when the account was created.</value>
+    </data>
+    <data name="IamLastLoginAtProperty" xml:space="preserve">
+        <value>UTC instant of the last sign-in, or null.</value>
+    </data>
+    <data name="InvalidStatus" xml:space="preserve">
+        <value>The status is not valid.</value>
+    </data>
+    <data name="RoleChangeNotAllowed" xml:space="preserve">
+        <value>You cannot change your own role.</value>
+    </data>
+    <data name="StatusChangeNotAllowed" xml:space="preserve">
+        <value>You cannot change your own status.</value>
+    </data>
+    <data name="CannotDeactivateSelf" xml:space="preserve">
+        <value>You cannot deactivate your own account.</value>
+    </data>
+    <data name="IamCreateUserSummary" xml:space="preserve">
+        <value>Create a user (Admin)</value>
+    </data>
+    <data name="IamCreateUserDescription" xml:space="preserve">
+        <value>Creates a user with any role, including Admin. Only for administrators.</value>
+    </data>
+    <data name="IamUpdateUserSummary" xml:space="preserve">
+        <value>Update a user</value>
+    </data>
+    <data name="IamUpdateUserDescription" xml:space="preserve">
+        <value>Replaces the email, role, status and, optionally, the password of a user. Administrators can update any user; other users only themselves. Nobody can change their own role or status.</value>
+    </data>
+    <data name="IamDeactivateUserSummary" xml:space="preserve">
+        <value>Deactivate a user (Admin)</value>
+    </data>
+    <data name="IamDeactivateUserDescription" xml:space="preserve">
+        <value>Logical delete: the status becomes Inactive and the row is kept. The user can no longer sign in, but tokens already issued stay valid until they expire (15 minutes at most). An administrator cannot deactivate themselves.</value>
+    </data>
+    <data name="IamUserUpdatedResponse" xml:space="preserve">
+        <value>The updated user.</value>
+    </data>
+    <data name="IamUpdateForbiddenResponse" xml:space="preserve">
+        <value>Updating another user without being an administrator, or changing your own role or status.</value>
+    </data>
+    <data name="IamUserDeactivatedResponse" xml:space="preserve">
+        <value>User deactivated.</value>
+    </data>
+    <data name="IamCannotDeactivateSelfResponse" xml:space="preserve">
+        <value>An administrator cannot deactivate their own account.</value>
+    </data>
+    <data name="IamCreateUserResourceSchema" xml:space="preserve">
+        <value>Data to create a user as an administrator.</value>
+    </data>
+    <data name="IamUpdateUserResourceSchema" xml:space="preserve">
+        <value>Full user data for PUT. Password is optional.</value>
+    </data>
+    <data name="BearerSchemeDescription" xml:space="preserve">
+        <value>JWT access token returned by POST /api/v1/authentication/sign-in. Paste only the token (without the word Bearer).</value>
+    </data>
+    <data name="InvalidIdentifier" xml:space="preserve">
+        <value>Must be a positive identifier.</value>
+    </data>
+    <data name="NameLength" xml:space="preserve">
+        <value>Use at most 100 characters.</value>
+    </data>
+    <data name="PhoneNumberFormat" xml:space="preserve">
+        <value>Enter a valid phone number: 6 to 20 digits, spaces or a leading +.</value>
+    </data>
+    <data name="ProfessionalTitleLength" xml:space="preserve">
+        <value>The professional title can have at most 100 characters.</value>
+    </data>
+    <data name="BioLength" xml:space="preserve">
+        <value>The presentation can have at most 500 characters.</value>
+    </data>
+    <data name="PhotoUrlFormat" xml:space="preserve">
+        <value>The photo must be an http or https URL of up to 500 characters.</value>
+    </data>
+    <data name="CertificationsLimit" xml:space="preserve">
+        <value>Add at most 20 certifications of up to 100 characters each.</value>
+    </data>
+    <data name="ClinicalListLimit" xml:space="preserve">
+        <value>Add at most 30 items of up to 100 characters each.</value>
+    </data>
+    <data name="DocumentNumberFormat" xml:space="preserve">
+        <value>The DNI must have 8 digits.</value>
+    </data>
+    <data name="InvalidBloodType" xml:space="preserve">
+        <value>The blood type must be O+, O-, A+, A-, B+, B-, AB+ or AB-.</value>
+    </data>
+    <data name="ObservationsLength" xml:space="preserve">
+        <value>The observations can have at most 1000 characters.</value>
+    </data>
+    <data name="InvalidOlderAdultStatus" xml:space="preserve">
+        <value>The status must be Active, Inactive or Archived.</value>
+    </data>
+    <data name="InvalidRelationship" xml:space="preserve">
+        <value>The relationship must be Son, Daughter, Spouse, Grandchild, Sibling or Other.</value>
+    </data>
+    <data name="InvalidAccessStatus" xml:space="preserve">
+        <value>The status must be Pending, Active or Revoked.</value>
+    </data>
+    <data name="InvalidInvitationCode" xml:space="preserve">
+        <value>The invitation code must have 1 to 20 characters.</value>
+    </data>
+    <data name="BirthDateInFuture" xml:space="preserve">
+        <value>The birth date cannot be in the future.</value>
+    </data>
+    <data name="FamilyMemberRequired" xml:space="preserve">
+        <value>The family member profile is required to accept the invitation.</value>
+    </data>
+    <data name="ProfileAccessForbidden" xml:space="preserve">
+        <value>You do not have access to this resource.</value>
+    </data>
+    <data name="ProfileCreationForbidden" xml:space="preserve">
+        <value>You can only create your own profile, with the matching role.</value>
+    </data>
+    <data name="NoValidInvitation" xml:space="preserve">
+        <value>There is no pending invitation for your email.</value>
+    </data>
+    <data name="ProfileUserNotFound" xml:space="preserve">
+        <value>The user does not exist.</value>
+    </data>
+    <data name="ProfileAlreadyExists" xml:space="preserve">
+        <value>This user already has a profile.</value>
+    </data>
+    <data name="ProfileOwnerChangeNotAllowed" xml:space="preserve">
+        <value>The owner of a profile cannot be changed.</value>
+    </data>
+    <data name="CaregiverProfileNotFound" xml:space="preserve">
+        <value>The caregiver profile was not found.</value>
+    </data>
+    <data name="FamilyMemberProfileNotFound" xml:space="preserve">
+        <value>The family member profile was not found.</value>
+    </data>
+    <data name="OlderAdultNotFound" xml:space="preserve">
+        <value>The older adult was not found.</value>
+    </data>
+    <data name="FamilyAccessNotFound" xml:space="preserve">
+        <value>The family access was not found.</value>
+    </data>
+    <data name="CaregiverProfileDoesNotExist" xml:space="preserve">
+        <value>The caregiver profile does not exist.</value>
+    </data>
+    <data name="OlderAdultDoesNotExist" xml:space="preserve">
+        <value>The older adult does not exist.</value>
+    </data>
+    <data name="FamilyMemberProfileDoesNotExist" xml:space="preserve">
+        <value>The family member profile does not exist.</value>
+    </data>
+    <data name="OlderAdultCaregiverChangeNotAllowed" xml:space="preserve">
+        <value>The caregiver in charge of an older adult cannot be changed.</value>
+    </data>
+    <data name="InvitationAlreadyExists" xml:space="preserve">
+        <value>This email already has a pending or active access to the older adult.</value>
+    </data>
+    <data name="InvitationNotAcceptable" xml:space="preserve">
+        <value>The invitation expired or is no longer pending.</value>
+    </data>
+    <data name="InvalidAccessStatusTransition" xml:space="preserve">
+        <value>This status change is not allowed: a revoked access is final and an active access cannot go back to pending.</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfilesSummary" xml:space="preserve">
+        <value>Get caregiver profiles</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfilesDescription" xml:space="preserve">
+        <value>With ?userId=, returns an array with the caregiver profile of that user (zero or one element); only the user themselves or an administrator. Without filters, lists every profile (administrators only).</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfileByIdSummary" xml:space="preserve">
+        <value>Get a caregiver profile</value>
+    </data>
+    <data name="ProfilesGetCaregiverProfileByIdDescription" xml:space="preserve">
+        <value>The owner, administrators and family members with an active access to an older adult in the charge of this caregiver can read it.</value>
+    </data>
+    <data name="ProfilesCreateCaregiverProfileSummary" xml:space="preserve">
+        <value>Create a caregiver profile</value>
+    </data>
+    <data name="ProfilesCreateCaregiverProfileDescription" xml:space="preserve">
+        <value>A user with the Caregiver role creates only their own profile (userId = token sub); administrators can create it for any existing user. One profile per user (409).</value>
+    </data>
+    <data name="ProfilesUpdateCaregiverProfileSummary" xml:space="preserve">
+        <value>Update a caregiver profile</value>
+    </data>
+    <data name="ProfilesUpdateCaregiverProfileDescription" xml:space="preserve">
+        <value>Replaces the whole profile. Only the owner or an administrator; userId cannot change (409).</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfilesSummary" xml:space="preserve">
+        <value>Get family member profiles</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfilesDescription" xml:space="preserve">
+        <value>?id=1&amp;id=2 returns the profiles the requester can read (their own, and for caregivers the ones linked to their older adults); the others are left out. ?userId= returns zero or one profile of the user themselves. Without filters, administrators only.</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfileByIdSummary" xml:space="preserve">
+        <value>Get a family member profile</value>
+    </data>
+    <data name="ProfilesGetFamilyMemberProfileByIdDescription" xml:space="preserve">
+        <value>The owner, administrators and caregivers with an older adult linked to this family member can read it.</value>
+    </data>
+    <data name="ProfilesCreateFamilyMemberProfileSummary" xml:space="preserve">
+        <value>Create a family member profile</value>
+    </data>
+    <data name="ProfilesCreateFamilyMemberProfileDescription" xml:space="preserve">
+        <value>A user with the FamilyMember role creates only their own profile, and only when their email has a pending, unexpired invitation (403 otherwise). One profile per user (409).</value>
+    </data>
+    <data name="ProfilesUpdateFamilyMemberProfileSummary" xml:space="preserve">
+        <value>Update a family member profile</value>
+    </data>
+    <data name="ProfilesUpdateFamilyMemberProfileDescription" xml:space="preserve">
+        <value>Replaces the whole profile. Only the owner or an administrator; userId cannot change (409).</value>
+    </data>
+    <data name="ProfilesGetOlderAdultsSummary" xml:space="preserve">
+        <value>Get older adults</value>
+    </data>
+    <data name="ProfilesGetOlderAdultsDescription" xml:space="preserve">
+        <value>?id=1&amp;id=2 returns the older adults the requester can read (in their charge or with an active family access); the others are left out. ?caregiverId= returns the older adults of the requester's own caregiver profile (403 otherwise). Without filters, administrators only.</value>
+    </data>
+    <data name="ProfilesGetOlderAdultByIdSummary" xml:space="preserve">
+        <value>Get an older adult</value>
+    </data>
+    <data name="ProfilesGetOlderAdultByIdDescription" xml:space="preserve">
+        <value>The caregiver in charge, administrators and family members with an active access can read it.</value>
+    </data>
+    <data name="ProfilesCreateOlderAdultSummary" xml:space="preserve">
+        <value>Register an older adult</value>
+    </data>
+    <data name="ProfilesCreateOlderAdultDescription" xml:space="preserve">
+        <value>caregiverId must be the requester's own caregiver profile. birthDate (yyyy-MM-dd) cannot be later than today in Peru. A missing status means Active.</value>
+    </data>
+    <data name="ProfilesUpdateOlderAdultSummary" xml:space="preserve">
+        <value>Update an older adult</value>
+    </data>
+    <data name="ProfilesUpdateOlderAdultDescription" xml:space="preserve">
+        <value>Replaces the whole older adult. Only the caregiver in charge; status is required (use Archived to end the follow-up) and caregiverId cannot change (409).</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessesSummary" xml:space="preserve">
+        <value>Look up an invitation or list family accesses</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessesDescription" xml:space="preserve">
+        <value>?invitationCode= is public: it returns the invitation (id, invitedEmail, invitationCode, relationship, status, expiresAt) only when it is pending and not expired, otherwise []. With a token: ?olderAdultId= (caregiver in charge), ?familyMemberId= (own profile) or no filter (administrators); status filters all of them.</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessByIdSummary" xml:space="preserve">
+        <value>Get a family access</value>
+    </data>
+    <data name="ProfilesGetFamilyAccessByIdDescription" xml:space="preserve">
+        <value>The caregiver in charge, the linked family member and administrators can read it.</value>
+    </data>
+    <data name="ProfilesCreateFamilyAccessSummary" xml:space="preserve">
+        <value>Invite a family member</value>
+    </data>
+    <data name="ProfilesCreateFamilyAccessDescription" xml:space="preserve">
+        <value>Only the caregiver in charge. The server generates a random code (VITA- + 8 characters), status Pending and an expiration of 7 days, ignoring those fields in the body. 409 when the email already has a pending or active access.</value>
+    </data>
+    <data name="ProfilesUpdateFamilyAccessSummary" xml:space="preserve">
+        <value>Accept, revoke or update a family access</value>
+    </data>
+    <data name="ProfilesUpdateFamilyAccessDescription" xml:space="preserve">
+        <value>Pending → Active: the invited person (token email) with their own familyMemberId, before expiresAt. → Revoked: the caregiver in charge. Same status: only relationship changes. Revoked is final (409). Only status, familyMemberId and relationship are read.</value>
+    </data>
+    <data name="ProfilesListResponse" xml:space="preserve">
+        <value>Matching resources (a plain array, empty when nothing matches).</value>
+    </data>
+    <data name="ProfilesItemResponse" xml:space="preserve">
+        <value>The resource.</value>
+    </data>
+    <data name="ProfilesCreatedResponse" xml:space="preserve">
+        <value>Created. The Location header points to the new resource.</value>
+    </data>
+    <data name="ProfilesUpdatedResponse" xml:space="preserve">
+        <value>The updated resource.</value>
+    </data>
+    <data name="ProfilesValidationErrorResponse" xml:space="preserve">
+        <value>Invalid data (validation problem with the errors per field).</value>
+    </data>
+    <data name="ProfilesUnauthorizedResponse" xml:space="preserve">
+        <value>Missing, invalid or expired token.</value>
+    </data>
+    <data name="ProfilesForbiddenResponse" xml:space="preserve">
+        <value>The requester cannot read or change this resource.</value>
+    </data>
+    <data name="ProfilesNotFoundResponse" xml:space="preserve">
+        <value>The resource does not exist.</value>
+    </data>
+    <data name="ProfilesConflictResponse" xml:space="preserve">
+        <value>Conflict with the current state: duplicate, owner change or status transition not allowed.</value>
+    </data>
+    <data name="ProfilesServerErrorResponse" xml:space="preserve">
+        <value>Unexpected server error.</value>
+    </data>
+    <data name="ProfilesCaregiverProfileResourceSchema" xml:space="preserve">
+        <value>Caregiver profile.</value>
+    </data>
+    <data name="ProfilesSaveCaregiverProfileResourceSchema" xml:space="preserve">
+        <value>Data to create or replace a caregiver profile.</value>
+    </data>
+    <data name="ProfilesFamilyMemberProfileResourceSchema" xml:space="preserve">
+        <value>Family member profile.</value>
+    </data>
+    <data name="ProfilesSaveFamilyMemberProfileResourceSchema" xml:space="preserve">
+        <value>Data to create or replace a family member profile.</value>
+    </data>
+    <data name="ProfilesOlderAdultResourceSchema" xml:space="preserve">
+        <value>Older adult.</value>
+    </data>
+    <data name="ProfilesSaveOlderAdultResourceSchema" xml:space="preserve">
+        <value>Data to register or replace an older adult.</value>
+    </data>
+    <data name="ProfilesEmergencyContactResourceSchema" xml:space="preserve">
+        <value>Person to call in an emergency.</value>
+    </data>
+    <data name="ProfilesFamilyAccessResourceSchema" xml:space="preserve">
+        <value>Family access: invitation and read access to an older adult.</value>
+    </data>
+    <data name="ProfilesInvitationResourceSchema" xml:space="preserve">
+        <value>Public view of a pending invitation.</value>
+    </data>
+    <data name="ProfilesCreateFamilyAccessResourceSchema" xml:space="preserve">
+        <value>Data to invite a family member.</value>
+    </data>
+    <data name="ProfilesUpdateFamilyAccessResourceSchema" xml:space="preserve">
+        <value>Change of a family access (only status, familyMemberId and relationship are read).</value>
+    </data>
+    <data name="ProfilesIdProperty" xml:space="preserve">
+        <value>Identifier.</value>
+    </data>
+    <data name="ProfilesUserIdProperty" xml:space="preserve">
+        <value>IAM user that owns the profile.</value>
+    </data>
+    <data name="ProfilesFirstNameProperty" xml:space="preserve">
+        <value>First name.</value>
+    </data>
+    <data name="ProfilesLastNameProperty" xml:space="preserve">
+        <value>Last name.</value>
+    </data>
+    <data name="ProfilesPhoneNumberProperty" xml:space="preserve">
+        <value>Phone number (may be empty).</value>
+    </data>
+    <data name="ProfilesProfessionalTitleProperty" xml:space="preserve">
+        <value>Professional title.</value>
+    </data>
+    <data name="ProfilesBioProperty" xml:space="preserve">
+        <value>Short presentation.</value>
+    </data>
+    <data name="ProfilesPhotoUrlProperty" xml:space="preserve">
+        <value>Photo URL (may be empty).</value>
+    </data>
+    <data name="ProfilesCertificationsProperty" xml:space="preserve">
+        <value>Certifications and courses.</value>
+    </data>
+    <data name="ProfilesCaregiverIdProperty" xml:space="preserve">
+        <value>Caregiver profile in charge.</value>
+    </data>
+    <data name="ProfilesBirthDateProperty" xml:space="preserve">
+        <value>Birth date (yyyy-MM-dd).</value>
+    </data>
+    <data name="ProfilesDocumentNumberProperty" xml:space="preserve">
+        <value>National ID (DNI): empty or 8 digits.</value>
+    </data>
+    <data name="ProfilesBloodTypeProperty" xml:space="preserve">
+        <value>Blood type (empty when unknown).</value>
+    </data>
+    <data name="ProfilesAllergiesProperty" xml:space="preserve">
+        <value>Known allergies.</value>
+    </data>
+    <data name="ProfilesChronicConditionsProperty" xml:space="preserve">
+        <value>Chronic conditions.</value>
+    </data>
+    <data name="ProfilesEmergencyContactProperty" xml:space="preserve">
+        <value>Person to call in an emergency.</value>
+    </data>
+    <data name="ProfilesContactNameProperty" xml:space="preserve">
+        <value>Full name of the contact.</value>
+    </data>
+    <data name="ProfilesRelationshipProperty" xml:space="preserve">
+        <value>Relationship with the older adult.</value>
+    </data>
+    <data name="ProfilesObservationsProperty" xml:space="preserve">
+        <value>Care observations.</value>
+    </data>
+    <data name="ProfilesStatusProperty" xml:space="preserve">
+        <value>Status.</value>
+    </data>
+    <data name="ProfilesOlderAdultIdProperty" xml:space="preserve">
+        <value>Older adult shared.</value>
+    </data>
+    <data name="ProfilesFamilyMemberIdProperty" xml:space="preserve">
+        <value>Family member profile (null while pending).</value>
+    </data>
+    <data name="ProfilesInvitedEmailProperty" xml:space="preserve">
+        <value>Email of the invited person.</value>
+    </data>
+    <data name="ProfilesInvitationCodeProperty" xml:space="preserve">
+        <value>Invitation code.</value>
+    </data>
+    <data name="ProfilesInvitedAtProperty" xml:space="preserve">
+        <value>UTC instant of the invitation.</value>
+    </data>
+    <data name="ProfilesAcceptedAtProperty" xml:space="preserve">
+        <value>UTC instant of the acceptance.</value>
+    </data>
+    <data name="ProfilesExpiresAtProperty" xml:space="preserve">
+        <value>Last UTC instant to accept the invitation.</value>
+    </data>
+    <data name="SessionUserNotFound" xml:space="preserve">
+        <value>The user of this session no longer exists. Sign in again.</value>
+    </data>
+    <data name="IamGetCurrentUserSummary" xml:space="preserve">
+        <value>Get the signed-in user</value>
+    </data>
+    <data name="IamGetCurrentUserDescription" xml:space="preserve">
+        <value>Returns the user of the Bearer token, read again from the database. 401 when the token is missing, invalid or expired, or when the user no longer exists or is inactive.</value>
+    </data>
+    <data name="IamRefreshTokenSummary" xml:space="preserve">
+        <value>Refresh the access token</value>
+    </data>
+    <data name="IamRefreshTokenDescription" xml:space="preserve">
+        <value>No body. Requires a valid Bearer token, checks again that the user exists and is active, and returns a new token with the same shape as the sign-in. The new token lasts the configured minutes (15 at most).</value>
+    </data>
+    <data name="IamCurrentUserResponse" xml:space="preserve">
+        <value>The user of the token.</value>
+    </data>
+    <data name="IamTokenRefreshedResponse" xml:space="preserve">
+        <value>User id, email, role, status and the new token.</value>
+    </data>
+    <data name="IamSessionInvalidResponse" xml:space="preserve">
+        <value>Missing, invalid or expired token, or the user no longer exists or is inactive.</value>
+    </data>
+    <data name="InvalidMood" xml:space="preserve">
+        <value>The mood must be VeryGood, Good, Neutral, Bad or VeryBad.</value>
+    </data>
+    <data name="InvalidGeneralCondition" xml:space="preserve">
+        <value>The general condition must be Stable, Attention or Critical.</value>
+    </data>
+    <data name="InvalidVitalSignType" xml:space="preserve">
+        <value>The type must be HeartRate, BloodPressure, OxygenSaturation, Temperature or Glucose.</value>
+    </data>
+    <data name="MedicationNameLength" xml:space="preserve">
+        <value>The medication name can have at most 100 characters.</value>
+    </data>
+    <data name="DosageLength" xml:space="preserve">
+        <value>The dosage can have at most 50 characters.</value>
+    </data>
+    <data name="FrequencyLength" xml:space="preserve">
+        <value>The frequency can have at most 100 characters.</value>
+    </data>
+    <data name="InstructionsLength" xml:space="preserve">
+        <value>The instructions can have at most 500 characters.</value>
+    </data>
+    <data name="ScheduleTimesLimit" xml:space="preserve">
+        <value>Add 1 to 12 schedule times in HH:mm format.</value>
+    </data>
+    <data name="InstantInFuture" xml:space="preserve">
+        <value>The date and time cannot be in the future.</value>
+    </data>
+    <data name="VitalSignValueOutOfRange" xml:space="preserve">
+        <value>The value must be between {0} and {1} {2}.</value>
+    </data>
+    <data name="DiastolicRequired" xml:space="preserve">
+        <value>Blood pressure needs the diastolic value.</value>
+    </data>
+    <data name="DiastolicOutOfRange" xml:space="preserve">
+        <value>The diastolic value must be between {0} and {1} {2}.</value>
+    </data>
+    <data name="SecondaryValueNotAllowed" xml:space="preserve">
+        <value>Only blood pressure has a secondary value.</value>
+    </data>
+    <data name="SystolicNotGreaterThanDiastolic" xml:space="preserve">
+        <value>The systolic value must be greater than the diastolic value.</value>
+    </data>
+    <data name="MonitoringAccessForbidden" xml:space="preserve">
+        <value>You do not have access to the records of this older adult.</value>
+    </data>
+    <data name="MonitoringOlderAdultChangeNotAllowed" xml:space="preserve">
+        <value>The older adult of a record cannot be changed.</value>
+    </data>
+    <data name="DailyReportNotFound" xml:space="preserve">
+        <value>The daily report was not found.</value>
+    </data>
+    <data name="VitalSignNotFound" xml:space="preserve">
+        <value>The vital sign was not found.</value>
+    </data>
+    <data name="MedicationNotFound" xml:space="preserve">
+        <value>The medication was not found.</value>
+    </data>
+    <data name="MonitoringGetDailyReportsSummary" xml:space="preserve">
+        <value>Get daily reports</value>
+    </data>
+    <data name="MonitoringGetDailyReportsDescription" xml:space="preserve">
+        <value>?olderAdultId= returns the reports of that older adult (caregiver in charge, family member with an active access or administrator; 403 otherwise). Without filters, administrators only.</value>
+    </data>
+    <data name="MonitoringGetDailyReportByIdSummary" xml:space="preserve">
+        <value>Get a daily report</value>
+    </data>
+    <data name="MonitoringGetDailyReportByIdDescription" xml:space="preserve">
+        <value>404 when it does not exist; 403 when the requester cannot read its older adult.</value>
+    </data>
+    <data name="MonitoringCreateDailyReportSummary" xml:space="preserve">
+        <value>Record a daily report</value>
+    </data>
+    <data name="MonitoringCreateDailyReportDescription" xml:space="preserve">
+        <value>Only the caregiver in charge. recordedByUserId is the token user. reportDate is a UTC instant and cannot be in the future.</value>
+    </data>
+    <data name="MonitoringUpdateDailyReportSummary" xml:space="preserve">
+        <value>Update a daily report</value>
+    </data>
+    <data name="MonitoringUpdateDailyReportDescription" xml:space="preserve">
+        <value>Replaces the report. Only the caregiver in charge; olderAdultId cannot change (409); the original author is kept.</value>
+    </data>
+    <data name="MonitoringGetVitalSignsSummary" xml:space="preserve">
+        <value>Get vital signs</value>
+    </data>
+    <data name="MonitoringGetVitalSignsDescription" xml:space="preserve">
+        <value>?olderAdultId= returns the measurements of that older adult (caregiver in charge, family member with an active access or administrator; 403 otherwise). Without filters, administrators only.</value>
+    </data>
+    <data name="MonitoringGetVitalSignByIdSummary" xml:space="preserve">
+        <value>Get a vital sign</value>
+    </data>
+    <data name="MonitoringGetVitalSignByIdDescription" xml:space="preserve">
+        <value>404 when it does not exist; 403 when the requester cannot read its older adult.</value>
+    </data>
+    <data name="MonitoringCreateVitalSignSummary" xml:space="preserve">
+        <value>Record a vital sign</value>
+    </data>
+    <data name="MonitoringCreateVitalSignDescription" xml:space="preserve">
+        <value>Only the caregiver in charge. The value must be inside the range of its type; blood pressure needs secondaryValue lower than value. The unit is derived from the type. measuredAt cannot be in the future.</value>
+    </data>
+    <data name="MonitoringUpdateVitalSignSummary" xml:space="preserve">
+        <value>Correct a vital sign</value>
+    </data>
+    <data name="MonitoringUpdateVitalSignDescription" xml:space="preserve">
+        <value>Replaces the measurement. Only the caregiver in charge; olderAdultId cannot change (409).</value>
+    </data>
+    <data name="MonitoringGetMedicationsSummary" xml:space="preserve">
+        <value>Get medications</value>
+    </data>
+    <data name="MonitoringGetMedicationsDescription" xml:space="preserve">
+        <value>?olderAdultId= returns the medications of that older adult (caregiver in charge, family member with an active access or administrator; 403 otherwise). Without filters, administrators only. ?active= filters by the active flag.</value>
+    </data>
+    <data name="MonitoringGetMedicationByIdSummary" xml:space="preserve">
+        <value>Get a medication</value>
+    </data>
+    <data name="MonitoringGetMedicationByIdDescription" xml:space="preserve">
+        <value>404 when it does not exist; 403 when the requester cannot read its older adult.</value>
+    </data>
+    <data name="MonitoringCreateMedicationSummary" xml:space="preserve">
+        <value>Register a medication</value>
+    </data>
+    <data name="MonitoringCreateMedicationDescription" xml:space="preserve">
+        <value>Only the caregiver in charge. scheduleTimes has 1 to 12 HH:mm times, stored sorted and without duplicates. active defaults to true.</value>
+    </data>
+    <data name="MonitoringUpdateMedicationSummary" xml:space="preserve">
+        <value>Update or deactivate a medication</value>
+    </data>
+    <data name="MonitoringUpdateMedicationDescription" xml:space="preserve">
+        <value>Replaces the medication; send active: false to deactivate it (there is no delete). Only the caregiver in charge; olderAdultId cannot change (409).</value>
+    </data>
+    <data name="MonitoringListResponse" xml:space="preserve">
+        <value>Matching records (a plain array, empty when there are none).</value>
+    </data>
+    <data name="MonitoringItemResponse" xml:space="preserve">
+        <value>The record.</value>
+    </data>
+    <data name="MonitoringCreatedResponse" xml:space="preserve">
+        <value>Created. The Location header points to the new record.</value>
+    </data>
+    <data name="MonitoringUpdatedResponse" xml:space="preserve">
+        <value>The updated record.</value>
+    </data>
+    <data name="MonitoringValidationErrorResponse" xml:space="preserve">
+        <value>Invalid data (validation problem with the errors per field).</value>
+    </data>
+    <data name="MonitoringUnauthorizedResponse" xml:space="preserve">
+        <value>Missing, invalid or expired token.</value>
+    </data>
+    <data name="MonitoringForbiddenResponse" xml:space="preserve">
+        <value>The requester cannot read or write the records of this older adult.</value>
+    </data>
+    <data name="MonitoringNotFoundResponse" xml:space="preserve">
+        <value>The record does not exist.</value>
+    </data>
+    <data name="MonitoringConflictResponse" xml:space="preserve">
+        <value>The older adult of a record cannot be changed.</value>
+    </data>
+    <data name="MonitoringServerErrorResponse" xml:space="preserve">
+        <value>Unexpected server error.</value>
+    </data>
+    <data name="MonitoringDailyReportResourceSchema" xml:space="preserve">
+        <value>Daily report.</value>
+    </data>
+    <data name="MonitoringSaveDailyReportResourceSchema" xml:space="preserve">
+        <value>Data to record or replace a daily report.</value>
+    </data>
+    <data name="MonitoringVitalSignResourceSchema" xml:space="preserve">
+        <value>Vital sign measurement.</value>
+    </data>
+    <data name="MonitoringSaveVitalSignResourceSchema" xml:space="preserve">
+        <value>Data to record or correct a vital sign.</value>
+    </data>
+    <data name="MonitoringMedicationResourceSchema" xml:space="preserve">
+        <value>Medication of an older adult.</value>
+    </data>
+    <data name="MonitoringSaveMedicationResourceSchema" xml:space="preserve">
+        <value>Data to register or replace a medication.</value>
+    </data>
+    <data name="MonitoringIdProperty" xml:space="preserve">
+        <value>Identifier.</value>
+    </data>
+    <data name="MonitoringOlderAdultIdProperty" xml:space="preserve">
+        <value>Older adult of the record.</value>
+    </data>
+    <data name="MonitoringRecordedByUserIdProperty" xml:space="preserve">
+        <value>IAM user that wrote the report (from the token).</value>
+    </data>
+    <data name="MonitoringReportDateProperty" xml:space="preserve">
+        <value>UTC instant of the report.</value>
+    </data>
+    <data name="MonitoringMoodProperty" xml:space="preserve">
+        <value>Mood: VeryGood, Good, Neutral, Bad or VeryBad.</value>
+    </data>
+    <data name="MonitoringGeneralConditionProperty" xml:space="preserve">
+        <value>General condition: Stable, Attention or Critical.</value>
+    </data>
+    <data name="MonitoringObservationsProperty" xml:space="preserve">
+        <value>Observations.</value>
+    </data>
+    <data name="MonitoringTypeProperty" xml:space="preserve">
+        <value>Vital sign type.</value>
+    </data>
+    <data name="MonitoringValueProperty" xml:space="preserve">
+        <value>Main value (systolic for blood pressure).</value>
+    </data>
+    <data name="MonitoringSecondaryValueProperty" xml:space="preserve">
+        <value>Diastolic value for blood pressure; null for the other types.</value>
+    </data>
+    <data name="MonitoringUnitProperty" xml:space="preserve">
+        <value>Unit derived from the type.</value>
+    </data>
+    <data name="MonitoringMeasuredAtProperty" xml:space="preserve">
+        <value>UTC instant of the measurement.</value>
+    </data>
+    <data name="MonitoringNameProperty" xml:space="preserve">
+        <value>Medicine name.</value>
+    </data>
+    <data name="MonitoringDosageProperty" xml:space="preserve">
+        <value>Dosage.</value>
+    </data>
+    <data name="MonitoringFrequencyProperty" xml:space="preserve">
+        <value>Frequency.</value>
+    </data>
+    <data name="MonitoringScheduleTimesProperty" xml:space="preserve">
+        <value>Daily schedule times (HH:mm, wall clock).</value>
+    </data>
+    <data name="MonitoringInstructionsProperty" xml:space="preserve">
+        <value>Instructions.</value>
+    </data>
+    <data name="MonitoringActiveProperty" xml:space="preserve">
+        <value>Whether the medication is still taken.</value>
+    </data>
+    <data name="HealthGetHealthSummary" xml:space="preserve">
+        <value>Health check</value>
+    </data>
+    <data name="HealthGetHealthDescription" xml:space="preserve">
+        <value>Liveness probe for the hosting platform. Returns 200 with {"status":"Healthy"} while the process is up. It does not check the database. Public endpoint.</value>
+    </data>
+    <data name="HealthOkResponse" xml:space="preserve">
+        <value>The API process is up.</value>
+    </data>
+    <data name="HealthResourceSchema" xml:space="preserve">
+        <value>Health status of the API.</value>
+    </data>
+    <data name="HealthStatusProperty" xml:space="preserve">
+        <value>Always Healthy when the API answers.</value>
+    </data>
+</root>
